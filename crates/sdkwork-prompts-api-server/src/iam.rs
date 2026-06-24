@@ -1,0 +1,136 @@
+use axum::{
+    body::Body,
+    extract::State,
+    http::{HeaderMap, Request, StatusCode},
+    middleware::Next,
+    response::{IntoResponse, Response},
+    Json,
+};
+use sdkwork_intelligence_prm_service::value_objects::PromptsRequestContext;
+use sdkwork_iam_web_adapter::resolve_iam_app_context_from_dual_tokens;
+
+use crate::context::ResolvedPromptsContext;
+use crate::AppState;
+
+pub fn iam_enabled() -> bool {
+    matches!(
+        std::env::var("SDKWORK_PROMPTS_IAM_ENABLED").as_deref(),
+        Ok("1") | Ok("true") | Ok("TRUE")
+    )
+}
+
+fn iam_strict() -> bool {
+    matches!(
+        std::env::var("SDKWORK_PROMPTS_IAM_STRICT").as_deref(),
+        Ok("1") | Ok("true") | Ok("TRUE")
+    )
+}
+
+pub async fn resolve_iam_context(
+    State(state): State<AppState>,
+    mut request: Request<Body>,
+    next: Next,
+) -> Response {
+    if !iam_enabled() {
+        return next.run(request).await;
+    }
+
+    let path = request.uri().path().to_owned();
+    if !requires_iam_resolution(&path) {
+        return next.run(request).await;
+    }
+
+    let Some(pool) = state.service_host.iam_pool() else {
+        return next.run(request).await;
+    };
+
+    let headers = request.headers().clone();
+    let auth = header_value(&headers, "authorization");
+    let access = header_value(&headers, "access-token")
+        .or_else(|| header_value(&headers, "Access-Token"));
+
+    match (auth, access) {
+        (Some(auth), Some(access)) => {
+            match resolve_iam_app_context_from_dual_tokens(pool, &auth, &access).await {
+                Some(iam) => {
+                    request
+                        .extensions_mut()
+                        .insert(ResolvedPromptsContext(prm_context_from_iam(&iam)));
+                }
+                None if iam_strict() => return unauthorized("invalid or expired IAM session"),
+                None => {}
+            }
+        }
+        _ if iam_strict() && requires_protected_surface(&path) => {
+            return unauthorized("Authorization and Access-Token headers are required");
+        }
+        _ => {}
+    }
+
+    next.run(request).await
+}
+
+fn prm_context_from_iam(
+    iam: &sdkwork_iam_context_service::IamAppContext,
+) -> PromptsRequestContext {
+    let tenant_id = iam.tenant_id.parse().unwrap_or(0);
+    let organization_id = iam
+        .organization_id
+        .as_deref()
+        .and_then(|value| value.parse().ok())
+        .unwrap_or(0);
+    let user_id = iam.user_id.parse().unwrap_or(0);
+    PromptsRequestContext::new(tenant_id, organization_id, user_id)
+}
+
+fn requires_iam_resolution(path: &str) -> bool {
+    path.starts_with("/app/v3/api/forum") || path.starts_with("/backend/v3/api/forum")
+}
+
+fn requires_protected_surface(path: &str) -> bool {
+    requires_iam_resolution(path)
+}
+
+fn header_value(headers: &HeaderMap, name: &str) -> Option<String> {
+    headers
+        .get(name)
+        .and_then(|value| value.to_str().ok())
+        .map(str::to_string)
+}
+
+fn unauthorized(message: &str) -> Response {
+    (
+        StatusCode::UNAUTHORIZED,
+        Json(serde_json::json!({
+            "success": false,
+            "error": message,
+            "code": "sdkwork.auth.invalid_session",
+        })),
+    )
+        .into_response()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn prm_context_from_iam_parses_numeric_ids() {
+        let iam = sdkwork_iam_context_service::IamAppContext::new(
+            "42",
+            Some("7"),
+            "99",
+            "session-1",
+            "prompts",
+            sdkwork_iam_context_service::Environment::Dev,
+            sdkwork_iam_context_service::DeploymentMode::Local,
+            sdkwork_iam_context_service::AuthLevel::Password,
+            Vec::new(),
+            Vec::new(),
+        );
+        let ctx = prm_context_from_iam(&iam);
+        assert_eq!(ctx.tenant_id_value(), 42);
+        assert_eq!(ctx.organization_id_value(), 7);
+        assert_eq!(ctx.user_id_value(), 99);
+    }
+}

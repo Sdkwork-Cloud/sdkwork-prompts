@@ -1,0 +1,32 @@
+[package]
+name = "sdkwork-prompts-api-server"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+sdkwork-router-prompts-app-api = { path = "../sdkwork-router-prompts-app-api" }
+sdkwork-router-prompts-backend-api = { path = "../sdkwork-router-prompts-backend-api" }
+sdkwork-router-prompts-open-api = { path = "../sdkwork-router-prompts-open-api" }
+sdkwork-prompts-service-host = { path = "../sdkwork-prompts-service-host" }
+sdkwork-intelligence-prompts-service = { path = "../sdkwork-intelligence-prompts-service" }
+sdkwork-iam-web-adapter = { path = "../../../sdkwork-appbase/crates/sdkwork-iam-web-adapter" }
+sdkwork-iam-context-service = { path = "../../../sdkwork-appbase/crates/sdkwork-iam-context-service" }
+sdkwork-database-ops-http = { path = "../../../sdkwork-database/crates/sdkwork-database-ops-http" }
+axum = { workspace = true }
+tokio = { workspace = true }
+tower = { workspace = true }
+tower-http = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+base64 = "0.22"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "forum-server"
+path = "src/main.rs"

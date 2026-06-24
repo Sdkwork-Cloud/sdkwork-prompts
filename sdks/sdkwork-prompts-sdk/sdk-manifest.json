@@ -1,0 +1,8 @@
+{
+  "sdkOwner": "sdkwork-prompts",
+  "apiAuthority": "sdkwork-prompts-open-api",
+  "sdkFamily": "sdkwork-prompts-sdk",
+  "sdkName": "sdkwork-prompts-sdk",
+  "generationInputSpec": "openapi/sdkwork-prompts-open-api.sdkgen.yaml",
+  "sdkDependencies": []
+}

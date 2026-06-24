@@ -1,0 +1,102 @@
+{
+  "workspace": "sdkwork-prompts-backend-sdk",
+  "title": "SDKWork Prompts Backend API SDK",
+  "apiVersion": "0.1.0",
+  "openapiVersion": "3.1.2",
+  "authoritySpec": "openapi/sdkwork-prompts-backend-api.openapi.yaml",
+  "generationInputSpec": "openapi/sdkwork-prompts-backend-api.sdkgen.yaml",
+  "derivedSpecs": {
+    "default": "openapi/sdkwork-prompts-backend-api.sdkgen.yaml"
+  },
+  "sdkOwner": "sdkwork-prompts",
+  "apiAuthority": "sdkwork-prompts-backend-api",
+  "sdkFamily": "sdkwork-prompts-backend-sdk",
+  "sdkDependencies": [
+    {
+      "workspace": "sdkwork-appbase-backend-sdk",
+      "role": "appbase-backend-capability",
+      "required": true,
+      "dependencyMode": "consumer-sdk",
+      "apiPrefix": "/backend/v3/api",
+      "apiAuthority": "sdkwork-appbase-backend-api",
+      "generatedTransportImportPolicy": "forbidden",
+      "packageByLanguage": {
+        "typescript": "@sdkwork/appbase-backend-sdk",
+        "rust": "sdkwork-appbase-backend-sdk"
+      }
+    },
+    {
+      "workspace": "../sdkwork-drive/sdks/sdkwork-drive-backend-sdk",
+      "role": "drive-backend-capability",
+      "required": true,
+      "dependencyMode": "consumer-sdk",
+      "apiPrefix": "/backend/v3/api",
+      "apiAuthority": "sdkwork-drive.backend",
+      "generatedTransportImportPolicy": "forbidden",
+      "packageByLanguage": {
+        "typescript": "@sdkwork-internal/drive-backend-sdk-generated",
+        "rust": "sdkwork-drive-backend-sdk-generated"
+      }
+    },
+    {
+      "workspace": "../sdkwork-search/sdks/sdkwork-search-backend-sdk",
+      "role": "search-backend-capability",
+      "required": true,
+      "dependencyMode": "consumer-sdk",
+      "apiPrefix": "/backend/v3/api",
+      "apiAuthority": "sdkwork-search-backend-api",
+      "generatedTransportImportPolicy": "forbidden",
+      "packageByLanguage": {
+        "typescript": "@sdkwork/search-backend-sdk"
+      }
+    },
+    {
+      "workspace": "../sdkwork-messaging/sdks/sdkwork-messaging-backend-sdk",
+      "role": "messaging-backend-capability",
+      "required": true,
+      "dependencyMode": "consumer-sdk",
+      "apiPrefix": "/backend/v3/api",
+      "apiAuthority": "sdkwork-messaging-backend-api",
+      "generatedTransportImportPolicy": "forbidden",
+      "packageByLanguage": {
+        "typescript": "@sdkwork/messaging-backend-sdk"
+      }
+    }
+  ],
+  "dependencyApiExports": [],
+  "discoverySurface": {
+    "sdkTarget": "backend",
+    "apiPrefix": "/backend/v3/api",
+    "schemaUrl": "/backend/v3/openapi.json",
+    "generatedProtocols": ["http-openapi"],
+    "manualTransports": []
+  },
+  "languages": [
+    {
+      "language": "typescript",
+      "workspace": "sdkwork-prompts-backend-sdk-typescript",
+      "generationState": "declared",
+      "releaseState": "not_published",
+      "packagePath": "generated/server-openapi",
+      "manifestPath": "generated/server-openapi/package.json",
+      "name": "@sdkwork/forum-backend-sdk",
+      "version": "0.1.0",
+      "generatedPath": "generated/server-openapi"
+    },
+    {
+      "language": "rust",
+      "workspace": "sdkwork-prompts-backend-sdk-rust",
+      "generationState": "declared",
+      "releaseState": "not_published",
+      "packagePath": "generated/server-openapi",
+      "manifestPath": "generated/server-openapi/Cargo.toml",
+      "name": "sdkwork-prompts-backend-sdk",
+      "version": "0.1.0",
+      "generatedPath": "generated/server-openapi"
+    }
+  ],
+  "metadata": {
+    "managedBy": "tools/generators/materialize_prm_openapi.mjs",
+    "standardVersion": "2026-06-12"
+  }
+}

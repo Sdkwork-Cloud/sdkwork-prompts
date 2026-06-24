@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.base.json",
+  "include": [
+    "tools/**/*.mjs",
+    "tests/**/*.mjs",
+    "sdks/**/composed/src/**/*.ts"
+  ]
+}

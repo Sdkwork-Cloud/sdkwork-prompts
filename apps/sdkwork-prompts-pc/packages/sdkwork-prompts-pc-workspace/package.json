@@ -1,0 +1,11 @@
+{
+  "name": "@sdkwork/prompts-pc-workspace",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/PromptWorkspacePage.tsx",
+  "dependencies": {
+    "@sdkwork/utils": "workspace:*",
+    "react": "^19.0.0"
+  }
+}

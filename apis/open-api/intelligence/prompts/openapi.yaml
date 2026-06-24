@@ -1,0 +1,36 @@
+openapi: 3.1.2
+info:
+  title: SDKWork Prompts Open API
+  version: 0.1.0
+  summary: Public prompt catalog reads.
+servers:
+  - url: /prm/v3/api
+tags:
+  - name: prompts-public
+paths:
+  /prompts/catalog:
+    get:
+      tags: [prompts-public]
+      operationId: prompts.catalog.list
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-open-api
+      x-sdkwork-api-surface: open-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-auth-mode: api-key
+      responses:
+        "200":
+          description: Public prompt catalog entries.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        key: { type: string }
+                        name: { type: string }
+                        description: { type: string }

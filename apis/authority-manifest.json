@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "surfaces": [
+    {
+      "surface": "app-api",
+      "authority": "sdkwork-prompts-app-api",
+      "authorityPath": "apis/app-api/intelligence/prompts/openapi.yaml",
+      "sdkPath": "sdks/sdkwork-prompts-app-sdk",
+      "prefix": "/app/v3/api"
+    },
+    {
+      "surface": "backend-api",
+      "authority": "sdkwork-prompts-backend-api",
+      "authorityPath": "apis/backend-api/intelligence/prompts/openapi.yaml",
+      "sdkPath": "sdks/sdkwork-prompts-backend-sdk",
+      "prefix": "/backend/v3/api"
+    },
+    {
+      "surface": "open-api",
+      "authority": "sdkwork-prompts-open-api",
+      "authorityPath": "apis/open-api/intelligence/prompts/openapi.yaml",
+      "sdkPath": "sdks/sdkwork-prompts-sdk",
+      "prefix": "/prm/v3/api"
+    }
+  ]
+}

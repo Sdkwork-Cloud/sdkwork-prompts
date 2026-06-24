@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "sdkwork-prompts",
+    "displayName": "SDKWork Prompts",
+    "version": "0.1.0",
+    "type": "app",
+    "root": "sdkwork-prompts",
+    "domain": "intelligence",
+    "declaredDomain": "intelligence",
+    "capability": "prompts",
+    "surface": "app",
+    "status": "contract-scaffolded",
+    "languages": [
+      "rust",
+      "typescript",
+      "openapi",
+      "yaml"
+    ],
+    "generated": false,
+    "private": false,
+    "manifests": [
+      "sdkwork.app.config.json",
+      "Cargo.toml",
+      "package.json"
+    ]
+  },
+  "canonicalSpecs": [
+    {
+      "file": "README.md",
+      "path": "../sdkwork-specs/README.md",
+      "purpose": "SDKWork root standards entrypoint."
+    },
+    {
+      "file": "SOUL.md",
+      "path": "../sdkwork-specs/SOUL.md",
+      "purpose": "SDKWork engineering principles."
+    },
+    {
+      "file": "APPLICATION_SPEC.md",
+      "path": "../sdkwork-specs/APPLICATION_SPEC.md",
+      "purpose": "Application root layout and integration ownership."
+    },
+    {
+      "file": "SDKWORK_WORKSPACE_SPEC.md",
+      "path": "../sdkwork-specs/SDKWORK_WORKSPACE_SPEC.md",
+      "purpose": "Root directory dictionary and .sdkwork workspace rules."
+    },
+    {
+      "file": "API_SPEC.md",
+      "path": "../sdkwork-specs/API_SPEC.md",
+      "purpose": "HTTP API surfaces, route manifests, operationIds, and security."
+    },
+    {
+      "file": "DATABASE_SPEC.md",
+      "path": "../sdkwork-specs/DATABASE_SPEC.md",
+      "purpose": "Database naming, table contracts, indexes, lifecycle, and schema registry."
+    },
+    {
+      "file": "SDK_SPEC.md",
+      "path": "../sdkwork-specs/SDK_SPEC.md",
+      "purpose": "SDK families, auth integration, generation metadata, and generated output boundaries."
+    },
+    {
+      "file": "SDK_WORKSPACE_GENERATION_SPEC.md",
+      "path": "../sdkwork-specs/SDK_WORKSPACE_GENERATION_SPEC.md",
+      "purpose": "Application-root SDK family layout and materialization."
+    },
+    {
+      "file": "DOMAIN_SPEC.md",
+      "path": "../sdkwork-specs/DOMAIN_SPEC.md",
+      "purpose": "Canonical domain ownership."
+    },
+    {
+      "file": "CODE_STYLE_SPEC.md",
+      "path": "../sdkwork-specs/CODE_STYLE_SPEC.md",
+      "purpose": "Cross-language code organization and boundaries."
+    },
+    {
+      "file": "NAMING_SPEC.md",
+      "path": "../sdkwork-specs/NAMING_SPEC.md",
+      "purpose": "Canonical naming for packages, APIs, SDKs, and databases."
+    },
+    {
+      "file": "RUST_CODE_SPEC.md",
+      "path": "../sdkwork-specs/RUST_CODE_SPEC.md",
+      "purpose": "Rust crate/module layout, lib.rs limits, route crate structure."
+    },
+    {
+      "file": "TYPESCRIPT_CODE_SPEC.md",
+      "path": "../sdkwork-specs/TYPESCRIPT_CODE_SPEC.md",
+      "purpose": "TypeScript package structure, typed SDK ports, generated facades."
+    },
+    {
+      "file": "WEB_BACKEND_SPEC.md",
+      "path": "../sdkwork-specs/WEB_BACKEND_SPEC.md",
+      "purpose": "Web backend implementation: handler, service, repository boundaries."
+    },
+    {
+      "file": "SECURITY_SPEC.md",
+      "path": "../sdkwork-specs/SECURITY_SPEC.md",
+      "purpose": "Token model, authn/authz, tenant isolation, input validation."
+    },
+    {
+      "file": "TEST_SPEC.md",
+      "path": "../sdkwork-specs/TEST_SPEC.md",
+      "purpose": "Contract tests, SDK generation tests, module tests."
+    }
+  ],
+  "contracts": {
+    "publicExports": [],
+    "runtimeEntrypoints": [
+      "crates/sdkwork-prompts-api-server",
+      "crates/sdkwork-prompts-service-host"
+    ],
+    "sdkClients": [
+      "sdks/sdkwork-prompts-app-sdk",
+      "sdks/sdkwork-prompts-backend-sdk",
+      "sdks/sdkwork-prompts-sdk"
+    ],
+    "events": [
+      "prompts.topic.created",
+      "prompts.topic.updated",
+      "prompts.reply.created",
+      "prompts.moderation.decision_created"
+    ],
+    "configKeys": [
+      "SDKWORK_PROMPTS_DATABASE_URL",
+      "SDKWORK_PROMPTS_SEARCH_INDEX",
+      "SDKWORK_PROMPTS_ATTACHMENT_DRIVE_SPACE"
+    ],
+    "routeManifest": [
+      "sdks/_route-manifests/app-api/sdkwork-router-prompts-app-api.route-manifest.json",
+      "sdks/_route-manifests/backend-api/sdkwork-router-prompts-backend-api.route-manifest.json",
+      "sdks/_route-manifests/open-api/sdkwork-router-prompts-open-api.route-manifest.json"
+    ],
+    "sdkDependencies": [
+      {
+        "workspace": "sdkwork-appbase-app-sdk",
+        "role": "appbase-app-capability",
+        "required": true,
+        "dependencyMode": "consumer-sdk",
+        "apiPrefix": "/app/v3/api",
+        "apiAuthority": "sdkwork-appbase-app-api",
+        "generatedTransportImportPolicy": "forbidden",
+        "packageByLanguage": {
+          "typescript": "@sdkwork/appbase-app-sdk",
+          "rust": "sdkwork-appbase-app-sdk"
+        }
+      }
+    ],
+    "dependencyApiExports": [],
+    "dependencyApiSurfaces": [
+      {
+        "workspace": "sdkwork-appbase",
+        "sdkFamily": "sdkwork-appbase-app-sdk",
+        "apiAuthority": "sdkwork-appbase-app-api",
+        "surface": "app-api",
+        "apiPrefix": "/app/v3/api",
+        "runtimeMode": "dependency-sdk"
+      }
+    ]
+  },
+  "integration": {
+    "authority": "Root SDKWork specs remain authoritative. Local specs may extend but must not contradict them.",
+    "dependencyPolicy": "Prompts integrates appbase, Drive, search, messaging, and notification capabilities only through declared SDK dependencies or service ports.",
+    "sdkPolicy": "Frontend and app clients consume generated SDKs or approved composed wrappers; no raw HTTP or manual auth headers.",
+    "languagePolicy": "Rust crates expose service and route boundaries; generated TypeScript SDK output remains under sdks."
+  },
+  "verification": {
+    "commands": [
+      "node tests/static/prompts-contract-boundary.test.mjs",
+      "node tools/validators/validate_prm_contracts.mjs"
+    ]
+  },
+  "metadata": {
+    "managedBy": "main-agent",
+    "standardVersion": "2026-06-12"
+  }
+}

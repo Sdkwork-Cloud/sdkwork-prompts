@@ -1,0 +1,51 @@
+{
+  "workspace": "sdkwork-prompts-sdk",
+  "title": "SDKWork Prompts Open API SDK",
+  "apiVersion": "0.1.0",
+  "openapiVersion": "3.1.2",
+  "authoritySpec": "openapi/sdkwork-prompts-open-api.openapi.yaml",
+  "generationInputSpec": "openapi/sdkwork-prompts-open-api.sdkgen.yaml",
+  "derivedSpecs": {
+    "default": "openapi/sdkwork-prompts-open-api.sdkgen.yaml"
+  },
+  "sdkOwner": "sdkwork-prompts",
+  "apiAuthority": "sdkwork-prompts-open-api",
+  "sdkFamily": "sdkwork-prompts-sdk",
+  "sdkDependencies": [],
+  "dependencyApiExports": [],
+  "discoverySurface": {
+    "sdkTarget": "open",
+    "apiPrefix": "/prompts/v3/api",
+    "schemaUrl": "/prompts/v3/openapi.json",
+    "generatedProtocols": ["http-openapi"],
+    "manualTransports": []
+  },
+  "languages": [
+    {
+      "language": "typescript",
+      "workspace": "sdkwork-prompts-sdk-typescript",
+      "generationState": "declared",
+      "releaseState": "not_published",
+      "packagePath": "generated/server-openapi",
+      "manifestPath": "generated/server-openapi/package.json",
+      "name": "@sdkwork/forum-sdk",
+      "version": "0.1.0",
+      "generatedPath": "generated/server-openapi"
+    },
+    {
+      "language": "rust",
+      "workspace": "sdkwork-prompts-sdk-rust",
+      "generationState": "declared",
+      "releaseState": "not_published",
+      "packagePath": "generated/server-openapi",
+      "manifestPath": "generated/server-openapi/Cargo.toml",
+      "name": "sdkwork-prompts-sdk",
+      "version": "0.1.0",
+      "generatedPath": "generated/server-openapi"
+    }
+  ],
+  "metadata": {
+    "managedBy": "tools/generators/materialize_prm_openapi.mjs",
+    "standardVersion": "2026-06-12"
+  }
+}

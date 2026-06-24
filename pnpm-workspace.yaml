@@ -1,0 +1,4 @@
+packages:
+  - "apps/sdkwork-prompts-pc"
+  - "apps/sdkwork-prompts-pc/packages/*"
+  - "sdks/*"

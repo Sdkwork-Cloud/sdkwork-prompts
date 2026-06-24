@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "sdkwork-prompts-pc",
+    "displayName": "SDKWork Prompts PC",
+    "version": "0.1.0",
+    "type": "pc-app",
+    "root": "apps/sdkwork-prompts-pc",
+    "domain": "intelligence",
+    "capability": "prompts",
+    "surface": "app",
+    "languages": ["typescript"],
+    "generated": false,
+    "private": false,
+    "manifests": ["package.json", "sdkwork.app.config.json"]
+  },
+  "canonicalSpecs": [
+    {
+      "file": "APP_PC_ARCHITECTURE_SPEC.md",
+      "path": "../../../sdkwork-specs/APP_PC_ARCHITECTURE_SPEC.md",
+      "purpose": "PC application root architecture."
+    },
+    {
+      "file": "APP_PC_REACT_UI_SPEC.md",
+      "path": "../../../sdkwork-specs/APP_PC_REACT_UI_SPEC.md",
+      "purpose": "PC React UI package rules."
+    },
+    {
+      "file": "TYPESCRIPT_CODE_SPEC.md",
+      "path": "../../../sdkwork-specs/TYPESCRIPT_CODE_SPEC.md",
+      "purpose": "TypeScript code style."
+    },
+    {
+      "file": "FRONTEND_SPEC.md",
+      "path": "../../../sdkwork-specs/FRONTEND_SPEC.md",
+      "purpose": "Frontend layering and SDK integration."
+    },
+    {
+      "file": "UI_ARCHITECTURE_SPEC.md",
+      "path": "../../../sdkwork-specs/UI_ARCHITECTURE_SPEC.md",
+      "purpose": "UI architecture selection."
+    },
+    {
+      "file": "SDK_SPEC.md",
+      "path": "../../../sdkwork-specs/SDK_SPEC.md",
+      "purpose": "SDK integration rules."
+    },
+    {
+      "file": "CONFIG_SPEC.md",
+      "path": "../../../sdkwork-specs/CONFIG_SPEC.md",
+      "purpose": "Runtime config."
+    },
+    {
+      "file": "APPLICATION_SPEC.md",
+      "path": "../../../sdkwork-specs/APPLICATION_SPEC.md",
+      "purpose": "Application module composition."
+    },
+    {
+      "file": "APP_MANIFEST_SPEC.md",
+      "path": "../../../sdkwork-specs/APP_MANIFEST_SPEC.md",
+      "purpose": "App manifest."
+    }
+  ],
+  "contracts": {
+    "publicExports": ["packages/sdkwork-prompts-pc-core", "packages/sdkwork-prompts-pc-discussion"],
+    "sdkClients": ["sdks/sdkwork-prompts-app-sdk", "sdks/sdkwork-prompts-backend-sdk"],
+    "sdkDependencies": [],
+    "dependencyApiExports": []
+  },
+  "verification": {
+    "commands": ["cd apps/sdkwork-prompts-pc && npx tsc --noEmit"]
+  }
+}

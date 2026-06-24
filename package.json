@@ -1,0 +1,36 @@
+{
+  "name": "@sdkwork/prompts-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.30.2",
+  "dependencies": {
+    "@sdkwork/app-topology": "file:../sdkwork-app-topology",
+    "@sdkwork/utils": "file:../sdkwork-utils/packages/sdkwork-utils-typescript"
+  },
+  "scripts": {
+    "dev": "pnpm --filter sdkwork-prompts-pc run dev",
+    "build": "cargo build --workspace --release && pnpm --filter sdkwork-prompts-pc run build",
+    "test": "node tests/static/prompts-contract-boundary.test.mjs && node tests/contract/prompts-contract.test.mjs && node tests/schema/prompts-schema.test.mjs && node tests/contract/database-framework.contract.test.mjs",
+    "check": "pnpm check:architecture-alignment && pnpm db:validate && pnpm api:materialize:check",
+    "verify": "pnpm api:materialize && pnpm check && pnpm test",
+    "clean": "cargo clean",
+    "typecheck": "pnpm --filter sdkwork-prompts-pc run typecheck",
+    "check:architecture-alignment": "node tools/check_sdkwork_prompts_architecture_alignment.mjs",
+    "check:pnpm-script-standard": "node ../sdkwork-specs/tools/check-pnpm-script-standard.mjs --root . --product-prefix prompts,prm",
+    "api:materialize": "node tools/generators/materialize_prompts_openapi.mjs",
+    "api:materialize:check": "node tools/generators/materialize_prompts_openapi.mjs",
+    "api:check": "node tools/validators/validate_prompts_contracts.mjs",
+    "db:validate": "node ../sdkwork-specs/tools/check-database-framework-standard.mjs --root .",
+    "db:materialize:contract": "node ../sdkwork-specs/tools/materialize-database-contract-from-baseline.mjs --root . --baseline database/ddl/baseline/postgres/0001_prompts_baseline.sql --module-id prompts --owner prompts-platform --prefixes prm_ --engines postgres",
+    "db:plan": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . plan",
+    "db:init": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . init",
+    "db:migrate": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . migrate",
+    "db:seed": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . seed",
+    "db:status": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . status",
+    "db:drift": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . drift",
+    "db:drift:check": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . drift-check",
+    "db:bootstrap": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . bootstrap",
+    "test:contract:database": "node ../sdkwork-specs/tools/check-database-framework-standard.mjs --root ."
+  }
+}

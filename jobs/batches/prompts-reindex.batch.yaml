@@ -1,0 +1,10 @@
+schemaVersion: 1
+kind: sdkwork.job.batch
+owner: sdkwork-prompts
+domain: intelligence
+capability: forum
+name: forum-reindex
+description: "Rebuild prm_search_document from visible topic/reply source tables and push to Search SDK. Scans visible topics and replies, regenerates search document projections, and indexes through PromptsSearchPort."
+job: RebuildSearchProjection
+timeout: 3600
+batchSize: 500

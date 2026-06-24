@@ -1,0 +1,10 @@
+local/
+tmp/
+cache/
+secrets/
+*.db
+*.sqlite
+*.log
+*.pem
+*.key
+*.env

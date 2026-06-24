@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 3,
+  "kind": "sdkwork.app",
+  "app": {
+    "key": "sdkwork-prompts-pc",
+    "name": "sdkwork-prompts-pc",
+    "displayName": "SDKWork Prompts PC",
+    "appType": "PC",
+    "description": "Prompts PC application for SDKWork intelligence capabilities."
+  },
+  "backend": {
+    "domain": "intelligence",
+    "capabilities": [
+      "prompts"
+    ],
+    "apiSurfaces": [
+      {
+        "surface": "app-api",
+        "authority": "sdkwork-prompts-app-api",
+        "prefix": "/app/v3/api"
+      },
+      {
+        "surface": "backend-api",
+        "authority": "sdkwork-prompts-backend-api",
+        "prefix": "/backend/v3/api"
+      }
+    ],
+    "tenantId": "100001",
+    "organizationId": "0"
+  },
+  "runtime": {
+    "modes": [
+      "web",
+      "desktop",
+      "tablet-ipados",
+      "tablet-android"
+    ],
+    "rootDirectories": [
+      "config",
+      "docs",
+      "packages",
+      "public",
+      "scripts",
+      "sdks",
+      "specs",
+      "src",
+      "tests"
+    ],
+    "supportedDeploymentProfiles": [
+      "cloud"
+    ],
+    "defaultDeploymentProfile": "cloud"
+  },
+  "release": {
+    "version": "0.1.0",
+    "channel": "dev"
+  },
+  "metadata": {
+    "standardVersion": "2026-06-12",
+    "architectureStandard": "APP_PC_ARCHITECTURE_SPEC.md"
+  }
+}

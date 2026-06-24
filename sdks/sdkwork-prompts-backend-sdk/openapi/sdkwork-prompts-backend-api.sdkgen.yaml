@@ -1,0 +1,16 @@
+schemaVersion: 1
+kind: sdkwork.sdkgen.config
+input: sdkwork-prompts-backend-api.openapi.yaml
+output: ../generated/server-openapi
+sdkOwner: sdkwork-prompts
+apiAuthority: sdkwork-intelligence-prompts-backend-api
+sdkFamily: sdkwork-prompts-backend-sdk
+standardProfile: sdkwork-v3
+languageTargets:
+  - typescript
+  - rust
+ownerOnly: true
+domain: intelligence
+capability: forum
+prefix: /backend/v3/api
+surface: backend-api

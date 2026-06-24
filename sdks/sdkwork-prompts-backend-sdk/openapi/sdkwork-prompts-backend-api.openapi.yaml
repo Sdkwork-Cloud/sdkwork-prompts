@@ -1,0 +1,49 @@
+openapi: 3.1.2
+info:
+  title: SDKWork Prompts Backend API
+  version: 0.1.0
+  summary: Operator backend API for prompt governance.
+servers:
+  - url: /backend/v3/api
+tags:
+  - name: prompts-admin
+paths:
+  /prompts/templates:
+    get:
+      tags: [prompts-admin]
+      operationId: prompts.admin.templates.list
+      security:
+        - AuthToken: []
+          AccessToken: []
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-backend-api
+      x-sdkwork-api-surface: backend-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-permission: prompts.admin.templates.read
+      x-sdkwork-auth-mode: dual-token
+      responses:
+        "200":
+          description: Admin template list.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: { type: string }
+                        key: { type: string }
+                        name: { type: string }
+                        status: { type: string }
+components:
+  securitySchemes:
+    AuthToken:
+      type: http
+      scheme: bearer
+    AccessToken:
+      type: http
+      scheme: bearer

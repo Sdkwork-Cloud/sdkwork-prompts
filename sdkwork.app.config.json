@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 3,
+  "kind": "sdkwork.app",
+  "app": {
+    "key": "sdkwork-prompts",
+    "name": "sdkwork-prompts",
+    "displayName": "SDKWork Prompts",
+    "appType": "SDK",
+    "officialWebsiteUrl": "https://sdkwork.com/apps/sdkwork-prompts",
+    "description": "Prompts domain foundation for SDKWork intelligence capabilities."
+  },
+  "backend": {
+    "domain": "intelligence",
+    "capabilities": [
+      "prompts"
+    ],
+    "apiSurfaces": [
+      {
+        "surface": "app-api",
+        "authority": "sdkwork-prompts-app-api",
+        "prefix": "/app/v3/api"
+      },
+      {
+        "surface": "backend-api",
+        "authority": "sdkwork-prompts-backend-api",
+        "prefix": "/backend/v3/api"
+      },
+      {
+        "surface": "open-api",
+        "authority": "sdkwork-prompts-open-api",
+        "prefix": "/prompts/v3/api"
+      }
+    ],
+    "accessTokenPermissionScope": [
+      "iam.users.read"
+    ],
+    "tenantId": "100001",
+    "organizationId": "0"
+  },
+  "runtime": {
+    "modes": [
+      "saas",
+      "private",
+      "local"
+    ],
+    "rootDirectories": [
+      "apis",
+      "apps",
+      "crates",
+      "sdks",
+      "jobs",
+      "tools",
+      "plugins",
+      "examples",
+      "configs",
+      "deployments",
+      "database",
+      "scripts",
+      "docs",
+      "tests"
+    ],
+    "supportedDeploymentProfiles": [
+      "cloud"
+    ],
+    "defaultDeploymentProfile": "cloud"
+  },
+  "media": {
+    "policy": "Prompts attachments use Drive-owned stable media resources; forum tables store references only."
+  },
+  "publish": {
+    "channels": [
+      "dev"
+    ]
+  },
+  "environments": {
+    "local": {
+      "apiBaseUrl": "http://localhost:8080"
+    }
+  },
+  "artifacts": {
+    "packages": []
+  },
+  "release": {
+    "version": "0.1.0",
+    "channel": "dev"
+  },
+  "security": {
+    "secretsPolicy": "No credentials, tokens, or private keys are stored in this manifest."
+  },
+  "devApp": {
+    "enabled": true,
+    "entrypoint": "crates/sdkwork-prompts-api-server"
+  },
+  "metadata": {
+    "standardVersion": "2026-06-12",
+    "canonicalSpecs": "../sdkwork-specs/README.md"
+  }
+}

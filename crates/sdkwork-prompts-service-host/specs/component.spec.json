@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "sdkwork-prompts-service-host",
+    "displayName": "SDKWork Prompts Service Host",
+    "version": "0.1.0",
+    "type": "rust-crate",
+    "root": "crates/sdkwork-prompts-service-host",
+    "domain": "intelligence",
+    "capability": "prompts",
+    "languages": ["rust"],
+    "generated": false,
+    "manifests": ["Cargo.toml"]
+  },
+  "canonicalSpecs": [
+    {"file": "WEB_BACKEND_SPEC.md", "path": "../../sdkwork-specs/WEB_BACKEND_SPEC.md", "purpose": "Web backend implementation."},
+    {"file": "RUST_CODE_SPEC.md", "path": "../../sdkwork-specs/RUST_CODE_SPEC.md", "purpose": "Rust code structure."},
+    {"file": "CONFIG_SPEC.md", "path": "../../sdkwork-specs/CONFIG_SPEC.md", "purpose": "Runtime config."},
+    {"file": "DEPLOYMENT_SPEC.md", "path": "../../sdkwork-specs/DEPLOYMENT_SPEC.md", "purpose": "Deployment rules."},
+    {"file": "TEST_SPEC.md", "path": "../../sdkwork-specs/TEST_SPEC.md", "purpose": "Verification tests."}
+  ],
+  "contracts": {
+    "runtimeEntrypoints": ["build_prm_service"],
+    "sdkDependencies": [],
+    "dependencyApiExports": []
+  },
+  "verification": {
+    "commands": ["cargo check -p sdkwork-prompts-service-host"]
+  }
+}

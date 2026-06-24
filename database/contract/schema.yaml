@@ -1,0 +1,30 @@
+schema_version: 1
+kind: sdkwork.database.schema
+module_id: prompts
+contract_version: 1.0.0
+owner_team: prompts-platform
+compliance_level: L2
+engines:
+  - postgres
+table_prefix: prm_
+tables:
+  - name: prm_category
+    lifecycle_status: active
+    owner: prompts-platform
+    description: Prompt template categories for tenant-scoped organization.
+  - name: prm_template
+    lifecycle_status: active
+    owner: prompts-platform
+    description: Reusable prompt template metadata.
+  - name: prm_template_version
+    lifecycle_status: active
+    owner: prompts-platform
+    description: Versioned prompt body and model hints.
+  - name: prm_template_variable
+    lifecycle_status: active
+    owner: prompts-platform
+    description: Declared variables for a prompt template version.
+  - name: prm_usage_event
+    lifecycle_status: active
+    owner: prompts-platform
+    description: Audit trail for prompt resolution and rendering.

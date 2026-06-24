@@ -1,0 +1,14 @@
+node_modules/
+target/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+*.log
+*.tmp
+.sdkwork/local/
+.sdkwork/tmp/
+.sdkwork/cache/
+.sdkwork/secrets/
+sdks/**/generated/server-openapi/.sdkwork/

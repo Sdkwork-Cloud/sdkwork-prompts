@@ -1,0 +1,324 @@
+openapi: 3.1.2
+info:
+  title: SDKWork Prompts App API
+  version: 0.1.0
+  summary: Authenticated app/client prompt template API.
+  description: >
+    App API for managing prompt templates, versions, and variables in the
+    intelligence prompts domain. Protected operations use SDKWork dual-token
+    security through generated SDK TokenManager integration.
+jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
+servers:
+  - url: /app/v3/api
+tags:
+  - name: prompts
+paths:
+  /prompts/templates:
+    get:
+      tags: [prompts]
+      summary: List prompt templates.
+      operationId: prompts.templates.list
+      security:
+        - AuthToken: []
+          AccessToken: []
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-app-api
+      x-sdkwork-api-surface: app-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-resource: prm_template
+      x-sdkwork-permission: prompts.templates.read
+      x-sdkwork-tenant-scope: tenant
+      x-sdkwork-auth-mode: dual-token
+      parameters:
+        - name: cursor
+          in: query
+          schema: { type: string }
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+        - name: status
+          in: query
+          schema: { type: string, enum: [draft, active, archived] }
+      responses:
+        "200":
+          description: Prompt template page.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptTemplatePage"
+        default:
+          $ref: "#/components/responses/Problem"
+    post:
+      tags: [prompts]
+      summary: Create prompt template.
+      operationId: prompts.templates.create
+      security:
+        - AuthToken: []
+          AccessToken: []
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-app-api
+      x-sdkwork-api-surface: app-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-resource: prm_template
+      x-sdkwork-permission: prompts.templates.create
+      x-sdkwork-tenant-scope: tenant
+      x-sdkwork-auth-mode: dual-token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PromptTemplateCreateRequest"
+      responses:
+        "201":
+          description: Created template.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptTemplate"
+        default:
+          $ref: "#/components/responses/Problem"
+  /prompts/templates/{templateId}:
+    get:
+      tags: [prompts]
+      summary: Get prompt template.
+      operationId: prompts.templates.get
+      security:
+        - AuthToken: []
+          AccessToken: []
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-app-api
+      x-sdkwork-api-surface: app-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-resource: prm_template
+      x-sdkwork-permission: prompts.templates.read
+      x-sdkwork-tenant-scope: tenant
+      x-sdkwork-auth-mode: dual-token
+      parameters:
+        - $ref: "#/components/parameters/TemplateId"
+      responses:
+        "200":
+          description: Prompt template.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptTemplate"
+        default:
+          $ref: "#/components/responses/Problem"
+    patch:
+      tags: [prompts]
+      summary: Update prompt template metadata.
+      operationId: prompts.templates.update
+      security:
+        - AuthToken: []
+          AccessToken: []
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-app-api
+      x-sdkwork-api-surface: app-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-resource: prm_template
+      x-sdkwork-permission: prompts.templates.update
+      x-sdkwork-tenant-scope: tenant
+      x-sdkwork-auth-mode: dual-token
+      parameters:
+        - $ref: "#/components/parameters/TemplateId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PromptTemplateUpdateRequest"
+      responses:
+        "200":
+          description: Updated template.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptTemplate"
+        default:
+          $ref: "#/components/responses/Problem"
+  /prompts/templates/{templateId}/versions:
+    get:
+      tags: [prompts]
+      summary: List template versions.
+      operationId: prompts.templateVersions.list
+      security:
+        - AuthToken: []
+          AccessToken: []
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-app-api
+      x-sdkwork-api-surface: app-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-resource: prm_template_version
+      x-sdkwork-permission: prompts.templateVersions.read
+      x-sdkwork-tenant-scope: tenant
+      x-sdkwork-auth-mode: dual-token
+      parameters:
+        - $ref: "#/components/parameters/TemplateId"
+      responses:
+        "200":
+          description: Version list.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptTemplateVersionPage"
+        default:
+          $ref: "#/components/responses/Problem"
+    post:
+      tags: [prompts]
+      summary: Create template version.
+      operationId: prompts.templateVersions.create
+      security:
+        - AuthToken: []
+          AccessToken: []
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-app-api
+      x-sdkwork-api-surface: app-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-resource: prm_template_version
+      x-sdkwork-permission: prompts.templateVersions.create
+      x-sdkwork-tenant-scope: tenant
+      x-sdkwork-auth-mode: dual-token
+      parameters:
+        - $ref: "#/components/parameters/TemplateId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PromptTemplateVersionCreateRequest"
+      responses:
+        "201":
+          description: Created version.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptTemplateVersion"
+        default:
+          $ref: "#/components/responses/Problem"
+components:
+  securitySchemes:
+    AuthToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    AccessToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    TemplateId:
+      name: templateId
+      in: path
+      required: true
+      schema: { type: string }
+  responses:
+    Problem:
+      description: RFC 9457 problem response.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+  schemas:
+    Problem:
+      type: object
+      required: [type, title, status]
+      properties:
+        type: { type: string, format: uri }
+        title: { type: string }
+        status: { type: integer }
+        detail: { type: string }
+        instance: { type: string }
+    PromptTemplate:
+      type: object
+      required: [id, key, name, status]
+      properties:
+        id: { type: string }
+        key: { type: string }
+        name: { type: string }
+        description: { type: string }
+        status: { type: string, enum: [draft, active, archived] }
+        tags: { type: array, items: { type: string } }
+        latest_version_id: { type: string, nullable: true }
+        updated_at: { type: string, format: date-time }
+    PromptTemplatePage:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PromptTemplate"
+        next_cursor: { type: string, nullable: true }
+    PromptTemplateCreateRequest:
+      type: object
+      required: [key, name]
+      properties:
+        key: { type: string }
+        name: { type: string }
+        description: { type: string }
+        tags: { type: array, items: { type: string } }
+    PromptTemplateUpdateRequest:
+      type: object
+      properties:
+        name: { type: string }
+        description: { type: string }
+        status: { type: string, enum: [draft, active, archived] }
+        tags: { type: array, items: { type: string } }
+    PromptTemplateVersion:
+      type: object
+      required: [id, template_id, version_label, content, status]
+      properties:
+        id: { type: string }
+        template_id: { type: string }
+        version_label: { type: string }
+        content: { type: string }
+        model_hint: { type: string, nullable: true }
+        status: { type: string, enum: [draft, active, archived] }
+        variables:
+          type: array
+          items:
+            $ref: "#/components/schemas/PromptTemplateVariable"
+    PromptTemplateVersionPage:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PromptTemplateVersion"
+    PromptTemplateVersionCreateRequest:
+      type: object
+      required: [version_label, content]
+      properties:
+        version_label: { type: string }
+        content: { type: string }
+        model_hint: { type: string }
+        variables:
+          type: array
+          items:
+            $ref: "#/components/schemas/PromptTemplateVariableInput"
+    PromptTemplateVariable:
+      type: object
+      required: [name, var_type, required]
+      properties:
+        name: { type: string }
+        var_type: { type: string }
+        required: { type: boolean }
+        default_value: { type: string, nullable: true }
+        description: { type: string, nullable: true }
+    PromptTemplateVariableInput:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string }
+        var_type: { type: string, default: string }
+        required: { type: boolean, default: false }
+        default_value: { type: string }
+        description: { type: string }

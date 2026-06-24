@@ -1,0 +1,22 @@
+[package]
+name = "sdkwork-prompts-service-host"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+sdkwork-intelligence-prompts-repository-sqlx = { path = "../sdkwork-intelligence-prompts-repository-sqlx" }
+sdkwork-intelligence-prompts-service = { path = "../sdkwork-intelligence-prompts-service" }
+sdkwork-prompts-database-host = { workspace = true }
+sdkwork-database-config = { workspace = true }
+sdkwork-database-sqlx = { workspace = true }
+sdkwork-database-spi = { workspace = true }
+sdkwork-database-ops = { path = "../../../sdkwork-database/crates/sdkwork-database-ops" }
+sqlx = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+dotenvy = "0.15"
+
+[lib]
+path = "src/lib.rs"

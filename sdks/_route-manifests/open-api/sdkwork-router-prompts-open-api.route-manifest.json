@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.route.manifest",
+  "packageName": "sdkwork-router-prompts-open-api",
+  "surface": "open-api",
+  "owner": "sdkwork-prompts",
+  "domain": "intelligence",
+  "capability": "prompts",
+  "apiAuthority": "sdkwork-prompts-open-api",
+  "sdkFamily": "sdkwork-prompts-sdk",
+  "prefix": "/prompts/v3/api",
+  "source": {
+    "crateRoot": "crates/sdkwork-router-prompts-open-api",
+    "crateImport": "sdkwork_router_prompts_open_api"
+  },
+  "routes": [
+    { "method": "GET", "path": "/prompts/v3/api/sites/{siteSlug}/boards", "operationId": "boards.list", "tags": ["intelligence"], "auth": { "mode": "public", "required": false, "tenantScope": "platform", "dataScope": "public" }, "handler": { "module": "crate::handlers", "name": "list_public_boards" }, "schemas": { "request": null, "response": "PromptsBoard[]", "problem": "ProblemDetail" }, "ownership": { "owner": "sdkwork-prompts", "apiAuthority": "sdkwork-prompts-open-api" }, "source": { "file": "src/paths.rs" } },
+    { "method": "GET", "path": "/prompts/v3/api/sites/{siteSlug}/boards/{boardId}/topics", "operationId": "boards.topics.list", "tags": ["intelligence"], "auth": { "mode": "public", "required": false, "tenantScope": "platform", "dataScope": "public" }, "handler": { "module": "crate::handlers", "name": "list_public_board_topics" }, "schemas": { "request": null, "response": "PromptsPublicTopicPage", "problem": "ProblemDetail" }, "ownership": { "owner": "sdkwork-prompts", "apiAuthority": "sdkwork-prompts-open-api" }, "source": { "file": "src/paths.rs" } },
+    { "method": "GET", "path": "/prompts/v3/api/sites/{siteSlug}/topics", "operationId": "topics.list", "tags": ["intelligence"], "auth": { "mode": "public", "required": false, "tenantScope": "platform", "dataScope": "public" }, "handler": { "module": "crate::handlers", "name": "list_public_topics" }, "schemas": { "request": null, "response": "PromptsPublicTopicPage", "problem": "ProblemDetail" }, "ownership": { "owner": "sdkwork-prompts", "apiAuthority": "sdkwork-prompts-open-api" }, "source": { "file": "src/paths.rs" } },
+    { "method": "GET", "path": "/prompts/v3/api/sites/{siteSlug}/topics/{topicId}", "operationId": "topics.retrieve", "tags": ["intelligence"], "auth": { "mode": "public", "required": false, "tenantScope": "platform", "dataScope": "public" }, "handler": { "module": "crate::handlers", "name": "retrieve_public_topic" }, "schemas": { "request": null, "response": "PromptsPublicTopic", "problem": "ProblemDetail" }, "ownership": { "owner": "sdkwork-prompts", "apiAuthority": "sdkwork-prompts-open-api" }, "source": { "file": "src/paths.rs" } },
+    { "method": "GET", "path": "/prompts/v3/api/sites/{siteSlug}/topics/by_slug/{topicSlug}", "operationId": "topics.bySlug.retrieve", "tags": ["intelligence"], "auth": { "mode": "public", "required": false, "tenantScope": "platform", "dataScope": "public" }, "handler": { "module": "crate::handlers", "name": "retrieve_public_topic_by_slug" }, "schemas": { "request": null, "response": "PromptsPublicTopic", "problem": "ProblemDetail" }, "ownership": { "owner": "sdkwork-prompts", "apiAuthority": "sdkwork-prompts-open-api" }, "source": { "file": "src/paths.rs" } },
+    { "method": "GET", "path": "/prompts/v3/api/sites/{siteSlug}/topics/{topicId}/replies", "operationId": "topics.replies.list", "tags": ["intelligence"], "auth": { "mode": "public", "required": false, "tenantScope": "platform", "dataScope": "public" }, "handler": { "module": "crate::handlers", "name": "list_public_replies" }, "schemas": { "request": null, "response": "PromptsPublicReplyPage", "problem": "ProblemDetail" }, "ownership": { "owner": "sdkwork-prompts", "apiAuthority": "sdkwork-prompts-open-api" }, "source": { "file": "src/paths.rs" } },
+    { "method": "GET", "path": "/prompts/v3/api/sites/{siteSlug}/tags", "operationId": "tags.list", "tags": ["intelligence"], "auth": { "mode": "public", "required": false, "tenantScope": "platform", "dataScope": "public" }, "handler": { "module": "crate::handlers", "name": "list_public_tags" }, "schemas": { "request": null, "response": "PromptsTag[]", "problem": "ProblemDetail" }, "ownership": { "owner": "sdkwork-prompts", "apiAuthority": "sdkwork-prompts-open-api" }, "source": { "file": "src/paths.rs" } },
+    { "method": "GET", "path": "/prompts/v3/api/sites/{siteSlug}/search", "operationId": "search.query", "tags": ["intelligence"], "auth": { "mode": "public", "required": false, "tenantScope": "platform", "dataScope": "public" }, "handler": { "module": "crate::handlers", "name": "query_public_search" }, "schemas": { "request": null, "response": "PromptsPublicTopicPage", "problem": "ProblemDetail" }, "ownership": { "owner": "sdkwork-prompts", "apiAuthority": "sdkwork-prompts-open-api" }, "source": { "file": "src/paths.rs" } }
+  ]
+}

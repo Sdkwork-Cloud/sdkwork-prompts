@@ -1,0 +1,17 @@
+[package]
+name = "sdkwork-prompts-database-host"
+version.workspace = true
+edition.workspace = true
+description = "SDKWork Prompts database lifecycle bootstrap."
+
+[lib]
+name = "sdkwork_prm_database_host"
+path = "src/lib.rs"
+
+[dependencies]
+dotenvy = "0.15"
+sdkwork-database-config = { path = "../../../sdkwork-database/crates/sdkwork-database-config" }
+sdkwork-database-lifecycle = { path = "../../../sdkwork-database/crates/sdkwork-database-lifecycle" }
+sdkwork-database-spi = { path = "../../../sdkwork-database/crates/sdkwork-database-spi" }
+sdkwork-database-sqlx = { path = "../../../sdkwork-database/crates/sdkwork-database-sqlx" }
+sdkwork-utils-rust = { workspace = true }
