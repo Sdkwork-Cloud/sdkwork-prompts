@@ -9,7 +9,7 @@
     "postgres"
   ],
   "defaultEngine": "postgres",
-  "tablePrefix": "prm_",
+  "tablePrefix": "ai_",
   "contractVersion": "1.0.0",
   "baselineStrategy": "baseline-plus-migrations",
   "modules": [],

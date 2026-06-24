@@ -6,25 +6,29 @@ owner_team: prompts-platform
 compliance_level: L2
 engines:
   - postgres
-table_prefix: prm_
+table_prefix: ai_
 tables:
-  - name: prm_category
+  - name: ai_prompt_category
     lifecycle_status: active
     owner: prompts-platform
-    description: Prompt template categories for tenant-scoped organization.
-  - name: prm_template
+    description: Tenant-scoped prompt template categories.
+  - name: ai_prompt
     lifecycle_status: active
     owner: prompts-platform
-    description: Reusable prompt template metadata.
-  - name: prm_template_version
+    description: Prompt metadata keyed by prompt_key within tenant/org scope.
+  - name: ai_prompt_version
     lifecycle_status: active
     owner: prompts-platform
-    description: Versioned prompt body and model hints.
-  - name: prm_template_variable
+    description: Versioned prompt body, variable schema, and model constraints.
+  - name: ai_prompt_binding
     lifecycle_status: active
     owner: prompts-platform
-    description: Declared variables for a prompt template version.
-  - name: prm_usage_event
+    description: Binds prompt versions to owner entities such as agents or workflows.
+  - name: ai_agent_prompt_template
     lifecycle_status: active
     owner: prompts-platform
-    description: Audit trail for prompt resolution and rendering.
+    description: Agent marketplace reusable prompt templates (from kernel a_agent_prompt_template).
+  - name: ai_prompt_usage_event
+    lifecycle_status: active
+    owner: prompts-platform
+    description: Audit trail for prompt resolution, render, and catalog access.

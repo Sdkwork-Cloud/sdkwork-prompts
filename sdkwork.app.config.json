@@ -60,7 +60,8 @@
       "tests"
     ],
     "supportedDeploymentProfiles": [
-      "cloud"
+      "cloud",
+      "standalone"
     ],
     "defaultDeploymentProfile": "cloud"
   },

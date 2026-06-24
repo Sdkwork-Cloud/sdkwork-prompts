@@ -9,6 +9,8 @@ publish = false
 path = "src/lib.rs"
 
 [dependencies]
+axum = "0.8"
+sdkwork-iam-web-adapter = { workspace = true }
 sdkwork-web-axum.workspace = true
 sdkwork-web-core.workspace = true
 sdkwork-utils-rust.workspace = true

@@ -75,16 +75,17 @@ assert(componentSpec.component?.domain === "intelligence", "domain must be intel
 assert(componentSpec.component?.capability === "prompts", "capability must be prompts");
 
 const dbManifest = readJson("database/database.manifest.json");
-assert(dbManifest.tablePrefix === "prm_", "database tablePrefix must be prm_");
+assert(dbManifest.tablePrefix === "ai_", "database tablePrefix must be ai_ for prompt contract module");
 assert(dbManifest.moduleId === "prompts", "database moduleId must be prompts");
 
-const schema = readText("database/contract/schema.yaml");
+const aiSchema = readText("specs/prompts-ai-database.schema.yaml");
 for (const table of [
-  "prm_template",
-  "prm_template_version",
-  "prm_template_variable",
+  "ai_prompt",
+  "ai_prompt_version",
+  "ai_prompt_binding",
+  "ai_agent_prompt_template",
 ]) {
-  assert(schema.includes(table), `schema must declare ${table}`);
+  assert(aiSchema.includes(table), `prompts-ai-database.schema.yaml must declare ${table}`);
 }
 
 if (failures.length) {

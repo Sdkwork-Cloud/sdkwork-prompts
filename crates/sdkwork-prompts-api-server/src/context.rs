@@ -3,7 +3,7 @@ use axum::{
     extract::FromRequestParts,
     http::{request::Parts, HeaderMap, StatusCode},
 };
-use sdkwork_intelligence_prm_service::value_objects::PromptsRequestContext;
+use sdkwork_intelligence_prompts_service::value_objects::PromptsRequestContext;
 
 use crate::auth::parse_access_token_header;
 
@@ -81,7 +81,7 @@ fn env_i64(name: &str) -> Option<i64> {
 }
 
 pub fn page_json<T: serde::Serialize>(
-    page: &sdkwork_intelligence_prm_service::domain::results::CursorPage<T>,
+    page: &sdkwork_intelligence_prompts_service::domain::results::CursorPage<T>,
 ) -> serde_json::Value {
     serde_json::json!({
         "items": page.items,

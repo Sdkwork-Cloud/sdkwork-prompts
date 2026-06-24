@@ -1,24 +1,5 @@
-# SDKWork Prompts Technical Architecture
+# Moved
 
-Status: draft
-Owner: SDKWork maintainers
-Updated: 2026-06-23
-Specs: ARCHITECTURE_DECISION_SPEC.md, DOCUMENTATION_SPEC.md
+This Canon entry moved to [TECH_ARCHITECTURE.md](tech/TECH_ARCHITECTURE.md).
 
-## 1. Architecture Overview
-
-## 2. Technology Choices
-
-## 3. System Boundaries And Modules
-
-## 4. Directory And Package Layout
-
-## 5. API, SDK, And Data Ownership
-
-## 6. Security, Privacy, And Observability
-
-## 7. Deployment And Runtime Topology
-
-## 8. Architecture Decision Index
-
-## 9. Verification
+Do not add new technical architecture content here.

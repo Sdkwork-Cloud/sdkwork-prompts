@@ -1,10 +1,11 @@
 use std::sync::Arc;
 
-use sdkwork_intelligence_prm_repository_sqlx::SqlxPromptsRepository;
+use sdkwork_intelligence_prompts_ai_repository_sqlx::SqlxPromptAiRepository;
+use sdkwork_intelligence_prompts_repository_sqlx::SqlxPromptsRepository;
 use sdkwork_prm_database_host::bootstrap_prompts_database_from_env;
 use sqlx::PgPool;
-use sdkwork_intelligence_prm_service::PromptsService;
-use sdkwork_intelligence_prm_service::value_objects::PromptsRequestContext;
+use sdkwork_intelligence_prompts_service::PromptsService;
+use sdkwork_intelligence_prompts_service::value_objects::PromptsRequestContext;
 use sdkwork_database_ops::DatabaseOpsService;
 use sdkwork_database_spi::{DefaultDatabaseModule, LocaleTag, SeedProfile};
 use sdkwork_database_sqlx::DatabasePool;
@@ -14,6 +15,7 @@ mod ports;
 
 pub struct PromptsServiceHost {
     service: PromptsService<SqlxPromptsRepository>,
+    ai_repository: SqlxPromptAiRepository,
     pool: DatabasePool,
     pg_pool: PgPool,
     iam_pool: Option<PgPool>,
@@ -47,6 +49,7 @@ impl PromptsServiceHost {
         tracing::info!("Database connected successfully");
 
         let repository = SqlxPromptsRepository::new(pg_pool.clone());
+        let ai_repository = SqlxPromptAiRepository::new(pg_pool.clone());
         let service = PromptsService::new_with_ports(
             repository,
             ports::build_drive_port(),
@@ -58,6 +61,7 @@ impl PromptsServiceHost {
 
         Self {
             service,
+            ai_repository,
             pool,
             pg_pool,
             iam_pool,
@@ -67,6 +71,10 @@ impl PromptsServiceHost {
 
     pub fn service(&self) -> &PromptsService<SqlxPromptsRepository> {
         &self.service
+    }
+
+    pub fn ai_repository(&self) -> &SqlxPromptAiRepository {
+        &self.ai_repository
     }
 
     pub fn database_pool(&self) -> DatabasePool {

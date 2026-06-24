@@ -6,7 +6,7 @@ use axum::{
     response::{IntoResponse, Response},
     Json,
 };
-use sdkwork_intelligence_prm_service::value_objects::PromptsRequestContext;
+use sdkwork_intelligence_prompts_service::value_objects::PromptsRequestContext;
 use sdkwork_iam_web_adapter::resolve_iam_app_context_from_dual_tokens;
 
 use crate::context::ResolvedPromptsContext;

@@ -2,16 +2,16 @@ openapi: 3.1.2
 info:
   title: SDKWork Prompts Backend API
   version: 0.1.0
-  summary: Operator backend API for prompt governance.
+  summary: Operator backend API for prompt governance (ai_prompt tables).
 servers:
   - url: /backend/v3/api
 tags:
   - name: prompts-admin
 paths:
-  /prompts/templates:
+  /prompts:
     get:
       tags: [prompts-admin]
-      operationId: prompts.admin.templates.list
+      operationId: prompts.admin.definitions.list
       security:
         - AuthToken: []
           AccessToken: []
@@ -20,25 +20,272 @@ paths:
       x-sdkwork-api-surface: backend-api
       x-sdkwork-request-context: WebRequestContext
       x-sdkwork-domain: intelligence
+      x-sdkwork-resource: ai_prompt
       x-sdkwork-permission: prompts.admin.templates.read
       x-sdkwork-auth-mode: dual-token
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer, minimum: 1, default: 1 }
+        - name: page_size
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 200, default: 50 }
+        - name: q
+          in: query
+          schema: { type: string }
+        - name: prompt_type
+          in: query
+          schema: { type: string }
+        - name: visibility
+          in: query
+          schema: { type: string }
+        - name: status
+          in: query
+          schema: { type: string }
+        - name: category_id
+          in: query
+          schema: { type: string }
       responses:
         "200":
-          description: Admin template list.
+          description: Admin prompt list.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id: { type: string }
-                        key: { type: string }
-                        name: { type: string }
-                        status: { type: string }
+                $ref: "#/components/schemas/PromptAiListResponse"
+        default:
+          $ref: "#/components/responses/Problem"
+    post:
+      tags: [prompts-admin]
+      operationId: prompts.admin.definitions.create
+      security:
+        - AuthToken: []
+          AccessToken: []
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-backend-api
+      x-sdkwork-api-surface: backend-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-resource: ai_prompt
+      x-sdkwork-permission: prompts.admin.templates.create
+      x-sdkwork-auth-mode: dual-token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PromptAiCreateRequest"
+      responses:
+        "201":
+          description: Created prompt.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptAiItemResponse"
+        default:
+          $ref: "#/components/responses/Problem"
+  /prompts/{promptId}/versions:
+    get:
+      tags: [prompts-admin]
+      operationId: prompts.admin.versions.list
+      security:
+        - AuthToken: []
+          AccessToken: []
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-backend-api
+      x-sdkwork-api-surface: backend-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-resource: ai_prompt_version
+      x-sdkwork-permission: prompts.admin.templates.read
+      x-sdkwork-auth-mode: dual-token
+      parameters:
+        - $ref: "#/components/parameters/PromptId"
+      responses:
+        "200":
+          description: Prompt version list.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptAiVersionListResponse"
+        default:
+          $ref: "#/components/responses/Problem"
+    post:
+      tags: [prompts-admin]
+      operationId: prompts.admin.versions.create
+      security:
+        - AuthToken: []
+          AccessToken: []
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-backend-api
+      x-sdkwork-api-surface: backend-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-resource: ai_prompt_version
+      x-sdkwork-permission: prompts.admin.templates.create
+      x-sdkwork-auth-mode: dual-token
+      parameters:
+        - $ref: "#/components/parameters/PromptId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PromptAiVersionCreateRequest"
+      responses:
+        "201":
+          description: Created version.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptAiVersionItemResponse"
+        default:
+          $ref: "#/components/responses/Problem"
+  /prompts/versions/{versionId}/publish:
+    post:
+      tags: [prompts-admin]
+      operationId: prompts.admin.versions.publish
+      security:
+        - AuthToken: []
+          AccessToken: []
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-backend-api
+      x-sdkwork-api-surface: backend-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-resource: ai_prompt_version
+      x-sdkwork-permission: prompts.admin.templates.publish
+      x-sdkwork-auth-mode: dual-token
+      parameters:
+        - $ref: "#/components/parameters/VersionId"
+      responses:
+        "200":
+          description: Published version.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptAiVersionItemResponse"
+        default:
+          $ref: "#/components/responses/Problem"
+  /prompts/versions/{versionId}/render:
+    post:
+      tags: [prompts-admin]
+      operationId: prompts.admin.versions.render
+      security:
+        - AuthToken: []
+          AccessToken: []
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-backend-api
+      x-sdkwork-api-surface: backend-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-resource: ai_prompt_version
+      x-sdkwork-permission: prompts.admin.templates.render
+      x-sdkwork-auth-mode: dual-token
+      parameters:
+        - $ref: "#/components/parameters/VersionId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PromptAiRenderRequest"
+      responses:
+        "200":
+          description: Rendered prompt text.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptAiRenderResponse"
+        default:
+          $ref: "#/components/responses/Problem"
+  /prompts/{promptId}/bindings:
+    get:
+      tags: [prompts-admin]
+      operationId: prompts.admin.bindings.list
+      security:
+        - AuthToken: []
+          AccessToken: []
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-backend-api
+      x-sdkwork-api-surface: backend-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-resource: ai_prompt_binding
+      x-sdkwork-permission: prompts.admin.bindings.read
+      x-sdkwork-auth-mode: dual-token
+      parameters:
+        - $ref: "#/components/parameters/PromptId"
+      responses:
+        "200":
+          description: Binding list.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptAiBindingListResponse"
+        default:
+          $ref: "#/components/responses/Problem"
+    post:
+      tags: [prompts-admin]
+      operationId: prompts.admin.bindings.create
+      security:
+        - AuthToken: []
+          AccessToken: []
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-backend-api
+      x-sdkwork-api-surface: backend-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-resource: ai_prompt_binding
+      x-sdkwork-permission: prompts.admin.bindings.create
+      x-sdkwork-auth-mode: dual-token
+      parameters:
+        - $ref: "#/components/parameters/PromptId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PromptAiBindingCreateRequest"
+      responses:
+        "201":
+          description: Created binding.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptAiBindingItemResponse"
+        default:
+          $ref: "#/components/responses/Problem"
+  /prompts/bindings/{bindingId}:
+    put:
+      tags: [prompts-admin]
+      operationId: prompts.admin.bindings.update
+      security:
+        - AuthToken: []
+          AccessToken: []
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-backend-api
+      x-sdkwork-api-surface: backend-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-resource: ai_prompt_binding
+      x-sdkwork-permission: prompts.admin.bindings.update
+      x-sdkwork-auth-mode: dual-token
+      parameters:
+        - $ref: "#/components/parameters/BindingId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PromptAiBindingUpdateRequest"
+      responses:
+        "200":
+          description: Updated binding.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptAiBindingItemResponse"
+        default:
+          $ref: "#/components/responses/Problem"
 components:
   securitySchemes:
     AuthToken:
@@ -47,3 +294,117 @@ components:
     AccessToken:
       type: http
       scheme: bearer
+  parameters:
+    PromptId:
+      name: promptId
+      in: path
+      required: true
+      schema: { type: string }
+    VersionId:
+      name: versionId
+      in: path
+      required: true
+      schema: { type: string }
+    BindingId:
+      name: bindingId
+      in: path
+      required: true
+      schema: { type: string }
+  responses:
+    Problem:
+      description: Problem response.
+      content:
+        application/json:
+          schema:
+            type: object
+  schemas:
+    PromptAiListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+    PromptAiItemResponse:
+      type: object
+      properties:
+        item:
+          type: object
+    PromptAiCreateRequest:
+      type: object
+      required: [promptKey, name]
+      properties:
+        promptKey: { type: string }
+        name: { type: string }
+        description: { type: string }
+        categoryId: { type: string }
+        promptType: { type: string }
+        visibility: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+    PromptAiVersionListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+    PromptAiVersionItemResponse:
+      type: object
+      properties:
+        item:
+          type: object
+    PromptAiVersionCreateRequest:
+      type: object
+      required: [versionNo, title, content]
+      properties:
+        versionNo: { type: string }
+        title: { type: string }
+        content: { type: string }
+        variableSchema: { type: object }
+        outputSchema: { type: object }
+        modelConstraints: { type: object }
+        safetyPolicy: { type: object }
+        examplesJson: { type: array }
+    PromptAiRenderRequest:
+      type: object
+      properties:
+        variables: { type: object }
+    PromptAiRenderResponse:
+      type: object
+      properties:
+        rendered: { type: string }
+    PromptAiBindingListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+    PromptAiBindingItemResponse:
+      type: object
+      properties:
+        item:
+          type: object
+    PromptAiBindingCreateRequest:
+      type: object
+      required: [ownerType, ownerId, bindingRole]
+      properties:
+        promptVersionId: { type: string }
+        ownerType: { type: string }
+        ownerId: { type: integer, format: int64 }
+        bindingRole: { type: string }
+        priority: { type: integer }
+        enabled: { type: boolean }
+        policyJson: { type: object }
+    PromptAiBindingUpdateRequest:
+      type: object
+      properties:
+        promptVersionId: {}
+        ownerType: { type: string }
+        ownerId: { type: integer, format: int64 }
+        bindingRole: { type: string }
+        priority: { type: integer }
+        enabled: { type: boolean }
+        policyJson: { type: object }

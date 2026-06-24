@@ -1,9 +1,9 @@
-use sdkwork_intelligence_prm_service::integration::drive::{PromptsDrivePort, LoggingPromptsDrivePort, NoopPromptsDrivePort};
-use sdkwork_intelligence_prm_service::integration::notifications::{
+use sdkwork_intelligence_prompts_service::integration::drive::{PromptsDrivePort, LoggingPromptsDrivePort, NoopPromptsDrivePort};
+use sdkwork_intelligence_prompts_service::integration::notifications::{
     PromptsNotificationPort, HttpPromptsNotificationPort, LoggingPromptsNotificationPort,
     NoopPromptsNotificationPort,
 };
-use sdkwork_intelligence_prm_service::integration::search::{
+use sdkwork_intelligence_prompts_service::integration::search::{
     PromptsSearchPort, HttpPromptsSearchPort, LoggingPromptsSearchPort, NoopPromptsSearchPort,
 };
 

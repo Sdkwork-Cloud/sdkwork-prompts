@@ -5,11 +5,12 @@ import path from "node:path";
 const root = process.cwd();
 const schema = fs.readFileSync(path.join(root, "database/contract/schema.yaml"), "utf8");
 const expectedTables = [
-  "prm_category",
-  "prm_template",
-  "prm_template_version",
-  "prm_template_variable",
-  "prm_usage_event",
+  "ai_prompt_category",
+  "ai_prompt",
+  "ai_prompt_version",
+  "ai_prompt_binding",
+  "ai_agent_prompt_template",
+  "ai_prompt_usage_event",
 ];
 
 for (const table of expectedTables) {

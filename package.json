@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "pnpm --filter sdkwork-prompts-pc run dev",
     "build": "cargo build --workspace --release && pnpm --filter sdkwork-prompts-pc run build",
-    "test": "node tests/static/prompts-contract-boundary.test.mjs && node tests/contract/prompts-contract.test.mjs && node tests/schema/prompts-schema.test.mjs && node tests/contract/database-framework.contract.test.mjs",
+    "test": "node tests/static/prompts-contract-boundary.test.mjs && node tests/contract/prompts-contract.test.mjs && node tests/schema/prompts-ai-schema.test.mjs && node tests/contract/database-framework.contract.test.mjs",
     "check": "pnpm check:architecture-alignment && pnpm db:validate && pnpm api:materialize:check",
     "verify": "pnpm api:materialize && pnpm check && pnpm test",
     "clean": "cargo clean",
@@ -22,7 +22,7 @@
     "api:materialize:check": "node tools/generators/materialize_prompts_openapi.mjs",
     "api:check": "node tools/validators/validate_prompts_contracts.mjs",
     "db:validate": "node ../sdkwork-specs/tools/check-database-framework-standard.mjs --root .",
-    "db:materialize:contract": "node ../sdkwork-specs/tools/materialize-database-contract-from-baseline.mjs --root . --baseline database/ddl/baseline/postgres/0001_prompts_baseline.sql --module-id prompts --owner prompts-platform --prefixes prm_ --engines postgres",
+    "db:materialize:contract": "node ../sdkwork-specs/tools/materialize-database-contract-from-baseline.mjs --root . --baseline database/ddl/baseline/postgres/0001_prompts_ai_baseline.sql --module-id prompts --owner prompts-platform --prefixes ai_ --engines postgres",
     "db:plan": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . plan",
     "db:init": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . init",
     "db:migrate": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . migrate",
@@ -31,6 +31,10 @@
     "db:drift": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . drift",
     "db:drift:check": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . drift-check",
     "db:bootstrap": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . bootstrap",
-    "test:contract:database": "node ../sdkwork-specs/tools/check-database-framework-standard.mjs --root ."
+    "test:contract:database": "node ../sdkwork-specs/tools/check-database-framework-standard.mjs --root .",
+    "topology:validate": "node ../sdkwork-app-topology/scripts/sdkwork-topology.mjs validate --root . --spec specs/topology.spec.json",
+    "topology:plan": "node ../sdkwork-app-topology/scripts/sdkwork-topology.mjs plan --root . --spec specs/topology.spec.json",
+    "gateway:package:cloud": "node ../sdkwork-app-topology/scripts/gateway-cloud-bundle.mjs bundle --root .",
+    "gateway:validate:cloud": "node ../sdkwork-app-topology/scripts/gateway-cloud-bundle.mjs validate --root ."
   }
 }

@@ -74,6 +74,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7f202df86484c868dbad7eaa557ef785d5c66295e41b460ef922eca0723b842c"
 
 [[package]]
+name = "argon2"
+version = "0.5.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3c3610892ee6e0cbce8ae2700349fcf8f98adb0dbfbee85aec3c9179d29cc072"
+dependencies = [
+ "base64ct",
+ "blake2",
+ "cpufeatures",
+ "password-hash",
+]
+
+[[package]]
 name = "async-trait"
 version = "0.1.89"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -247,6 +259,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b4388bee8683e3d04af747c73422af53102d2bd24d9eadb6cbc100baef4b43f8"
 dependencies = [
  "serde_core",
+]
+
+[[package]]
+name = "blake2"
+version = "0.10.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "46502ad458c9a52b69d4d4d32775c788b7a1b85e8bc9d482d92250fc0e3f8efe"
+dependencies = [
+ "digest",
 ]
 
 [[package]]
@@ -1275,6 +1296,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "password-hash"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "346f04948ba92c43e8469c1ee6736c7563d71012b17d40745260fe106aac2166"
+dependencies = [
+ "base64ct",
+ "rand_core 0.6.4",
+ "subtle",
+]
+
+[[package]]
 name = "pem-rfc7468"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1625,6 +1657,7 @@ dependencies = [
  "pkcs1",
  "pkcs8",
  "rand_core 0.6.4",
+ "sha2",
  "signature",
  "spki",
  "subtle",
@@ -1692,45 +1725,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
 
 [[package]]
-name = "sdkwork-communication-forum-repository-sqlx"
+name = "sdkwork-appbase-iam-bootstrap"
 version = "0.1.0"
 dependencies = [
- "anyhow",
  "chrono",
- "digest",
- "dotenvy",
- "md-5",
- "sdkwork-communication-forum-service",
- "sdkwork-database-config",
- "sdkwork-database-sqlx",
- "sdkwork-forum-database-host",
- "sdkwork-id-core",
- "serde",
- "serde_json",
+ "sdkwork-iam-context-service",
+ "sdkwork-iam-module-registry",
  "sqlx",
- "tokio",
- "tracing",
- "uuid",
-]
-
-[[package]]
-name = "sdkwork-communication-forum-service"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "serde",
- "serde_json",
- "thiserror 1.0.69",
- "tracing",
- "ureq",
- "uuid",
-]
-
-[[package]]
-name = "sdkwork-communication-forum-worker"
-version = "0.1.0"
-dependencies = [
- "sdkwork-communication-forum-service",
 ]
 
 [[package]]
@@ -1795,6 +1796,7 @@ dependencies = [
  "sdkwork-database-sqlx",
  "serde",
  "serde_json",
+ "sqlx",
  "thiserror 2.0.18",
  "tokio",
  "tracing",
@@ -1854,74 +1856,42 @@ dependencies = [
 ]
 
 [[package]]
-name = "sdkwork-forum-api-server"
-version = "0.1.0"
-dependencies = [
- "axum 0.7.9",
- "base64",
- "sdkwork-communication-forum-service",
- "sdkwork-database-ops-http",
- "sdkwork-forum-service-host",
- "sdkwork-iam-context-service",
- "sdkwork-iam-web-adapter",
- "sdkwork-router-forum-app-api",
- "sdkwork-router-forum-backend-api",
- "sdkwork-router-forum-open-api",
- "serde",
- "serde_json",
- "tokio",
- "tower 0.4.13",
- "tower-http 0.5.2",
- "tracing",
- "tracing-subscriber",
-]
-
-[[package]]
-name = "sdkwork-forum-database-host"
-version = "0.1.0"
-dependencies = [
- "dotenvy",
- "sdkwork-database-config",
- "sdkwork-database-lifecycle",
- "sdkwork-database-spi",
- "sdkwork-database-sqlx",
-]
-
-[[package]]
-name = "sdkwork-forum-service-host"
-version = "0.1.0"
-dependencies = [
- "dotenvy",
- "sdkwork-communication-forum-repository-sqlx",
- "sdkwork-communication-forum-service",
- "sdkwork-database-config",
- "sdkwork-database-ops",
- "sdkwork-database-spi",
- "sdkwork-database-sqlx",
- "sdkwork-forum-database-host",
- "sqlx",
- "tokio",
- "tracing",
-]
-
-[[package]]
 name = "sdkwork-iam-context-service"
 version = "0.1.0"
+dependencies = [
+ "sdkwork-utils-rust",
+]
+
+[[package]]
+name = "sdkwork-iam-module-registry"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "sdkwork-iam-context-service",
+ "serde",
+ "serde_json",
+ "sha2",
+ "sqlx",
+]
 
 [[package]]
 name = "sdkwork-iam-web-adapter"
 version = "0.1.0"
 dependencies = [
  "aes-gcm",
+ "argon2",
  "async-trait",
  "axum 0.8.9",
  "base64",
  "chrono",
  "hmac",
+ "password-hash",
  "rand_core 0.6.4",
  "reqwest",
+ "sdkwork-appbase-iam-bootstrap",
  "sdkwork-database-sqlx",
  "sdkwork-iam-context-service",
+ "sdkwork-utils-rust",
  "sdkwork-web-axum",
  "sdkwork-web-core",
  "serde",
@@ -1939,21 +1909,167 @@ dependencies = [
 ]
 
 [[package]]
-name = "sdkwork-router-forum-app-api"
+name = "sdkwork-intelligence-prompts-ai-contract"
 version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+]
 
 [[package]]
-name = "sdkwork-router-forum-backend-api"
+name = "sdkwork-intelligence-prompts-ai-repository-sqlx"
 version = "0.1.0"
+dependencies = [
+ "async-trait",
+ "chrono",
+ "sdkwork-id-core",
+ "sdkwork-intelligence-prompts-ai-contract",
+ "serde",
+ "serde_json",
+ "sha2",
+ "sqlx",
+]
 
 [[package]]
-name = "sdkwork-router-forum-open-api"
+name = "sdkwork-intelligence-prompts-repository-sqlx"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "digest",
+ "dotenvy",
+ "md-5",
+ "sdkwork-database-config",
+ "sdkwork-database-sqlx",
+ "sdkwork-id-core",
+ "sdkwork-intelligence-prompts-service",
+ "sdkwork-prompts-database-host",
+ "serde",
+ "serde_json",
+ "sqlx",
+ "tokio",
+ "tracing",
+ "uuid",
+]
+
+[[package]]
+name = "sdkwork-intelligence-prompts-service"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "serde",
+ "serde_json",
+ "thiserror 1.0.69",
+ "tracing",
+ "ureq",
+ "uuid",
+]
+
+[[package]]
+name = "sdkwork-intelligence-prompts-worker"
+version = "0.1.0"
+dependencies = [
+ "sdkwork-intelligence-prompts-service",
+]
+
+[[package]]
+name = "sdkwork-prompts-api-server"
+version = "0.1.0"
+dependencies = [
+ "axum 0.7.9",
+ "base64",
+ "sdkwork-database-ops-http",
+ "sdkwork-iam-context-service",
+ "sdkwork-iam-web-adapter",
+ "sdkwork-intelligence-prompts-ai-contract",
+ "sdkwork-intelligence-prompts-service",
+ "sdkwork-prompts-service-host",
+ "sdkwork-router-prompts-app-api",
+ "sdkwork-router-prompts-backend-api",
+ "sdkwork-router-prompts-open-api",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tower 0.4.13",
+ "tower-http 0.5.2",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
+name = "sdkwork-prompts-database-host"
+version = "0.1.0"
+dependencies = [
+ "dotenvy",
+ "sdkwork-database-config",
+ "sdkwork-database-lifecycle",
+ "sdkwork-database-spi",
+ "sdkwork-database-sqlx",
+ "sdkwork-utils-rust",
+]
+
+[[package]]
+name = "sdkwork-prompts-service-host"
+version = "0.1.0"
+dependencies = [
+ "dotenvy",
+ "sdkwork-database-config",
+ "sdkwork-database-ops",
+ "sdkwork-database-spi",
+ "sdkwork-database-sqlx",
+ "sdkwork-intelligence-prompts-ai-repository-sqlx",
+ "sdkwork-intelligence-prompts-repository-sqlx",
+ "sdkwork-intelligence-prompts-service",
+ "sdkwork-prompts-database-host",
+ "sqlx",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "sdkwork-router-prompts-app-api"
+version = "0.1.0"
+dependencies = [
+ "sdkwork-utils-rust",
+ "sdkwork-web-axum",
+ "sdkwork-web-core",
+]
+
+[[package]]
+name = "sdkwork-router-prompts-backend-api"
+version = "0.1.0"
+dependencies = [
+ "sdkwork-utils-rust",
+ "sdkwork-web-axum",
+ "sdkwork-web-core",
+]
+
+[[package]]
+name = "sdkwork-router-prompts-open-api"
 version = "0.1.0"
 dependencies = [
  "axum 0.8.9",
  "sdkwork-iam-web-adapter",
+ "sdkwork-utils-rust",
  "sdkwork-web-axum",
  "sdkwork-web-core",
+]
+
+[[package]]
+name = "sdkwork-utils-rust"
+version = "0.10.0"
+dependencies = [
+ "base64",
+ "chrono",
+ "hmac",
+ "rand 0.8.6",
+ "regex",
+ "serde_json",
+ "sha2",
+ "urlencoding",
+ "uuid",
 ]
 
 [[package]]
@@ -1986,10 +2102,14 @@ dependencies = [
  "async-trait",
  "axum 0.8.9",
  "getrandom 0.2.17",
+ "hmac",
  "http",
+ "rsa",
  "sdkwork-web-contract",
  "serde",
  "serde_json",
+ "sha2",
+ "tokio",
  "tracing",
 ]
 
@@ -2876,6 +2996,12 @@ dependencies = [
  "percent-encoding",
  "serde",
 ]
+
+[[package]]
+name = "urlencoding"
+version = "2.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "daf8dba3b7eb870caf1ddeed7bc9d2a049f3cfdfae7cb521b087cc33ae4c49da"
 
 [[package]]
 name = "utf8_iter"

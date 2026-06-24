@@ -3,7 +3,7 @@ use axum::{
     routing::{get, patch, post},
     Json, Router,
 };
-use sdkwork_intelligence_prm_service::domain::commands::*;
+use sdkwork_intelligence_prompts_service::domain::commands::*;
 use serde::Deserialize;
 use serde_json::{json, Value};
 

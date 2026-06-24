@@ -1,6 +1,8 @@
 [workspace]
 resolver = "2"
 members = [
+  "crates/sdkwork-intelligence-prompts-ai-contract",
+  "crates/sdkwork-intelligence-prompts-ai-repository-sqlx",
   "crates/sdkwork-intelligence-prompts-service",
   "crates/sdkwork-intelligence-prompts-repository-sqlx",
   "crates/sdkwork-prompts-database-host",
@@ -33,6 +35,9 @@ tracing = "0.1"
 tracing-subscriber = "0.3"
 anyhow = "1"
 thiserror = "1"
+async-trait = "0.1"
+sdkwork-intelligence-prompts-ai-contract = { path = "crates/sdkwork-intelligence-prompts-ai-contract" }
+sdkwork-intelligence-prompts-ai-repository-sqlx = { path = "crates/sdkwork-intelligence-prompts-ai-repository-sqlx" }
 sdkwork-id-core = { path = "../sdkwork-id/crates/sdkwork-id-core" }
 sdkwork-prompts-database-host = { path = "crates/sdkwork-prompts-database-host" }
 sdkwork-database-config = { path = "../sdkwork-database/crates/sdkwork-database-config" }

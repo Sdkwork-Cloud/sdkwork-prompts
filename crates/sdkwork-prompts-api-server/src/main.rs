@@ -8,7 +8,7 @@ mod routes;
 
 use axum::{middleware::from_fn, middleware::from_fn_with_state, routing::get, Router};
 use sdkwork_database_ops_http::{attach_ops_routes, BearerTokenOpsAuth, DatabaseOpsHttpState};
-use sdkwork_prm_service_host::{default_seed_locale, default_seed_profile, PromptsServiceHost};
+use sdkwork_prompts_service_host::{default_seed_locale, default_seed_profile, PromptsServiceHost};
 use std::sync::Arc;
 use tower_http::cors::CorsLayer;
 

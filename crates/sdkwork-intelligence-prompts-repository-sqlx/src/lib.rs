@@ -4,7 +4,7 @@ pub mod bootstrap;
 
 use std::sync::Arc;
 
-use sdkwork_intelligence_prm_service::PromptsServiceError;
+use sdkwork_intelligence_prompts_service::PromptsServiceError;
 use sdkwork_id_core::{IdGenerator, SnowflakeIdGenerator};
 use sqlx::PgPool;
 

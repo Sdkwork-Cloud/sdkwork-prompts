@@ -1,10 +1,10 @@
 use super::SqlxPromptsRepository;
-use sdkwork_intelligence_prm_service::domain::commands::*;
-use sdkwork_intelligence_prm_service::domain::models::*;
-use sdkwork_intelligence_prm_service::domain::results::*;
-use sdkwork_intelligence_prm_service::ports::repository::PromptsRepository;
-use sdkwork_intelligence_prm_service::value_objects::PromptsRequestContext;
-use sdkwork_intelligence_prm_service::PromptsServiceError;
+use sdkwork_intelligence_prompts_service::domain::commands::*;
+use sdkwork_intelligence_prompts_service::domain::models::*;
+use sdkwork_intelligence_prompts_service::domain::results::*;
+use sdkwork_intelligence_prompts_service::ports::repository::PromptsRepository;
+use sdkwork_intelligence_prompts_service::value_objects::PromptsRequestContext;
+use sdkwork_intelligence_prompts_service::PromptsServiceError;
 use sqlx::Row;
 use uuid::Uuid;
 use md5::{Md5, Digest};

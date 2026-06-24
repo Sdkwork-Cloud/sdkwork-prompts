@@ -1,9 +1,9 @@
-use sdkwork_intelligence_prm_service::PromptsService;
-use sdkwork_intelligence_prm_service::domain::commands::{
+use sdkwork_intelligence_prompts_service::PromptsService;
+use sdkwork_intelligence_prompts_service::domain::commands::{
     FanoutNotificationsCommand, ListModerationQueueCommand, PublishOutboxCommand,
     RebuildSearchProjectionCommand, RebuildStatsCommand,
 };
-use sdkwork_intelligence_prm_service::ports::repository::PromptsRepository;
+use sdkwork_intelligence_prompts_service::ports::repository::PromptsRepository;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PromptsWorkerJob {
@@ -26,7 +26,7 @@ impl<R: PromptsRepository> PromptsWorker<R> {
     pub fn run_job(
         &self,
         job: PromptsWorkerJob,
-        ctx: &sdkwork_intelligence_prm_service::value_objects::PromptsRequestContext,
+        ctx: &sdkwork_intelligence_prompts_service::value_objects::PromptsRequestContext,
     ) -> Result<(), String> {
         match job {
             PromptsWorkerJob::PublishOutbox => self.publish_outbox(ctx),
@@ -39,7 +39,7 @@ impl<R: PromptsRepository> PromptsWorker<R> {
 
     fn publish_outbox(
         &self,
-        ctx: &sdkwork_intelligence_prm_service::value_objects::PromptsRequestContext,
+        ctx: &sdkwork_intelligence_prompts_service::value_objects::PromptsRequestContext,
     ) -> Result<(), String> {
         self.service
             .publish_pending_outbox(ctx, PublishOutboxCommand { limit: 100 })
@@ -49,7 +49,7 @@ impl<R: PromptsRepository> PromptsWorker<R> {
 
     fn rebuild_search_projection(
         &self,
-        ctx: &sdkwork_intelligence_prm_service::value_objects::PromptsRequestContext,
+        ctx: &sdkwork_intelligence_prompts_service::value_objects::PromptsRequestContext,
     ) -> Result<(), String> {
         self.service
             .rebuild_search_projection(
@@ -65,7 +65,7 @@ impl<R: PromptsRepository> PromptsWorker<R> {
 
     fn rebuild_stats(
         &self,
-        ctx: &sdkwork_intelligence_prm_service::value_objects::PromptsRequestContext,
+        ctx: &sdkwork_intelligence_prompts_service::value_objects::PromptsRequestContext,
     ) -> Result<(), String> {
         self.service
             .rebuild_stats(
@@ -80,7 +80,7 @@ impl<R: PromptsRepository> PromptsWorker<R> {
 
     fn evaluate_moderation_policy(
         &self,
-        ctx: &sdkwork_intelligence_prm_service::value_objects::PromptsRequestContext,
+        ctx: &sdkwork_intelligence_prompts_service::value_objects::PromptsRequestContext,
     ) -> Result<(), String> {
         self.service
             .list_moderation_queue(
@@ -98,7 +98,7 @@ impl<R: PromptsRepository> PromptsWorker<R> {
 
     fn fanout_notifications(
         &self,
-        ctx: &sdkwork_intelligence_prm_service::value_objects::PromptsRequestContext,
+        ctx: &sdkwork_intelligence_prompts_service::value_objects::PromptsRequestContext,
     ) -> Result<(), String> {
         self.service
             .fanout_notifications(ctx, FanoutNotificationsCommand { limit: 100 })

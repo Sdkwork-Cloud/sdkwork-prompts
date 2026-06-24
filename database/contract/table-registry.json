@@ -3,31 +3,37 @@
   "kind": "sdkwork.database.table-registry",
   "tables": [
     {
-      "table_name": "prm_category",
+      "table_name": "ai_prompt_category",
       "owner": "prompts-platform",
       "compliance_level": "L2",
       "lifecycle_status": "active"
     },
     {
-      "table_name": "prm_template",
+      "table_name": "ai_prompt",
       "owner": "prompts-platform",
       "compliance_level": "L2",
       "lifecycle_status": "active"
     },
     {
-      "table_name": "prm_template_version",
+      "table_name": "ai_prompt_version",
       "owner": "prompts-platform",
       "compliance_level": "L2",
       "lifecycle_status": "active"
     },
     {
-      "table_name": "prm_template_variable",
+      "table_name": "ai_prompt_binding",
       "owner": "prompts-platform",
       "compliance_level": "L2",
       "lifecycle_status": "active"
     },
     {
-      "table_name": "prm_usage_event",
+      "table_name": "ai_agent_prompt_template",
+      "owner": "prompts-platform",
+      "compliance_level": "L2",
+      "lifecycle_status": "active"
+    },
+    {
+      "table_name": "ai_prompt_usage_event",
       "owner": "prompts-platform",
       "compliance_level": "L2",
       "lifecycle_status": "active"
