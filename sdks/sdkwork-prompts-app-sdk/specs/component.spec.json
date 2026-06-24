@@ -23,7 +23,7 @@
   ],
   "contracts": {
     "sdkDependencies": [
-      { "workspace": "sdkwork-appbase-app-sdk", "role": "appbase-app-capability", "required": true, "dependencyMode": "consumer-sdk", "apiPrefix": "/app/v3/api", "apiAuthority": "sdkwork-appbase-app-api", "generatedTransportImportPolicy": "forbidden", "packageByLanguage": { "typescript": "@sdkwork/appbase-app-sdk", "rust": "sdkwork-appbase-app-sdk" } },
+      { "workspace": "sdkwork-iam-app-sdk", "role": "appbase-app-capability", "required": true, "dependencyMode": "consumer-sdk", "apiPrefix": "/app/v3/api", "apiAuthority": "sdkwork-iam-app-api", "generatedTransportImportPolicy": "forbidden", "packageByLanguage": { "typescript": "@sdkwork/iam-app-sdk", "rust": "sdkwork-iam-app-sdk" } },
       { "workspace": "../sdkwork-drive/sdks/sdkwork-drive-app-sdk", "role": "drive-app-capability", "required": true, "dependencyMode": "consumer-sdk", "apiPrefix": "/app/v3/api", "apiAuthority": "sdkwork-drive.app", "generatedTransportImportPolicy": "forbidden", "packageByLanguage": { "typescript": "@sdkwork-internal/drive-app-sdk-generated", "rust": "sdkwork-drive-app-sdk-generated" } },
       { "workspace": "../sdkwork-search/sdks/sdkwork-search-app-sdk", "role": "search-app-capability", "required": true, "dependencyMode": "consumer-sdk", "apiPrefix": "/app/v3/api", "apiAuthority": "sdkwork-search-app-api", "generatedTransportImportPolicy": "forbidden", "packageByLanguage": { "typescript": "@sdkwork/search-app-sdk" } },
       { "workspace": "../sdkwork-messaging/sdks/sdkwork-messaging-app-sdk", "role": "messaging-app-capability", "required": true, "dependencyMode": "consumer-sdk", "apiPrefix": "/app/v3/api", "apiAuthority": "sdkwork-messaging-app-api", "generatedTransportImportPolicy": "forbidden", "packageByLanguage": { "typescript": "@sdkwork/messaging-app-sdk" } }
@@ -31,6 +31,6 @@
     "dependencyApiExports": []
   },
   "verification": {
-    "commands": ["node tests/sdk/forum-sdk.test.mjs"]
+    "commands": ["node tests/sdk/prompts-sdk.test.mjs"]
   }
 }

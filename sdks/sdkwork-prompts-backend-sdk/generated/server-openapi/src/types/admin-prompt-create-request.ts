@@ -1,4 +1,4 @@
-/** Admin prompt create request schema exposed by Claw Router. */
+/** Admin prompt create request schema exposed by SDKWork Prompts Backend API. */
 export interface AdminPromptCreateRequest {
   /** Category id field on admin prompt create request. */
   categoryId?: string;

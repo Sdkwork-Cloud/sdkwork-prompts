@@ -13,16 +13,16 @@
   "sdkFamily": "sdkwork-prompts-backend-sdk",
   "sdkDependencies": [
     {
-      "workspace": "sdkwork-appbase-backend-sdk",
+      "workspace": "sdkwork-iam-backend-sdk",
       "role": "appbase-backend-capability",
       "required": true,
       "dependencyMode": "consumer-sdk",
       "apiPrefix": "/backend/v3/api",
-      "apiAuthority": "sdkwork-appbase-backend-api",
+      "apiAuthority": "sdkwork-iam-backend-api",
       "generatedTransportImportPolicy": "forbidden",
       "packageByLanguage": {
-        "typescript": "@sdkwork/appbase-backend-sdk",
-        "rust": "sdkwork-appbase-backend-sdk"
+        "typescript": "@sdkwork/iam-backend-sdk",
+        "rust": "sdkwork-iam-backend-sdk"
       }
     },
     {
@@ -79,7 +79,7 @@
       "releaseState": "not_published",
       "packagePath": "generated/server-openapi",
       "manifestPath": "generated/server-openapi/package.json",
-      "name": "@sdkwork/forum-backend-sdk",
+      "name": "@sdkwork/prompts-backend-sdk",
       "version": "0.1.0",
       "generatedPath": "generated/server-openapi"
     },
@@ -96,7 +96,7 @@
     }
   ],
   "metadata": {
-    "managedBy": "tools/generators/materialize_prm_openapi.mjs",
+    "managedBy": "tools/generators/materialize_prompts_openapi.mjs",
     "standardVersion": "2026-06-12"
   }
 }

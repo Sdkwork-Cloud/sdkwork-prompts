@@ -26,6 +26,6 @@
     "dependencyApiExports": []
   },
   "verification": {
-    "commands": ["node tests/sdk/forum-sdk.test.mjs"]
+    "commands": ["node tests/sdk/prompts-sdk.test.mjs"]
   }
 }

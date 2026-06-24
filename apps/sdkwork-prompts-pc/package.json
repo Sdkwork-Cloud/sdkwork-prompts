@@ -11,7 +11,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@sdkwork/utils": "workspace:*",
+    "@sdkwork/prompts-pc-workspace": "workspace:*",
+    "@sdkwork/utils": "file:../../../sdkwork-utils/packages/sdkwork-utils-typescript",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.0.0"

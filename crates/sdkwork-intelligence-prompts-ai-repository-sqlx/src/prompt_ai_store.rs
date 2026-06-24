@@ -6,7 +6,7 @@ use sdkwork_intelligence_prompts_ai_contract::{
         CreatePromptBindingCommand, CreatePromptCommand, CreatePromptVersionCommand,
         ListPromptBindingsQuery, ListPromptsQuery, ListPromptVersionsQuery, PromptAiBindingItem,
         PromptAiItem, PromptAiSubject, PromptAiVersionItem, PublishPromptVersionCommand,
-        RenderPromptVersionCommand, UpdatePromptBindingCommand,
+        RenderPromptVersionCommand, UpdatePromptBindingCommand, UpdatePromptCommand,
     },
     domain::{AgentPromptTemplateRecord, PromptBindingRecord, PromptRecord, PromptVersionRecord},
     ports::{AgentPromptTemplateListQuery, PromptAiRepository},
@@ -72,6 +72,53 @@ async fn list_prompts(
     .map_err(store_error)?;
 
     rows.iter().map(row_to_prompt).collect()
+}
+
+async fn update_prompt(
+    pool: &PgPool,
+    command: UpdatePromptCommand,
+) -> PromptAiResult<PromptAiItem> {
+    let current = load_prompt_optional(pool, command.subject, command.prompt_id)
+        .await?
+        .ok_or_else(|| PromptAiError::not_found("prompt was not found"))?;
+    let name = command.name.unwrap_or(current.name);
+    let description = command.description.or(current.description);
+    let tags = command.tags.unwrap_or(current.tags);
+    let status = match command.status.as_deref() {
+        Some(value) => app_template_status_code(Some(value))?.unwrap_or(1),
+        None => status_code(Some(current.status.as_str()))?.unwrap_or(1),
+    };
+    let tags_json = json_text(&serde_json::Value::Array(
+        tags.iter()
+            .cloned()
+            .map(serde_json::Value::String)
+            .collect(),
+    ));
+    sqlx::query(
+        r#"
+        UPDATE ai_prompt
+        SET name = $1,
+            description = $2,
+            tags = $3::jsonb,
+            status = $4,
+            updated_at = now()
+        WHERE tenant_id = $5
+          AND organization_id = $6
+          AND id = $7
+          AND deleted_at IS NULL
+        "#,
+    )
+    .bind(&name)
+    .bind(&description)
+    .bind(tags_json)
+    .bind(status)
+    .bind(command.subject.tenant_id)
+    .bind(command.subject.organization_id)
+    .bind(command.prompt_id)
+    .execute(pool)
+    .await
+    .map_err(|error| write_error("failed to update prompt", error))?;
+    load_prompt(pool, command.subject, command.prompt_id).await
 }
 
 async fn create_prompt(
@@ -755,12 +802,17 @@ fn category_filter(value: Option<&str>) -> PromptAiResult<(Option<i64>, Option<S
 fn status_code(status: Option<&str>) -> PromptAiResult<Option<i32>> {
     match status {
         None => Ok(None),
-        Some("enabled" | "active") => Ok(Some(1)),
-        Some("disabled" | "inactive") => Ok(Some(0)),
-        Some(value) => Err(PromptAiError::conflict(format!(
+        Some("enabled") | Some("active") => Ok(Some(1)),
+        Some("disabled") | Some("archived") | Some("draft") => Ok(Some(0)),
+        Some(value) if value.parse::<i32>().is_ok() => Ok(value.parse().ok()),
+        Some(value) => Err(PromptAiError::validation(format!(
             "unsupported prompt status: {value}"
         ))),
     }
+}
+
+fn app_template_status_code(status: Option<&str>) -> PromptAiResult<Option<i32>> {
+    status_code(status)
 }
 
 fn checksum_hash(parts: &[&str]) -> String {
@@ -935,6 +987,10 @@ impl PromptAiRepository for SqlxPromptAiRepository {
 
     async fn create_prompt(&self, command: CreatePromptCommand) -> PromptAiResult<PromptAiItem> {
         create_prompt(&self.pool, command).await
+    }
+
+    async fn update_prompt(&self, command: UpdatePromptCommand) -> PromptAiResult<PromptAiItem> {
+        update_prompt(&self.pool, command).await
     }
 
     async fn list_versions(

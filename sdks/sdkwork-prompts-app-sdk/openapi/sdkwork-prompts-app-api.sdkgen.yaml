@@ -3,7 +3,7 @@ kind: sdkwork.sdkgen.config
 input: sdkwork-prompts-app-api.openapi.yaml
 output: ../generated/server-openapi
 sdkOwner: sdkwork-prompts
-apiAuthority: sdkwork-intelligence-prompts-app-api
+apiAuthority: sdkwork-prompts-app-api
 sdkFamily: sdkwork-prompts-app-sdk
 standardProfile: sdkwork-v3
 languageTargets:
@@ -11,6 +11,6 @@ languageTargets:
   - rust
 ownerOnly: true
 domain: intelligence
-capability: forum
+capability: prompts
 prefix: /app/v3/api
 surface: app-api

@@ -137,16 +137,16 @@
     ],
     "sdkDependencies": [
       {
-        "workspace": "sdkwork-appbase-app-sdk",
+        "workspace": "sdkwork-iam-app-sdk",
         "role": "appbase-app-capability",
         "required": true,
         "dependencyMode": "consumer-sdk",
         "apiPrefix": "/app/v3/api",
-        "apiAuthority": "sdkwork-appbase-app-api",
+        "apiAuthority": "sdkwork-iam-app-api",
         "generatedTransportImportPolicy": "forbidden",
         "packageByLanguage": {
-          "typescript": "@sdkwork/appbase-app-sdk",
-          "rust": "sdkwork-appbase-app-sdk"
+          "typescript": "@sdkwork/iam-app-sdk",
+          "rust": "sdkwork-iam-app-sdk"
         }
       }
     ],
@@ -154,8 +154,8 @@
     "dependencyApiSurfaces": [
       {
         "workspace": "sdkwork-appbase",
-        "sdkFamily": "sdkwork-appbase-app-sdk",
-        "apiAuthority": "sdkwork-appbase-app-api",
+        "sdkFamily": "sdkwork-iam-app-sdk",
+        "apiAuthority": "sdkwork-iam-app-api",
         "surface": "app-api",
         "apiPrefix": "/app/v3/api",
         "runtimeMode": "dependency-sdk"

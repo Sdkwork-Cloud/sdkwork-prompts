@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "pnpm --filter sdkwork-prompts-pc run dev",
     "build": "cargo build --workspace --release && pnpm --filter sdkwork-prompts-pc run build",
-    "test": "node tests/static/prompts-contract-boundary.test.mjs && node tests/contract/prompts-contract.test.mjs && node tests/schema/prompts-ai-schema.test.mjs && node tests/contract/database-framework.contract.test.mjs",
+    "test": "node tests/static/prompts-contract-boundary.test.mjs && node tests/static/no-clawrouter-runtime-dependency.test.mjs && node tests/static/prompts-iam-path-alignment.test.mjs && node tests/sdk/prompts-sdk.test.mjs && node tests/contract/prompts-contract.test.mjs && node tests/schema/prompts-ai-schema.test.mjs && node tests/contract/database-framework.contract.test.mjs",
     "check": "pnpm check:architecture-alignment && pnpm db:validate && pnpm api:materialize:check",
     "verify": "pnpm api:materialize && pnpm check && pnpm test",
     "clean": "cargo clean",

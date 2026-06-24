@@ -28,7 +28,7 @@
       "releaseState": "not_published",
       "packagePath": "generated/server-openapi",
       "manifestPath": "generated/server-openapi/package.json",
-      "name": "@sdkwork/forum-sdk",
+      "name": "@sdkwork/prompts-sdk",
       "version": "0.1.0",
       "generatedPath": "generated/server-openapi"
     },
@@ -45,7 +45,7 @@
     }
   ],
   "metadata": {
-    "managedBy": "tools/generators/materialize_prm_openapi.mjs",
+    "managedBy": "tools/generators/materialize_prompts_openapi.mjs",
     "standardVersion": "2026-06-12"
   }
 }

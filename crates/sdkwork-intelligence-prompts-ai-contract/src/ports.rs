@@ -4,7 +4,7 @@ use crate::commands::{
     CreatePromptBindingCommand, CreatePromptCommand, CreatePromptVersionCommand,
     ListPromptBindingsQuery, ListPromptsQuery, ListPromptVersionsQuery, PromptAiBindingItem,
     PromptAiItem, PromptAiVersionItem, PublishPromptVersionCommand, RenderPromptVersionCommand,
-    UpdatePromptBindingCommand,
+    UpdatePromptBindingCommand, UpdatePromptCommand,
 };
 use crate::domain::{AgentPromptTemplateRecord, PromptBindingRecord, PromptRecord, PromptVersionRecord};
 use crate::error::{PromptAiError, PromptAiResult};
@@ -33,6 +33,8 @@ pub trait PromptAiRepository: Send + Sync {
     async fn list_prompts(&self, query: ListPromptsQuery) -> PromptAiResult<Vec<PromptAiItem>>;
 
     async fn create_prompt(&self, command: CreatePromptCommand) -> PromptAiResult<PromptAiItem>;
+
+    async fn update_prompt(&self, command: UpdatePromptCommand) -> PromptAiResult<PromptAiItem>;
 
     async fn list_versions(
         &self,

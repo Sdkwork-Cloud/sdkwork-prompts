@@ -1,4 +1,4 @@
-/** Definitions create result schema exposed by Claw Router. */
+/** Definitions create result schema exposed by SDKWork Prompts Backend API. */
 export interface DefinitionsCreateResult {
   /** Business response code. */
   code: string;

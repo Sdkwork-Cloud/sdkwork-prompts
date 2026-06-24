@@ -8,7 +8,21 @@
     "strict": true,
     "skipLibCheck": true,
     "noEmit": true,
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    "paths": {
+      "@sdkwork/prompts-backend-sdk": [
+        "../../sdks/sdkwork-prompts-backend-sdk/generated/server-openapi/src/index.ts"
+      ],
+      "@sdkwork/prompts-pc-commons/runtime": [
+        "./packages/sdkwork-prompts-pc-commons/src/runtime.ts"
+      ],
+      "@sdkwork/prompts-pc-admin-prompts": [
+        "./packages/sdkwork-prompts-pc-admin-prompts/src/promptService.ts"
+      ],
+      "@sdkwork/prompts-pc-workspace": [
+        "./packages/sdkwork-prompts-pc-workspace/src/PromptWorkspacePage.tsx"
+      ]
+    }
   },
   "include": ["src", "packages"]
 }

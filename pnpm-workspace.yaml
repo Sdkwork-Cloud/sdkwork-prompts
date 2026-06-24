@@ -2,3 +2,4 @@ packages:
   - "apps/sdkwork-prompts-pc"
   - "apps/sdkwork-prompts-pc/packages/*"
   - "sdks/*"
+  - "sdks/sdkwork-prompts-backend-sdk/generated/server-openapi"

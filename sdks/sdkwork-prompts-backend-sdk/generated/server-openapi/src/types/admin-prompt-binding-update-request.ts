@@ -1,4 +1,4 @@
-/** Admin prompt binding update request schema exposed by Claw Router. */
+/** Admin prompt binding update request schema exposed by SDKWork Prompts Backend API. */
 export interface AdminPromptBindingUpdateRequest {
   /** Binding role field on admin prompt binding update request. */
   bindingRole?: string;

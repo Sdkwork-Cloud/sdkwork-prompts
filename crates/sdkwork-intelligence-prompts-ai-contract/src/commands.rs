@@ -166,3 +166,13 @@ pub struct UpdatePromptBindingCommand {
     pub enabled: Option<bool>,
     pub policy_json: Option<Value>,
 }
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct UpdatePromptCommand {
+    pub subject: PromptAiSubject,
+    pub prompt_id: i64,
+    pub name: Option<String>,
+    pub description: Option<String>,
+    pub tags: Option<Vec<String>>,
+    pub status: Option<String>,
+}

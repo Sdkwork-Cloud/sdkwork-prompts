@@ -1,4 +1,4 @@
-/** Definition bindings create result schema exposed by Claw Router. */
+/** Definition bindings create result schema exposed by SDKWork Prompts Backend API. */
 export interface DefinitionBindingsCreateResult {
   /** Business response code. */
   code: string;

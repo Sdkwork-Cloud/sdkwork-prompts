@@ -57,6 +57,32 @@ assert(packageJson.scripts?.["check:architecture-alignment"], "check:architectur
 assert(packageJson.scripts?.["db:validate"], "db:validate required");
 assert(packageJson.scripts?.["api:materialize"], "api:materialize required");
 
+function dependencyValues(pkg) {
+  const values = [];
+  for (const section of ["dependencies", "devDependencies", "optionalDependencies", "pnpm"]) {
+    const block = pkg[section];
+    if (!block || typeof block !== "object") {
+      continue;
+    }
+    for (const value of Object.values(block)) {
+      if (typeof value === "string") {
+        values.push(value);
+      }
+    }
+  }
+  return values;
+}
+
+const forbiddenRuntimeRefs = ["clawrouter", "claw-router", "sdkwork-claw-router"];
+for (const value of dependencyValues(packageJson)) {
+  for (const token of forbiddenRuntimeRefs) {
+    assert(
+      !value.toLowerCase().includes(token),
+      `package.json must not declare a runtime dependency on ${token}`,
+    );
+  }
+}
+
 const cargoToml = readText("Cargo.toml");
 for (const dep of [
   "sdkwork-web-core",
@@ -86,6 +112,31 @@ for (const table of [
   "ai_agent_prompt_template",
 ]) {
   assert(aiSchema.includes(table), `prompts-ai-database.schema.yaml must declare ${table}`);
+}
+
+const pcPackageJson = readJson("apps/sdkwork-prompts-pc/package.json");
+for (const value of dependencyValues(pcPackageJson)) {
+  for (const token of forbiddenRuntimeRefs) {
+    assert(
+      !value.toLowerCase().includes(token),
+      `apps/sdkwork-prompts-pc/package.json must not declare a runtime dependency on ${token}`,
+    );
+  }
+}
+
+if (fs.existsSync(path.join(repoRoot, "tools/generators"))) {
+  for (const entry of fs.readdirSync(path.join(repoRoot, "tools/generators"))) {
+    if (!entry.endsWith(".mjs")) {
+      continue;
+    }
+    const generator = readText(path.join("tools/generators", entry));
+    for (const token of forbiddenRuntimeRefs) {
+      assert(
+        !generator.toLowerCase().includes(token),
+        `tools/generators/${entry} must not reference ${token}`,
+      );
+    }
+  }
 }
 
 if (failures.length) {

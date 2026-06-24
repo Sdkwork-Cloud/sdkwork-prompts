@@ -51,7 +51,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PromptAiListResponse"
+                $ref: "#/components/schemas/DefinitionsListResult"
         default:
           $ref: "#/components/responses/Problem"
     post:
@@ -73,14 +73,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PromptAiCreateRequest"
+              $ref: "#/components/schemas/AdminPromptCreateRequest"
       responses:
         "201":
           description: Created prompt.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PromptAiItemResponse"
+                $ref: "#/components/schemas/DefinitionsCreateResult"
         default:
           $ref: "#/components/responses/Problem"
   /prompts/{promptId}/versions:
@@ -106,7 +106,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PromptAiVersionListResponse"
+                $ref: "#/components/schemas/VersionsListResult"
         default:
           $ref: "#/components/responses/Problem"
     post:
@@ -130,14 +130,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PromptAiVersionCreateRequest"
+              $ref: "#/components/schemas/AdminPromptVersionCreateRequest"
       responses:
         "201":
           description: Created version.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PromptAiVersionItemResponse"
+                $ref: "#/components/schemas/VersionsCreateResult"
         default:
           $ref: "#/components/responses/Problem"
   /prompts/versions/{versionId}/publish:
@@ -163,7 +163,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PromptAiVersionItemResponse"
+                $ref: "#/components/schemas/VersionsPublishResult"
         default:
           $ref: "#/components/responses/Problem"
   /prompts/versions/{versionId}/render:
@@ -187,14 +187,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PromptAiRenderRequest"
+              $ref: "#/components/schemas/AdminPromptRenderRequest"
       responses:
         "200":
           description: Rendered prompt text.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PromptAiRenderResponse"
+                $ref: "#/components/schemas/VersionRendersCreateResult"
         default:
           $ref: "#/components/responses/Problem"
   /prompts/{promptId}/bindings:
@@ -220,7 +220,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PromptAiBindingListResponse"
+                $ref: "#/components/schemas/DefinitionBindingsListResult"
         default:
           $ref: "#/components/responses/Problem"
     post:
@@ -244,14 +244,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PromptAiBindingCreateRequest"
+              $ref: "#/components/schemas/AdminPromptBindingCreateRequest"
       responses:
         "201":
           description: Created binding.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PromptAiBindingItemResponse"
+                $ref: "#/components/schemas/DefinitionBindingsCreateResult"
         default:
           $ref: "#/components/responses/Problem"
   /prompts/bindings/{bindingId}:
@@ -276,14 +276,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PromptAiBindingUpdateRequest"
+              $ref: "#/components/schemas/AdminPromptBindingUpdateRequest"
       responses:
         "200":
           description: Updated binding.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PromptAiBindingItemResponse"
+                $ref: "#/components/schemas/DefinitionBindingsUpdateResult"
         default:
           $ref: "#/components/responses/Problem"
 components:
@@ -318,19 +318,176 @@ components:
           schema:
             type: object
   schemas:
-    PromptAiListResponse:
+    PlusApiEnvelope:
       type: object
+      required: [code]
       properties:
-        items:
+        code: { type: string }
+        msg: { type: string }
+    AdminPromptItem:
+      type: object
+      required: [id, uuid, tenantId, organizationId, promptKey, name, promptType, visibility, status, tags, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        uuid: { type: string }
+        tenantId: { type: string }
+        organizationId: { type: string }
+        promptKey: { type: string }
+        name: { type: string }
+        description: { type: string, nullable: true }
+        categoryId: { type: string, nullable: true }
+        categoryCode: { type: string, nullable: true }
+        promptType: { type: string }
+        visibility: { type: string }
+        status: { type: string }
+        tags:
           type: array
-          items:
-            type: object
-    PromptAiItemResponse:
+          items: { type: string }
+        ownerUserId: { type: string, nullable: true }
+        latestVersionId: { type: string, nullable: true }
+        publishedVersionId: { type: string, nullable: true }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    AdminPromptVersionItem:
       type: object
+      required: [id, uuid, tenantId, organizationId, promptId, versionNo, title, content, lifecycleStatus, reviewStatus, createdAt, updatedAt]
       properties:
-        item:
-          type: object
-    PromptAiCreateRequest:
+        id: { type: string }
+        uuid: { type: string }
+        tenantId: { type: string }
+        organizationId: { type: string }
+        promptId: { type: string }
+        versionNo: { type: string }
+        title: { type: string }
+        content: { type: string }
+        lifecycleStatus: { type: string }
+        reviewStatus: { type: string }
+        checksumHash: { type: string }
+        variableSchema: { type: object }
+        outputSchema: { type: object }
+        modelConstraints: { type: object }
+        safetyPolicy: { type: object }
+        examplesJson: { type: array, items: { type: object } }
+        createdBy: { type: string }
+        publishedAt: { type: string, format: date-time, nullable: true }
+        reviewComment: { type: string, nullable: true }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    AdminPromptBindingItem:
+      type: object
+      required: [id, uuid, tenantId, organizationId, promptId, ownerType, ownerId, bindingRole, priority, enabled, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        uuid: { type: string }
+        tenantId: { type: string }
+        organizationId: { type: string }
+        promptId: { type: string }
+        promptVersionId: { type: string, nullable: true }
+        ownerType: { type: string }
+        ownerId: { type: string }
+        bindingRole: { type: string }
+        priority: { type: integer }
+        enabled: { type: boolean }
+        policyJson: { type: object }
+        snapshotJson: { type: object }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    DefinitionsListResult:
+      allOf:
+        - $ref: "#/components/schemas/PlusApiEnvelope"
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/AdminPromptItem"
+    DefinitionsCreateResult:
+      allOf:
+        - $ref: "#/components/schemas/PlusApiEnvelope"
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                item:
+                  $ref: "#/components/schemas/AdminPromptItem"
+    VersionsListResult:
+      allOf:
+        - $ref: "#/components/schemas/PlusApiEnvelope"
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/AdminPromptVersionItem"
+    VersionsCreateResult:
+      allOf:
+        - $ref: "#/components/schemas/PlusApiEnvelope"
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                item:
+                  $ref: "#/components/schemas/AdminPromptVersionItem"
+    VersionsPublishResult:
+      allOf:
+        - $ref: "#/components/schemas/PlusApiEnvelope"
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                item:
+                  $ref: "#/components/schemas/AdminPromptVersionItem"
+    VersionRendersCreateResult:
+      allOf:
+        - $ref: "#/components/schemas/PlusApiEnvelope"
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                rendered: { type: string }
+    DefinitionBindingsListResult:
+      allOf:
+        - $ref: "#/components/schemas/PlusApiEnvelope"
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/AdminPromptBindingItem"
+    DefinitionBindingsCreateResult:
+      allOf:
+        - $ref: "#/components/schemas/PlusApiEnvelope"
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                item:
+                  $ref: "#/components/schemas/AdminPromptBindingItem"
+    DefinitionBindingsUpdateResult:
+      allOf:
+        - $ref: "#/components/schemas/PlusApiEnvelope"
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                item:
+                  $ref: "#/components/schemas/AdminPromptBindingItem"
+    AdminPromptCreateRequest:
       type: object
       required: [promptKey, name]
       properties:
@@ -343,19 +500,7 @@ components:
         tags:
           type: array
           items: { type: string }
-    PromptAiVersionListResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            type: object
-    PromptAiVersionItemResponse:
-      type: object
-      properties:
-        item:
-          type: object
-    PromptAiVersionCreateRequest:
+    AdminPromptVersionCreateRequest:
       type: object
       required: [versionNo, title, content]
       properties:
@@ -367,27 +512,11 @@ components:
         modelConstraints: { type: object }
         safetyPolicy: { type: object }
         examplesJson: { type: array }
-    PromptAiRenderRequest:
+    AdminPromptRenderRequest:
       type: object
       properties:
         variables: { type: object }
-    PromptAiRenderResponse:
-      type: object
-      properties:
-        rendered: { type: string }
-    PromptAiBindingListResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            type: object
-    PromptAiBindingItemResponse:
-      type: object
-      properties:
-        item:
-          type: object
-    PromptAiBindingCreateRequest:
+    AdminPromptBindingCreateRequest:
       type: object
       required: [ownerType, ownerId, bindingRole]
       properties:
@@ -398,7 +527,7 @@ components:
         priority: { type: integer }
         enabled: { type: boolean }
         policyJson: { type: object }
-    PromptAiBindingUpdateRequest:
+    AdminPromptBindingUpdateRequest:
       type: object
       properties:
         promptVersionId: {}

@@ -10,10 +10,15 @@
     "domain": "intelligence",
     "capability": "prompts",
     "surface": "app",
-    "languages": ["typescript"],
+    "languages": [
+      "typescript"
+    ],
     "generated": false,
     "private": false,
-    "manifests": ["package.json", "sdkwork.app.config.json"]
+    "manifests": [
+      "package.json",
+      "sdkwork.app.config.json"
+    ]
   },
   "canonicalSpecs": [
     {
@@ -63,12 +68,21 @@
     }
   ],
   "contracts": {
-    "publicExports": ["packages/sdkwork-prompts-pc-core", "packages/sdkwork-prompts-pc-discussion"],
-    "sdkClients": ["sdks/sdkwork-prompts-app-sdk", "sdks/sdkwork-prompts-backend-sdk"],
+    "publicExports": [
+      "packages/sdkwork-prompts-pc-core",
+      "packages/sdkwork-prompts-pc-discussion"
+    ],
+    "sdkClients": [
+      "sdks/sdkwork-prompts-app-sdk",
+      "sdks/sdkwork-prompts-backend-sdk"
+    ],
     "sdkDependencies": [],
-    "dependencyApiExports": []
+    "dependencyApiExports": [],
+    "dependencyComposition": "specs/dependency.composition.json"
   },
   "verification": {
-    "commands": ["cd apps/sdkwork-prompts-pc && npx tsc --noEmit"]
+    "commands": [
+      "cd apps/sdkwork-prompts-pc && npx tsc --noEmit"
+    ]
   }
 }

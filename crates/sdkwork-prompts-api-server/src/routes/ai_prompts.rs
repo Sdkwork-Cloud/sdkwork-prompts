@@ -16,7 +16,7 @@ use serde::Deserialize;
 use serde_json::{json, Value};
 
 use crate::context::PromptsCtx;
-use crate::dto::ApiResponse;
+use crate::dto::PlusApiResult;
 use crate::AppState;
 
 const DEFAULT_PAGE_NO: i64 = 1;
@@ -129,7 +129,7 @@ async fn list_prompts(
     State(state): State<AppState>,
     PromptsCtx(ctx): PromptsCtx,
     Query(request): Query<ListPromptsRequest>,
-) -> Result<Json<ApiResponse<Value>>, StatusCode> {
+) -> Result<Json<PlusApiResult<Value>>, StatusCode> {
     let page_no = request.page.unwrap_or(DEFAULT_PAGE_NO).max(1);
     let page_size = request
         .page_size
@@ -147,7 +147,7 @@ async fn list_prompts(
         offset: (page_no - 1) * page_size,
     };
     match state.service_host.ai_repository().list_prompts(query).await {
-        Ok(items) => Ok(Json(ApiResponse::ok(json!({ "items": items })))),
+        Ok(items) => Ok(Json(PlusApiResult::ok(json!({ "items": items })))),
         Err(error) => Err(map_error(error)),
     }
 }
@@ -156,7 +156,7 @@ async fn create_prompt(
     State(state): State<AppState>,
     PromptsCtx(ctx): PromptsCtx,
     Json(request): Json<CreatePromptRequest>,
-) -> Result<Json<ApiResponse<Value>>, StatusCode> {
+) -> Result<Json<PlusApiResult<Value>>, StatusCode> {
     let command = CreatePromptCommand {
         subject: subject(&PromptsCtx(ctx)),
         prompt_key: request.prompt_key,
@@ -168,7 +168,7 @@ async fn create_prompt(
         tags: request.tags.unwrap_or_default(),
     };
     match state.service_host.ai_repository().create_prompt(command).await {
-        Ok(item) => Ok(Json(ApiResponse::ok(json!({ "item": item })))),
+        Ok(item) => Ok(Json(PlusApiResult::ok(json!({ "item": item })))),
         Err(error) => Err(map_error(error)),
     }
 }
@@ -177,14 +177,14 @@ async fn list_versions(
     State(state): State<AppState>,
     PromptsCtx(ctx): PromptsCtx,
     Path(prompt_id): Path<String>,
-) -> Result<Json<ApiResponse<Value>>, StatusCode> {
+) -> Result<Json<PlusApiResult<Value>>, StatusCode> {
     let prompt_id = parse_id(&prompt_id)?;
     let query = ListPromptVersionsQuery {
         subject: subject(&PromptsCtx(ctx)),
         prompt_id,
     };
     match state.service_host.ai_repository().list_versions(query).await {
-        Ok(items) => Ok(Json(ApiResponse::ok(json!({ "items": items })))),
+        Ok(items) => Ok(Json(PlusApiResult::ok(json!({ "items": items })))),
         Err(error) => Err(map_error(error)),
     }
 }
@@ -194,7 +194,7 @@ async fn create_version(
     PromptsCtx(ctx): PromptsCtx,
     Path(prompt_id): Path<String>,
     Json(request): Json<CreatePromptVersionRequest>,
-) -> Result<Json<ApiResponse<Value>>, StatusCode> {
+) -> Result<Json<PlusApiResult<Value>>, StatusCode> {
     let prompt_id = parse_id(&prompt_id)?;
     let command = CreatePromptVersionCommand {
         subject: subject(&PromptsCtx(ctx)),
@@ -214,7 +214,7 @@ async fn create_version(
         .create_version(command)
         .await
     {
-        Ok(item) => Ok(Json(ApiResponse::ok(json!({ "item": item })))),
+        Ok(item) => Ok(Json(PlusApiResult::ok(json!({ "item": item })))),
         Err(error) => Err(map_error(error)),
     }
 }
@@ -223,7 +223,7 @@ async fn publish_version(
     State(state): State<AppState>,
     PromptsCtx(ctx): PromptsCtx,
     Path(version_id): Path<String>,
-) -> Result<Json<ApiResponse<Value>>, StatusCode> {
+) -> Result<Json<PlusApiResult<Value>>, StatusCode> {
     let version_id = parse_id(&version_id)?;
     let command = PublishPromptVersionCommand {
         subject: subject(&PromptsCtx(ctx)),
@@ -235,7 +235,7 @@ async fn publish_version(
         .publish_version(command)
         .await
     {
-        Ok(Some(item)) => Ok(Json(ApiResponse::ok(json!({ "item": item })))),
+        Ok(Some(item)) => Ok(Json(PlusApiResult::ok(json!({ "item": item })))),
         Ok(None) => Err(StatusCode::NOT_FOUND),
         Err(error) => Err(map_error(error)),
     }
@@ -246,7 +246,7 @@ async fn render_version(
     PromptsCtx(ctx): PromptsCtx,
     Path(version_id): Path<String>,
     Json(request): Json<RenderPromptVersionRequest>,
-) -> Result<Json<ApiResponse<Value>>, StatusCode> {
+) -> Result<Json<PlusApiResult<Value>>, StatusCode> {
     let version_id = parse_id(&version_id)?;
     let command = RenderPromptVersionCommand {
         subject: subject(&PromptsCtx(ctx)),
@@ -254,7 +254,7 @@ async fn render_version(
         variables: request.variables.unwrap_or_else(|| json!({})),
     };
     match state.service_host.ai_repository().render_version(command).await {
-        Ok(Some(rendered)) => Ok(Json(ApiResponse::ok(json!({ "rendered": rendered })))),
+        Ok(Some(rendered)) => Ok(Json(PlusApiResult::ok(json!({ "rendered": rendered })))),
         Ok(None) => Err(StatusCode::NOT_FOUND),
         Err(error) => Err(map_error(error)),
     }
@@ -264,14 +264,14 @@ async fn list_bindings(
     State(state): State<AppState>,
     PromptsCtx(ctx): PromptsCtx,
     Path(prompt_id): Path<String>,
-) -> Result<Json<ApiResponse<Value>>, StatusCode> {
+) -> Result<Json<PlusApiResult<Value>>, StatusCode> {
     let prompt_id = parse_id(&prompt_id)?;
     let query = ListPromptBindingsQuery {
         subject: subject(&PromptsCtx(ctx)),
         prompt_id,
     };
     match state.service_host.ai_repository().list_bindings(query).await {
-        Ok(items) => Ok(Json(ApiResponse::ok(json!({ "items": items })))),
+        Ok(items) => Ok(Json(PlusApiResult::ok(json!({ "items": items })))),
         Err(error) => Err(map_error(error)),
     }
 }
@@ -281,7 +281,7 @@ async fn create_binding(
     PromptsCtx(ctx): PromptsCtx,
     Path(prompt_id): Path<String>,
     Json(request): Json<CreatePromptBindingRequest>,
-) -> Result<Json<ApiResponse<Value>>, StatusCode> {
+) -> Result<Json<PlusApiResult<Value>>, StatusCode> {
     let prompt_id = parse_id(&prompt_id)?;
     let command = CreatePromptBindingCommand {
         subject: subject(&PromptsCtx(ctx)),
@@ -300,7 +300,7 @@ async fn create_binding(
         .create_binding(command)
         .await
     {
-        Ok(item) => Ok(Json(ApiResponse::ok(json!({ "item": item })))),
+        Ok(item) => Ok(Json(PlusApiResult::ok(json!({ "item": item })))),
         Err(error) => Err(map_error(error)),
     }
 }
@@ -310,7 +310,7 @@ async fn update_binding(
     PromptsCtx(ctx): PromptsCtx,
     Path(binding_id): Path<String>,
     Json(request): Json<UpdatePromptBindingRequest>,
-) -> Result<Json<ApiResponse<Value>>, StatusCode> {
+) -> Result<Json<PlusApiResult<Value>>, StatusCode> {
     let binding_id = parse_id(&binding_id)?;
     let prompt_version_id = request.prompt_version_id.map(|value| {
         if value.is_null() {
@@ -336,7 +336,7 @@ async fn update_binding(
         .update_binding(command)
         .await
     {
-        Ok(Some(item)) => Ok(Json(ApiResponse::ok(json!({ "item": item })))),
+        Ok(Some(item)) => Ok(Json(PlusApiResult::ok(json!({ "item": item })))),
         Ok(None) => Err(StatusCode::NOT_FOUND),
         Err(error) => Err(map_error(error)),
     }

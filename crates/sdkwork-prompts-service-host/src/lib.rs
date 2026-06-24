@@ -30,14 +30,14 @@ impl PromptsServiceHost {
 
         let database_host = bootstrap_prompts_database_from_env()
             .await
-            .expect("Failed to bootstrap forum database");
+            .expect("Failed to bootstrap prompts database");
 
         let pool = database_host.pool().clone();
         let database_module = database_host.module();
 
         let pg_pool = pool
             .as_postgres()
-            .expect("Expected PostgreSQL pool for forum service")
+            .expect("Expected PostgreSQL pool for prompts service")
             .clone();
 
         let iam_pool = if iam_enabled_from_env() {

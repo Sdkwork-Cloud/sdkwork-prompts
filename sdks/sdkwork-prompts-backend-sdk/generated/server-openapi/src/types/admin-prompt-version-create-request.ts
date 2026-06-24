@@ -1,4 +1,4 @@
-/** Admin prompt version create request schema exposed by Claw Router. */
+/** Admin prompt version create request schema exposed by SDKWork Prompts Backend API. */
 export interface AdminPromptVersionCreateRequest {
   /** Content field on admin prompt version create request. */
   content: string;

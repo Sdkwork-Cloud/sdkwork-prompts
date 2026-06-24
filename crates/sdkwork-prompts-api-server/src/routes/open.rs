@@ -3,6 +3,10 @@ use axum::{
     routing::get,
     Json, Router,
 };
+use sdkwork_intelligence_prompts_ai_contract::{
+    commands::{ListPromptsQuery, PromptAiSubject},
+    PromptAiRepository,
+};
 use sdkwork_intelligence_prompts_service::domain::commands::*;
 use serde::Deserialize;
 use serde_json::{json, Value};
@@ -27,6 +31,7 @@ struct SearchQuery {
 
 pub fn router() -> Router<AppState> {
     Router::new()
+        .route("/prompts/v3/api/prompts/catalog", get(list_prompt_catalog))
         .route("/prompts/v3/api/sites/{site_slug}/boards", get(list_boards))
         .route(
             "/prompts/v3/api/sites/{site_slug}/boards/{board_id}/topics",
@@ -47,6 +52,39 @@ pub fn router() -> Router<AppState> {
         )
         .route("/prompts/v3/api/sites/{site_slug}/tags", get(list_tags))
         .route("/prompts/v3/api/sites/{site_slug}/search", get(search))
+}
+
+async fn list_prompt_catalog(State(state): State<AppState>) -> Json<ApiResponse<Value>> {
+    let tenant_id = std::env::var("SDKWORK_PROMPTS_DEFAULT_TENANT_ID")
+        .ok()
+        .and_then(|value| value.parse().ok())
+        .unwrap_or(100_001);
+    let subject = PromptAiSubject {
+        tenant_id,
+        organization_id: 0,
+        operator_id: 0,
+    };
+    let query = ListPromptsQuery {
+        subject,
+        keyword: None,
+        prompt_type: None,
+        visibility: Some("public".to_string()),
+        status: Some("active".to_string()),
+        category_id: None,
+        page_no: 1,
+        page_size: 200,
+        offset: 0,
+    };
+    match state.service_host.ai_repository().list_prompts(query).await {
+        Ok(items) => Json(ApiResponse::ok(json!({
+            "items": items.iter().map(|item| json!({
+                "key": item.prompt_key,
+                "name": item.name,
+                "description": item.description,
+            })).collect::<Vec<_>>(),
+        }))),
+        Err(error) => Json(ApiResponse::err(error.to_string())),
+    }
 }
 
 async fn list_boards(

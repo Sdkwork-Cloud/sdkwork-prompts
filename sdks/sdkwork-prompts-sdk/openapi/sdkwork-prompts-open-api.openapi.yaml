@@ -4,7 +4,7 @@ info:
   version: 0.1.0
   summary: Public prompt catalog reads.
 servers:
-  - url: /prm/v3/api
+  - url: /prompts/v3/api
 tags:
   - name: prompts-public
 paths:

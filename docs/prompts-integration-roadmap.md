@@ -19,8 +19,8 @@ Planned `sdkDependencies` entries for each SDK family:
 ```yaml
 # sdkwork-prompts-app-sdk
 sdkDependencies:
-  - sdkFamily: sdkwork-appbase-app-sdk
-    authority: sdkwork-appbase-app-api
+  - sdkFamily: sdkwork-iam-app-sdk
+    authority: sdkwork-iam-app-api
     purpose: IAM login, session, current user context
   - sdkFamily: sdkwork-drive-app-sdk
     authority: sdkwork-drive-app-api
@@ -28,8 +28,8 @@ sdkDependencies:
 
 # sdkwork-prompts-backend-sdk
 sdkDependencies:
-  - sdkFamily: sdkwork-appbase-backend-sdk
-    authority: sdkwork-appbase-backend-api
+  - sdkFamily: sdkwork-iam-backend-sdk
+    authority: sdkwork-iam-backend-api
     purpose: IAM permission management and operator context
   - sdkFamily: sdkwork-drive-backend-sdk
     authority: sdkwork-drive-backend-api
@@ -103,4 +103,4 @@ Prompts permission codes planned:
 | `prompts.admin.reputation` | Manage reputation rules | backend-api |
 | `prompts.admin.badges` | Manage badges | backend-api |
 
-Awaiting `sdkwork-appbase-backend-sdk` dependency resolution for permission enforcement on backend routes. IAM session resolution is implemented in `sdkwork-prompts-api-server` when enabled via env.
+Awaiting `sdkwork-iam-backend-sdk` dependency resolution for permission enforcement on backend routes. IAM session resolution is implemented in `sdkwork-prompts-api-server` when enabled via env.

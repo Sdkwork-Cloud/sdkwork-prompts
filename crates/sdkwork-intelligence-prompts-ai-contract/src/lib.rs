@@ -9,7 +9,7 @@ pub use commands::{
     CreatePromptBindingCommand, CreatePromptCommand, CreatePromptVersionCommand,
     ListPromptBindingsQuery, ListPromptsQuery, ListPromptVersionsQuery, PromptAiBindingItem,
     PromptAiItem, PromptAiSubject, PromptAiVersionItem, PublishPromptVersionCommand,
-    RenderPromptVersionCommand, UpdatePromptBindingCommand,
+    RenderPromptVersionCommand, UpdatePromptBindingCommand, UpdatePromptCommand,
 };
 pub use domain::{
     AgentPromptTemplateKind, AgentPromptTemplateRecord, PromptBindingRecord, PromptRecord,

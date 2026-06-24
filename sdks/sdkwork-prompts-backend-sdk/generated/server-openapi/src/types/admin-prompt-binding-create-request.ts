@@ -1,4 +1,4 @@
-/** Admin prompt binding create request schema exposed by Claw Router. */
+/** Admin prompt binding create request schema exposed by SDKWork Prompts Backend API. */
 export interface AdminPromptBindingCreateRequest {
   /** Binding role field on admin prompt binding create request. */
   bindingRole: string;

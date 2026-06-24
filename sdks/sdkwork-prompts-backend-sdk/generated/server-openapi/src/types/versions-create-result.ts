@@ -1,4 +1,4 @@
-/** Versions create result schema exposed by Claw Router. */
+/** Versions create result schema exposed by SDKWork Prompts Backend API. */
 export interface VersionsCreateResult {
   /** Business response code. */
   code: string;

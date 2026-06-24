@@ -5,7 +5,8 @@
   "type": "module",
   "main": "src/PromptWorkspacePage.tsx",
   "dependencies": {
-    "@sdkwork/utils": "workspace:*",
+    "@sdkwork/prompts-pc-admin-prompts": "workspace:*",
+    "@sdkwork/utils": "file:../../../../../sdkwork-utils/packages/sdkwork-utils-typescript",
     "react": "^19.0.0"
   }
 }

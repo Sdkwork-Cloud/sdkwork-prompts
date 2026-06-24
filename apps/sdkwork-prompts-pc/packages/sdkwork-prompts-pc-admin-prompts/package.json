@@ -1,0 +1,13 @@
+{
+  "name": "@sdkwork/prompts-pc-admin-prompts",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/promptService.ts"
+  },
+  "dependencies": {
+    "@sdkwork/prompts-backend-sdk": "workspace:*",
+    "@sdkwork/prompts-pc-commons": "workspace:*"
+  }
+}

@@ -84,7 +84,10 @@ fn prm_context_from_iam(
 }
 
 fn requires_iam_resolution(path: &str) -> bool {
-    path.starts_with("/app/v3/api/forum") || path.starts_with("/backend/v3/api/forum")
+    if path.starts_with("/prompts/v3/api") {
+        return false;
+    }
+    path.starts_with("/app/v3/api/prompts") || path.starts_with("/backend/v3/api/prompts")
 }
 
 fn requires_protected_surface(path: &str) -> bool {

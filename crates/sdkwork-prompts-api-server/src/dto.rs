@@ -41,3 +41,23 @@ impl<T: Serialize> ApiResponse<T> {
         }
     }
 }
+
+/// Java-compatible backend envelope consumed by generated TypeScript admin SDKs.
+#[derive(Debug, Serialize)]
+pub struct PlusApiResult<T: Serialize> {
+    pub code: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub msg: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub data: Option<T>,
+}
+
+impl<T: Serialize> PlusApiResult<T> {
+    pub fn ok(data: T) -> Self {
+        Self {
+            code: "0".to_string(),
+            msg: Some("ok".to_string()),
+            data: Some(data),
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -16,7 +16,7 @@ function read(file) {
   return readFileSync(join(root, file), "utf8");
 }
 
-console.log("Running forum SDK tests...");
+console.log("Running prompts SDK tests...");
 
 const sdkgenConfigs = [
   ["sdks/sdkwork-prompts-app-sdk/openapi/sdkwork-prompts-app-api.sdkgen.yaml", "sdkwork-prompts-app-api", "sdkwork-prompts-app-sdk", "/app/v3/api", "app-api"],
@@ -31,6 +31,8 @@ for (const [file, authority, family, prefix, surface] of sdkgenConfigs) {
   }
   const text = read(file);
   if (!text.includes(`sdkFamily: ${family}`)) fail(`${file} sdkFamily mismatch`);
+  if (!text.includes(`apiAuthority: ${authority}`)) fail(`${file} apiAuthority must be ${authority}`);
+  if (!text.includes("capability: prompts")) fail(`${file} capability must be prompts`);
   if (!text.includes(`prefix: ${prefix}`)) fail(`${file} prefix mismatch`);
   if (!text.includes(`surface: ${surface}`)) fail(`${file} surface mismatch`);
   if (!text.includes("standardProfile: sdkwork-v3")) fail(`${file} missing standardProfile`);
@@ -69,6 +71,9 @@ for (const file of assemblyFiles) {
   if (!json.sdkFamily) fail(`${file} missing sdkFamily`);
   if (!json.discoverySurface) fail(`${file} missing discoverySurface`);
   if (!Array.isArray(json.sdkDependencies)) fail(`${file} sdkDependencies must be array`);
+  if (file.includes("backend") && json.languages?.[0]?.name !== "@sdkwork/prompts-backend-sdk") {
+    fail(`${file} typescript package name must be @sdkwork/prompts-backend-sdk`);
+  }
 }
 
 const composedFacades = [
@@ -86,6 +91,30 @@ for (const file of composedFacades) {
   if (text.includes("throw new Error(\"TODO")) fail(`${file} contains TODO stub`);
   if (!text.includes("export class")) fail(`${file} missing exported class`);
   if (!text.includes("constructor")) fail(`${file} missing constructor`);
+  if (text.includes("forum:")) fail(`${file} must not use legacy forum dependency key`);
+  if (file.includes("backend") && !text.includes("definitions")) {
+    fail(`${file} backend facade must expose prompt definitions API`);
+  }
+  if (file.includes("app-sdk") && !text.includes("templates")) {
+    fail(`${file} app facade must expose prompt templates API`);
+  }
+  if (file === "sdks/sdkwork-prompts-sdk/composed/src/index.ts" && !text.includes("catalog")) {
+    fail(`${file} open facade must expose prompt catalog API`);
+  }
+}
+
+const generatedSdkTypesDir = join(
+  root,
+  "sdks/sdkwork-prompts-backend-sdk/generated/server-openapi/src/types",
+);
+if (existsSync(generatedSdkTypesDir)) {
+  for (const entry of readdirSync(generatedSdkTypesDir)) {
+    if (!entry.endsWith(".ts")) continue;
+    const text = read(join("sdks/sdkwork-prompts-backend-sdk/generated/server-openapi/src/types", entry));
+    if (/claw\s*router/i.test(text)) {
+      fail(`generated backend SDK type ${entry} must not reference Claw Router`);
+    }
+  }
 }
 
 if (failures.length > 0) {
@@ -94,4 +123,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`forum SDK tests passed (${sdkgenConfigs.length} sdkgen configs, ${manifestFiles.length} manifests, ${composedFacades.length} facades verified)`);
+console.log(`prompts SDK tests passed (${sdkgenConfigs.length} sdkgen configs, ${manifestFiles.length} manifests, ${composedFacades.length} facades verified)`);
