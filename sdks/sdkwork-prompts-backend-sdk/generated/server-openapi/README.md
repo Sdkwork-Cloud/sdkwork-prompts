@@ -1,6 +1,6 @@
 # sdkwork-prompts-backend-sdk
 
-SDKWork Prompts Backend API SDK
+Generated SDKWork v3 dual-token transport SDK.
 
 ## Installation
 
@@ -15,10 +15,10 @@ pnpm add @sdkwork/prompts-backend-sdk
 ## Quick Start
 
 ```typescript
-import { SdkworkBackendClient } from '@sdkwork/prompts-backend-sdk';
+import { SdkworkPromptsBackendClient } from '@sdkwork/prompts-backend-sdk';
 
-const client = new SdkworkBackendClient({
-  baseUrl: 'http://localhost:18081',
+const client = new SdkworkPromptsBackendClient({
+  baseUrl: '/backend/v3/api',
   timeout: 30000,
 });
 
@@ -28,15 +28,15 @@ client.setAccessToken('your-access-token');
 
 // Use the SDK
 const params = {
-  page: 'page',
-  page_size: 'page_size',
+  page: 1,
+  page_size: 2,
   q: 'q',
   prompt_type: 'prompt_type',
   visibility: 'visibility',
   status: 'status',
   category_id: 'category_id',
 };
-const result = await client.prompts.definitions.list(params);
+const result = await client.promptsAdmin.prompts.admin.definitions.list(params);
 ```
 
 ## Authentication
@@ -50,10 +50,10 @@ Access-Token: <accessToken>
 ## Configuration (Non-Auth)
 
 ```typescript
-import { SdkworkBackendClient } from '@sdkwork/prompts-backend-sdk';
+import { SdkworkPromptsBackendClient } from '@sdkwork/prompts-backend-sdk';
 
-const client = new SdkworkBackendClient({
-  baseUrl: 'http://localhost:18081',
+const client = new SdkworkPromptsBackendClient({
+  baseUrl: '/backend/v3/api',
   timeout: 30000, // Request timeout in ms
   headers: {      // Custom headers
     'X-Custom-Header': 'value',
@@ -63,42 +63,42 @@ const client = new SdkworkBackendClient({
 
 ## API Modules
 
-- `client.prompts` - prompts API
+- `client.promptsAdmin` - prompts_admin API
 
 ## Usage Examples
 
-### prompts
+### prompts_admin
 
 ```typescript
-// List admin prompts
+// GET /backend/v3/api/prompts
 const params = {
-  page: 'page',
-  page_size: 'page_size',
+  page: 1,
+  page_size: 2,
   q: 'q',
   prompt_type: 'prompt_type',
   visibility: 'visibility',
   status: 'status',
   category_id: 'category_id',
 };
-const result = await client.prompts.definitions.list(params);
+const result = await client.promptsAdmin.prompts.admin.definitions.list(params);
 ```
 
 ## Error Handling
 
 ```typescript
-import { SdkworkBackendClient, NetworkError, TimeoutError, AuthenticationError } from '@sdkwork/prompts-backend-sdk';
+import { SdkworkPromptsBackendClient, NetworkError, TimeoutError, AuthenticationError } from '@sdkwork/prompts-backend-sdk';
 
 try {
   const params = {
-    page: 'page',
-    page_size: 'page_size',
+    page: 1,
+    page_size: 2,
     q: 'q',
     prompt_type: 'prompt_type',
     visibility: 'visibility',
     status: 'status',
     category_id: 'category_id',
   };
-  const result = await client.prompts.definitions.list(params);
+  const result = await client.promptsAdmin.prompts.admin.definitions.list(params);
 } catch (error) {
   if (error instanceof AuthenticationError) {
     console.error('Authentication failed:', error.message);

@@ -130,10 +130,10 @@ pub(crate) async fn get_agent_prompt_template(
 ) -> PromptAiResult<AgentPromptTemplateRecord> {
     let row = sqlx::query(
         r#"
-        SELECT id, uuid, tenant_id, organization_id, owner_user_id, prompt_id, code,
+        SELECT id, uuid, tenant_id, organization_id, owner_user_id, template_key, code,
                display_name, description, prompt_kind, template_format, template_body,
                safety_profile_id, status, visibility
-        FROM ai_agent_prompt_template
+        FROM ai_prompt_template
         WHERE tenant_id = $1 AND id = $2 AND deleted_at IS NULL
         "#,
     )
@@ -164,7 +164,7 @@ pub(crate) async fn get_agent_prompt_template(
         tenant_id: row.get("tenant_id"),
         organization_id: row.get("organization_id"),
         owner_user_id: row.get("owner_user_id"),
-        prompt_id: row.get("prompt_id"),
+        prompt_id: row.get("template_key"),
         code: row.get("code"),
         display_name: row.get("display_name"),
         description: row.try_get("description").ok(),
@@ -184,7 +184,7 @@ pub(crate) async fn list_agent_prompt_templates(
     let limit = query.limit.clamp(1, 200) as i64;
     let rows = sqlx::query(
         r#"
-        SELECT id FROM ai_agent_prompt_template
+        SELECT id FROM ai_prompt_template
         WHERE tenant_id = $1 AND organization_id = $2 AND deleted_at IS NULL
         ORDER BY updated_at DESC, id DESC
         LIMIT $3

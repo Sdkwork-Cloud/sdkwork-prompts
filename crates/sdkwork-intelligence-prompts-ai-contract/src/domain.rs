@@ -47,7 +47,7 @@ pub struct PromptBindingRecord {
     pub enabled: bool,
 }
 
-/// Mirrors `ai_agent_prompt_template` (migrated from kernel `a_agent_prompt_template`).
+/// Mirrors `ai_prompt_template` (migrated from kernel `a_agent_prompt_template`).
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct AgentPromptTemplateRecord {
     pub id: i64,

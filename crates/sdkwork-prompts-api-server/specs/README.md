@@ -1,11 +1,24 @@
-# Server Specs
+# SDKWork Prompts API Server
 
-Component spec for `sdkwork-prompts-api-server`.
-
-- **Crate type**: HTTP API server process
+- **Crate**: `sdkwork-prompts-api-server`
 - **Domain**: intelligence
-- **Capability**: forum
-- **Surfaces**: app-api (22 routes), backend-api (36 routes), open-api (8 routes)
-- **Total routes**: 66
-- **Public exports**: compose_prm_api_routes(), PromptsRouteInfo, route_count(), find_route()
-- **Dependencies**: sdkwork-routes-prompts-app-api, sdkwork-routes-prompts-backend-api, sdkwork-routes-prompts-open-api
+- **Capability**: prompts
+- **Binary**: `sdkwork-prompts-api-server`
+- **Routes**: 18 (app-api 8, backend-api 9, open-api 1)
+- **Exports**: `compose_prompts_api_routes()`, `PromptsRouteInfo`, `route_count()`, `find_route()`
+
+## Handlers
+
+| Module | Surface |
+| --- | --- |
+| `routes/ai_app_prompts.rs` | app-api templates |
+| `routes/ai_app_agent_templates.rs` | app-api agent templates |
+| `routes/ai_prompts.rs` | backend-api admin |
+| `routes/open.rs` | open-api catalog |
+
+## Verification
+
+```bash
+cargo build -p sdkwork-prompts-api-server
+pnpm verify
+```

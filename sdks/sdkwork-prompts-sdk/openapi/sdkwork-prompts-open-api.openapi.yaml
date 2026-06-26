@@ -6,31 +6,46 @@ info:
 servers:
   - url: /prompts/v3/api
 tags:
-  - name: prompts-public
+  - name: promptsPublic
 paths:
-  /prompts/catalog:
+  /prompts/v3/api/prompts/catalog:
     get:
-      tags: [prompts-public]
+      tags: [promptsPublic]
       operationId: prompts.catalog.list
+      security: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-open-api
       x-sdkwork-api-surface: open-api
       x-sdkwork-request-context: WebRequestContext
       x-sdkwork-domain: intelligence
-      x-sdkwork-auth-mode: api-key
+      x-sdkwork-auth-mode: public
       responses:
         "200":
           description: Public prompt catalog entries.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        key: { type: string }
-                        name: { type: string }
-                        description: { type: string }
+                $ref: "#/components/schemas/PromptCatalogPage"
+components:
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: SDKWork open-api API key for protected ingress operations.
+  schemas:
+    PromptCatalogEntry:
+      type: object
+      required: [key, name]
+      properties:
+        key: { type: string }
+        name: { type: string }
+        description: { type: string }
+    PromptCatalogPage:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PromptCatalogEntry"

@@ -11,24 +11,24 @@ tables:
   - name: ai_prompt_category
     lifecycle_status: active
     owner: prompts-platform
-    description: Tenant-scoped prompt template categories.
+    description: Tenant-scoped prompt categories.
   - name: ai_prompt
     lifecycle_status: active
     owner: prompts-platform
-    description: Prompt metadata keyed by prompt_key within tenant/org scope.
+    description: Prompt definition metadata keyed by prompt_key.
   - name: ai_prompt_version
     lifecycle_status: active
     owner: prompts-platform
-    description: Versioned prompt body, variable schema, and model constraints.
+    description: Immutable prompt version body and schemas.
   - name: ai_prompt_binding
     lifecycle_status: active
     owner: prompts-platform
-    description: Binds prompt versions to owner entities such as agents or workflows.
-  - name: ai_agent_prompt_template
+    description: Binds prompt versions to runtime owners such as agents or workflows.
+  - name: ai_prompt_template
     lifecycle_status: active
     owner: prompts-platform
-    description: Agent marketplace reusable prompt templates (from kernel a_agent_prompt_template).
-  - name: ai_prompt_usage_event
+    description: Reusable prompt template catalog for app and marketplace surfaces.
+  - name: ai_prompt_usage
     lifecycle_status: active
     owner: prompts-platform
-    description: Audit trail for prompt resolution, render, and catalog access.
+    description: Append-only audit log for prompt resolve, render, and catalog access.

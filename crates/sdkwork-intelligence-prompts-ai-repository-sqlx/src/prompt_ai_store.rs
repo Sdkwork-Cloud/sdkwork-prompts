@@ -185,7 +185,7 @@ async fn list_versions(
             output_schema,
             model_constraints,
             safety_policy,
-            examples_json,
+            examples,
             COALESCE(checksum_hash, '') AS checksum_hash,
             lifecycle_status,
             COALESCE(review_status, '') AS review_status,
@@ -229,7 +229,7 @@ async fn create_version(
         r#"
         INSERT INTO ai_prompt_version
             (uuid, tenant_id, organization_id, status, prompt_id, version_no, title, content,
-             variable_schema, output_schema, model_constraints, safety_policy, examples_json,
+             variable_schema, output_schema, model_constraints, safety_policy, examples,
              checksum_hash, lifecycle_status, review_status, created_by)
         VALUES
             ($1, $2, $3, 1, $4, $5, $6, $7, $8::jsonb, $9::jsonb, $10::jsonb, $11::jsonb, $12::jsonb, $13, 'draft', 'pending', $14)
@@ -360,7 +360,7 @@ async fn list_bindings(
         SELECT
             id, uuid, tenant_id, organization_id, prompt_id, prompt_version_id,
             owner_type, owner_id, binding_role, priority, enabled,
-            policy_json, snapshot_json,
+            policy, snapshot,
             CAST(created_at AS TEXT) AS created_at,
             CAST(updated_at AS TEXT) AS updated_at
         FROM ai_prompt_binding
@@ -403,7 +403,7 @@ async fn create_binding(
         r#"
         INSERT INTO ai_prompt_binding
             (uuid, tenant_id, organization_id, status, prompt_id, prompt_version_id,
-             owner_type, owner_id, binding_role, priority, enabled, policy_json, snapshot_json)
+             owner_type, owner_id, binding_role, priority, enabled, policy, snapshot)
         VALUES
             ($1, $2, $3, 1, $4, $5, $6, $7, $8, $9, $10, $11::jsonb, $12::jsonb)
         RETURNING id
@@ -481,8 +481,8 @@ async fn update_binding(
             binding_role = $4,
             priority = $5,
             enabled = $6,
-            policy_json = $7::jsonb,
-            snapshot_json = $8::jsonb,
+            policy = $7::jsonb,
+            snapshot = $8::jsonb,
             updated_at = now()
         WHERE tenant_id = $9
           AND organization_id = $10
@@ -586,7 +586,7 @@ async fn load_version_optional(
             output_schema,
             model_constraints,
             safety_policy,
-            examples_json,
+            examples,
             COALESCE(checksum_hash, '') AS checksum_hash,
             lifecycle_status,
             COALESCE(review_status, '') AS review_status,
@@ -632,7 +632,7 @@ async fn load_binding_optional(
         SELECT
             id, uuid, tenant_id, organization_id, prompt_id, prompt_version_id,
             owner_type, owner_id, binding_role, priority, enabled,
-            policy_json, snapshot_json,
+            policy, snapshot,
             CAST(created_at AS TEXT) AS created_at,
             CAST(updated_at AS TEXT) AS updated_at
         FROM ai_prompt_binding
@@ -750,7 +750,7 @@ fn row_to_prompt_version(row: &sqlx::postgres::PgRow) -> PromptAiResult<PromptAi
         output_schema: json_cell(row, "output_schema")?,
         model_constraints: json_cell(row, "model_constraints")?,
         safety_policy: json_cell(row, "safety_policy")?,
-        examples_json: json_cell(row, "examples_json")?,
+        examples_json: json_cell(row, "examples")?,
         checksum_hash: string_cell(row, "checksum_hash")?,
         lifecycle_status: string_cell(row, "lifecycle_status")?,
         review_status: string_cell(row, "review_status")?,
@@ -775,8 +775,8 @@ fn row_to_prompt_binding(row: &sqlx::postgres::PgRow) -> PromptAiResult<PromptAi
         binding_role: string_cell(row, "binding_role")?,
         priority: integer_cell(row, "priority")? as i32,
         enabled: bool_cell(row, "enabled")?,
-        policy_json: json_cell(row, "policy_json")?,
-        snapshot_json: json_cell(row, "snapshot_json")?,
+        policy_json: json_cell(row, "policy")?,
+        snapshot_json: json_cell(row, "snapshot")?,
         created_at: string_cell(row, "created_at")?,
         updated_at: string_cell(row, "updated_at")?,
     })

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.route.manifest",
+  "packageName": "sdkwork-routes-prompts-open-api",
+  "surface": "open-api",
+  "owner": "sdkwork-prompts",
+  "domain": "intelligence",
+  "capability": "prompts",
+  "apiAuthority": "sdkwork-prompts-open-api",
+  "sdkFamily": "sdkwork-prompts-sdk",
+  "prefix": "/prompts/v3/api",
+  "routes": [
+    { "method": "GET", "path": "/prompts/v3/api/prompts/catalog", "operationId": "prompts.catalog.list", "auth": { "mode": "public" } }
+  ]
+}

@@ -6,11 +6,11 @@ info:
 servers:
   - url: /backend/v3/api
 tags:
-  - name: prompts-admin
+  - name: promptsAdmin
 paths:
-  /prompts:
+  /backend/v3/api/prompts:
     get:
-      tags: [prompts-admin]
+      tags: [promptsAdmin]
       operationId: prompts.admin.definitions.list
       security:
         - AuthToken: []
@@ -55,7 +55,7 @@ paths:
         default:
           $ref: "#/components/responses/Problem"
     post:
-      tags: [prompts-admin]
+      tags: [promptsAdmin]
       operationId: prompts.admin.definitions.create
       security:
         - AuthToken: []
@@ -83,9 +83,9 @@ paths:
                 $ref: "#/components/schemas/DefinitionsCreateResult"
         default:
           $ref: "#/components/responses/Problem"
-  /prompts/{promptId}/versions:
+  /backend/v3/api/prompts/{promptId}/versions:
     get:
-      tags: [prompts-admin]
+      tags: [promptsAdmin]
       operationId: prompts.admin.versions.list
       security:
         - AuthToken: []
@@ -110,7 +110,7 @@ paths:
         default:
           $ref: "#/components/responses/Problem"
     post:
-      tags: [prompts-admin]
+      tags: [promptsAdmin]
       operationId: prompts.admin.versions.create
       security:
         - AuthToken: []
@@ -140,9 +140,9 @@ paths:
                 $ref: "#/components/schemas/VersionsCreateResult"
         default:
           $ref: "#/components/responses/Problem"
-  /prompts/versions/{versionId}/publish:
+  /backend/v3/api/prompts/versions/{versionId}/publish:
     post:
-      tags: [prompts-admin]
+      tags: [promptsAdmin]
       operationId: prompts.admin.versions.publish
       security:
         - AuthToken: []
@@ -166,9 +166,9 @@ paths:
                 $ref: "#/components/schemas/VersionsPublishResult"
         default:
           $ref: "#/components/responses/Problem"
-  /prompts/versions/{versionId}/render:
+  /backend/v3/api/prompts/versions/{versionId}/render:
     post:
-      tags: [prompts-admin]
+      tags: [promptsAdmin]
       operationId: prompts.admin.versions.render
       security:
         - AuthToken: []
@@ -197,9 +197,9 @@ paths:
                 $ref: "#/components/schemas/VersionRendersCreateResult"
         default:
           $ref: "#/components/responses/Problem"
-  /prompts/{promptId}/bindings:
+  /backend/v3/api/prompts/{promptId}/bindings:
     get:
-      tags: [prompts-admin]
+      tags: [promptsAdmin]
       operationId: prompts.admin.bindings.list
       security:
         - AuthToken: []
@@ -224,7 +224,7 @@ paths:
         default:
           $ref: "#/components/responses/Problem"
     post:
-      tags: [prompts-admin]
+      tags: [promptsAdmin]
       operationId: prompts.admin.bindings.create
       security:
         - AuthToken: []
@@ -254,9 +254,9 @@ paths:
                 $ref: "#/components/schemas/DefinitionBindingsCreateResult"
         default:
           $ref: "#/components/responses/Problem"
-  /prompts/bindings/{bindingId}:
+  /backend/v3/api/prompts/bindings/{bindingId}:
     put:
-      tags: [prompts-admin]
+      tags: [promptsAdmin]
       operationId: prompts.admin.bindings.update
       security:
         - AuthToken: []
@@ -291,9 +291,11 @@ components:
     AuthToken:
       type: http
       scheme: bearer
+      bearerFormat: JWT
     AccessToken:
-      type: http
-      scheme: bearer
+      type: apiKey
+      in: header
+      name: Access-Token
   parameters:
     PromptId:
       name: promptId

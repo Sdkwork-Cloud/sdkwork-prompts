@@ -15,7 +15,7 @@ function loadYaml(file) {
   return readFileSync(path, "utf8");
 }
 
-globalThis.forumTestFixtures = {
+globalThis.promptsTestFixtures = {
   root,
   loadJson,
   loadYaml,
@@ -36,9 +36,9 @@ globalThis.forumTestFixtures = {
     backendApi: loadYaml("sdks/sdkwork-prompts-backend-sdk/openapi/sdkwork-prompts-backend-api.sdkgen.yaml"),
     openApi: loadYaml("sdks/sdkwork-prompts-sdk/openapi/sdkwork-prompts-open-api.sdkgen.yaml"),
   },
-  schema: loadYaml("specs/forum-database.schema.yaml"),
+  schema: loadYaml("specs/prompts-ai-database.schema.yaml"),
   apiServer: {
-    routeCount: 66,
+    routeCount: 18,
     surfaces: ["app-api", "backend-api", "open-api"],
     prefixes: {
       "app-api": "/app/v3/api",
@@ -48,4 +48,4 @@ globalThis.forumTestFixtures = {
   },
 };
 
-console.log("forum test fixtures loaded");
+console.log("prompts test fixtures loaded");

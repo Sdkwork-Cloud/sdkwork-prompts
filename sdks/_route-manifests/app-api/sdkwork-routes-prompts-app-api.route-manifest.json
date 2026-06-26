@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.route.manifest",
+  "packageName": "sdkwork-routes-prompts-app-api",
+  "surface": "app-api",
+  "owner": "sdkwork-prompts",
+  "domain": "intelligence",
+  "capability": "prompts",
+  "apiAuthority": "sdkwork-prompts-app-api",
+  "sdkFamily": "sdkwork-prompts-app-sdk",
+  "prefix": "/app/v3/api",
+  "routes": [
+    { "method": "GET", "path": "/app/v3/api/prompts/templates", "operationId": "prompts.templates.list", "auth": { "mode": "dual-token" } },
+    { "method": "POST", "path": "/app/v3/api/prompts/templates", "operationId": "prompts.templates.create", "auth": { "mode": "dual-token" } },
+    { "method": "GET", "path": "/app/v3/api/prompts/templates/{templateId}", "operationId": "prompts.templates.get", "auth": { "mode": "dual-token" } },
+    { "method": "PATCH", "path": "/app/v3/api/prompts/templates/{templateId}", "operationId": "prompts.templates.update", "auth": { "mode": "dual-token" } },
+    { "method": "GET", "path": "/app/v3/api/prompts/templates/{templateId}/versions", "operationId": "prompts.templateVersions.list", "auth": { "mode": "dual-token" } },
+    { "method": "POST", "path": "/app/v3/api/prompts/templates/{templateId}/versions", "operationId": "prompts.templateVersions.create", "auth": { "mode": "dual-token" } },
+    { "method": "GET", "path": "/app/v3/api/prompts/agent_templates", "operationId": "prompts.agentTemplates.list", "auth": { "mode": "dual-token" } },
+    { "method": "GET", "path": "/app/v3/api/prompts/agent_templates/{templateId}", "operationId": "prompts.agentTemplates.get", "auth": { "mode": "dual-token" } }
+  ]
+}

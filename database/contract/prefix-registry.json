@@ -7,14 +7,7 @@
       "owner": "prompts-platform",
       "domain": "intelligence",
       "capability": "prompts",
-      "description": "Prompt templates, versions, bindings, agent marketplace templates, usage audit."
-    },
-    {
-      "prefix": "prm_",
-      "owner": "prompts-platform",
-      "domain": "intelligence",
-      "capability": "forum",
-      "description": "Forum/community tables (topic, reply, moderation). Separate from prompt ai_ tables."
+      "description": "Prompt definitions, versions, bindings, templates, categories, and usage audit."
     }
   ]
 }

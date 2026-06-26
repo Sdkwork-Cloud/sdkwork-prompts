@@ -2,16 +2,16 @@ import { HttpClient, createHttpClient } from './http/client';
 import type { SdkworkBackendConfig } from './types/common';
 import type { AuthTokenManager } from '@sdkwork/sdk-common';
 
-import { PromptsApi, createPromptsApi } from './api/prompts';
+import { PromptsAdminApi, createPromptsAdminApi } from './api/prompts-admin';
 
-export class SdkworkBackendClient {
+export class SdkworkPromptsBackendClient {
   private httpClient: HttpClient;
 
-  public readonly prompts: PromptsApi;
+  public readonly promptsAdmin: PromptsAdminApi;
 
   constructor(config: SdkworkBackendConfig) {
     this.httpClient = createHttpClient(config);
-    this.prompts = createPromptsApi(this.httpClient);
+    this.promptsAdmin = createPromptsAdminApi(this.httpClient);
   }
   setAuthToken(token: string): this {
     this.httpClient.setAuthToken(token);
@@ -33,8 +33,8 @@ export class SdkworkBackendClient {
   }
 }
 
-export function createClient(config: SdkworkBackendConfig): SdkworkBackendClient {
-  return new SdkworkBackendClient(config);
+export function createClient(config: SdkworkBackendConfig): SdkworkPromptsBackendClient {
+  return new SdkworkPromptsBackendClient(config);
 }
 
-export default SdkworkBackendClient;
+export default SdkworkPromptsBackendClient;

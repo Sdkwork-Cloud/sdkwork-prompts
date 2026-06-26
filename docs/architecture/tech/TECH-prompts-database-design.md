@@ -1,99 +1,72 @@
-> Migrated from `docs/prompts-database-design.md` on 2026-06-24.
-> Owner: SDKWork maintainers
+# SDKWork Prompts — Database Design
 
-## Design Baseline
+Status: active  
+Owner: prompts-platform  
+Updated: 2026-06-26
 
-The authoritative machine-readable contract is `specs/forum-database.schema.yaml`.
+## Authoritative contract
 
-Database naming follows `DATABASE_SPEC.md`:
-- Table prefix is `prm_`.
-- Multi-tenant tables use `tenant_id`, `organization_id`, `data_scope`, `status`, `version`, `created_at`, and `updated_at`.
-- Stable external ids use `uuid`.
-- Soft delete uses `deleted_at` and `deleted_by`.
-- Event consistency uses `prm_outbox_event`, `prm_inbox_event`, and `prm_idempotency_record`.
+`specs/prompts-ai-database.schema.yaml`  
+Baseline DDL: `database/ddl/baseline/postgres/0001_prompts_ai_baseline.sql`
 
-The domain vocabulary is `topic` and `reply`. The rejected ambiguous term is documented in ADR-0001 only.
+## Design model
 
-## Table Groups
+Industry-aligned **definition → version → binding** pattern:
 
-Taxonomy:
-- `prm_space`: top-level forum area.
-- `prm_node`: category/board tree.
-- `prm_board_profile`: board behavior and rules.
-- `prm_tag`, `prm_topic_tag`: reusable tags and topic relations.
-- `prm_topic_prefix`: board-local labels.
-- `prm_node_acl`: forum-specific ACL overrides over IAM principals.
+```
+ai_prompt_category
+        │
+        ▼
+   ai_prompt ──────► ai_prompt_version
+        │                    │
+        └──── ai_prompt_binding (owner: agent / workflow / scene)
+        
+ai_prompt_template  (marketplace / app catalog, keyed by template_key)
 
-Discussion:
-- `prm_topic`: source-of-truth topic.
-- `prm_topic_revision`: immutable topic edit history.
-- `prm_topic_reply`: source-of-truth reply.
-- `prm_reply_revision`: immutable reply edit history.
-- `prm_attachment`: Drive/media references bound to topics or replies.
+ai_prompt_usage     (append-only audit: render, resolve, catalog)
+```
 
-Q&A and poll:
-- `prm_question_profile`: accepted answer and bounty state.
-- `prm_poll`, `prm_poll_option`, `prm_poll_vote`: poll state and votes.
+## Tables
 
-Engagement:
-- `prm_reaction`, `prm_vote`, `prm_bookmark`, `prm_subscription`, `prm_read_state`, `prm_notification_preference`.
+| Table | Role |
+| --- | --- |
+| `ai_prompt_category` | Tenant-scoped navigation and filtering |
+| `ai_prompt` | Governed definition (`prompt_key`, lifecycle pointers) |
+| `ai_prompt_version` | Immutable body, variable/output schema, model constraints |
+| `ai_prompt_binding` | Attach version to runtime owner with policy + snapshot |
+| `ai_prompt_template` | Lightweight reusable templates (`template_key`) |
+| `ai_prompt_usage` | Audit trail without storing full prompt bodies |
 
-Member and reputation:
-- `prm_member_profile`, `prm_trust_level`, `prm_privilege_grant`.
-- `prm_badge`, `prm_user_badge`.
-- `prm_reputation_rule`, `prm_reputation_ledger`.
+## Naming rules
 
-Moderation:
-- `prm_report`, `prm_moderation_queue_item`, `prm_moderation_case`, `prm_moderation_decision`, `prm_moderation_policy`, `prm_sanction`, `prm_appeal`.
+- Module prefix `ai_` per `DATABASE_SPEC.md`
+- No redundant suffixes (`_event`, `_json` on column names where JSON type is explicit)
+- `template_key` distinguishes marketplace string keys from `prompt_id` bigint FKs
 
-Projection:
-- `prm_feed_item`, `prm_public_topic_projection`, `prm_topic_stats`, `prm_board_stats`, `prm_member_stats`, `prm_search_document`.
+## Multi-tenancy and security
 
-Integration:
-- `prm_outbox_event`, `prm_inbox_event`, `prm_idempotency_record`.
+All tenant tables carry `tenant_id`, `organization_id`, `data_scope`, optimistic `version`, soft delete (`deleted_at`, `deleted_by`), and `metadata` JSON per L2 compliance.
 
-## Core Query Patterns
+Queries MUST filter by `tenant_id` and `organization_id`. Cross-tenant reads are forbidden at the repository layer.
 
-- Board topic list: `prm_topic(tenant_id, board_id, moderation_status, last_activity_at, id)`.
-- Topic replies: `prm_topic_reply(tenant_id, topic_id, moderation_status, created_at, id)`.
-- Public Open API list: `prm_public_topic_projection(tenant_id, site_slug, status, updated_at, id)`.
-- Moderation queue: `prm_moderation_queue_item(tenant_id, queue_status, severity, due_at, id)`.
-- Search staging: `prm_search_document(tenant_id, index_status, updated_at, id)`.
-- Outbox polling: `prm_outbox_event(status, next_attempt_at, id)`.
+## Indexes (core paths)
 
-## Ownership Boundaries
+- List prompts by category/type: `idx_ai_prompt_category`, `idx_ai_prompt_type`
+- List versions: `idx_ai_prompt_version_prompt`
+- Resolve bindings: `idx_ai_prompt_binding_owner`, `idx_ai_prompt_binding_prompt`
+- Usage audit: `idx_ai_prompt_usage_tenant_created`, `idx_ai_prompt_usage_prompt`
 
-IAM/appbase owns users, tenants, organizations, sessions, roles, and API keys. Prompts stores stable ids and never duplicates IAM source tables.
+## Ownership boundaries
 
-Drive owns file bytes, upload sessions, download grants, and media lifecycle. Prompts stores Drive/media references in `prm_attachment`, `prm_space`, `prm_node`, `prm_member_profile`, and `prm_badge`.
+| Concern | Owner |
+| --- | --- |
+| Users, tenants, sessions | IAM / appbase |
+| Prompt definitions and versions | sdkwork-prompts |
+| Agent runtime orchestration | sdkwork-kernel (via `sdkwork-intelligence-prompts-ai-contract`) |
 
-Search owns the external index. Prompts owns the staging projection `prm_search_document`.
+## Verification
 
-Notification providers own delivery. Prompts owns subscription and preference state plus outbox events.
-
-## Implementation Priorities
-
-1. Generate migrations for taxonomy, discussion, integration, and projections needed by topic/reply list/create.
-2. Implement idempotency and outbox transaction helpers before write endpoints.
-3. Implement revisions for topic/reply update before exposing update APIs.
-4. Implement moderation queue and decisions before automated policy rules.
-5. Implement stats/search rebuild jobs after core write paths are stable.
-
-## DDL Generation
-
-SQL DDL snapshots will be generated from `specs/forum-database.schema.yaml` when the schema generator tool is connected.
-
-### Planned DDL Targets
-
-- **PostgreSQL** (primary): `deployments/sql/postgresql/V0.1.0__prm_foundation.sql`
-- **MySQL** (secondary): `deployments/sql/mysql/V0.1.0__prm_foundation.sql`
-- **SQLite** (development): `deployments/sql/sqlite/V0.1.0__prm_foundation.sql`
-
-### Schema Contract Summary
-
-- 45 tables across 8 groups
-- Standard field sets: tenant_entity (11 fields), integration_log (8 fields)
-- 4 required indexes minimum per tenant table
-- Unique constraints on uuid, business keys, and tenant-scoped identifiers
-- Soft delete via deleted_at/deleted_by on all tenant_entity tables
-
+```bash
+pnpm run db:validate
+node tests/schema/prompts-ai-schema.test.mjs
+```

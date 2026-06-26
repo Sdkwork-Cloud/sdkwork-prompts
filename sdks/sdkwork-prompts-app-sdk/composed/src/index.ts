@@ -13,6 +13,10 @@ export interface PromptsAppGeneratedClient {
       create(templateId: string, body: PromptTemplateVersionCreateRequest): Promise<PromptTemplateVersion>;
     };
   };
+  agentTemplates: {
+    list(params?: { limit?: number }): Promise<AgentPromptTemplatePage>;
+    retrieve(templateId: string): Promise<AgentPromptTemplate>;
+  };
 }
 
 export interface PromptTemplate {
@@ -82,6 +86,25 @@ export interface PromptTemplateVariableInput {
   description?: string;
 }
 
+export interface AgentPromptTemplate {
+  id: string;
+  uuid?: string;
+  promptId?: string;
+  code: string;
+  displayName: string;
+  description?: string | null;
+  promptKind: string;
+  templateFormat: string;
+  templateBody?: string;
+  safetyProfileId?: string | null;
+  status: number;
+  visibility?: number;
+}
+
+export interface AgentPromptTemplatePage {
+  items: AgentPromptTemplate[];
+}
+
 export class PromptsAppFacade {
   constructor(private readonly deps: PromptsAppSdkDependencies) {}
 
@@ -107,5 +130,13 @@ export class PromptsAppFacade {
 
   createTemplateVersion(templateId: string, body: PromptTemplateVersionCreateRequest) {
     return this.deps.prompts.templates.versions.create(templateId, body);
+  }
+
+  listAgentTemplates(params?: Parameters<PromptsAppGeneratedClient['agentTemplates']['list']>[0]) {
+    return this.deps.prompts.agentTemplates.list(params);
+  }
+
+  getAgentTemplate(templateId: string) {
+    return this.deps.prompts.agentTemplates.retrieve(templateId);
   }
 }

@@ -1,11 +1,14 @@
 # SDKWork Prompts API Server
 
-API server composition for all 3 forum surfaces (app-api, backend-api, open-api).
+HTTP server for intelligence prompts (app-api, backend-api, open-api).
 
-## Implementation Status
+## Exports
 
-- `compose_prm_api_routes()`: Returns `Vec<PromptsRouteInfo>` aggregating 66 routes across 3 surfaces.
-- `PromptsRouteInfo`: surface, method, path, operation_id, auth_mode.
-- `route_count()`, `route_count_by_surface()`, `find_route()` convenience functions.
+- `compose_prompts_api_routes()` — 18 routes from materialized manifests
+- `route_count()`, `find_route()`
 
-Awaiting SDKWork appbase middleware, observability, and graceful shutdown integration.
+## Run
+
+```bash
+cargo run -p sdkwork-prompts-api-server
+```

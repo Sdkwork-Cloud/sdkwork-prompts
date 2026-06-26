@@ -73,7 +73,7 @@ function dependencyValues(pkg) {
   return values;
 }
 
-const forbiddenRuntimeRefs = ["clawrouter", "claw-router", "sdkwork-claw-router"];
+const forbiddenRuntimeRefs = ["clawrouter", "claw-router", "sdkwork-clawrouter"];
 for (const value of dependencyValues(packageJson)) {
   for (const token of forbiddenRuntimeRefs) {
     assert(
@@ -109,7 +109,7 @@ for (const table of [
   "ai_prompt",
   "ai_prompt_version",
   "ai_prompt_binding",
-  "ai_agent_prompt_template",
+  "ai_prompt_template",
 ]) {
   assert(aiSchema.includes(table), `prompts-ai-database.schema.yaml must declare ${table}`);
 }

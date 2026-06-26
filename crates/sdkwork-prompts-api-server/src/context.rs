@@ -2,9 +2,48 @@ use axum::{
     extract::FromRequestParts,
     http::{request::Parts, HeaderMap, StatusCode},
 };
-use sdkwork_intelligence_prompts_service::value_objects::PromptsRequestContext;
 
 use crate::auth::parse_access_token_header;
+
+const DEFAULT_IAM_TENANT_ID: i64 = 100_001;
+const DEFAULT_IAM_ORGANIZATION_ID: i64 = 0;
+const DEFAULT_IAM_USER_ID: i64 = 1;
+
+#[derive(Clone, Debug)]
+pub struct PromptsRequestContext {
+    tenant_id: i64,
+    organization_id: i64,
+    user_id: i64,
+    request_id: Option<String>,
+}
+
+impl PromptsRequestContext {
+    pub fn new(tenant_id: i64, organization_id: i64, user_id: i64) -> Self {
+        Self {
+            tenant_id,
+            organization_id,
+            user_id,
+            request_id: None,
+        }
+    }
+
+    pub fn with_request_id(mut self, request_id: String) -> Self {
+        self.request_id = Some(request_id);
+        self
+    }
+
+    pub fn tenant_id_value(&self) -> i64 {
+        self.tenant_id
+    }
+
+    pub fn organization_id_value(&self) -> i64 {
+        self.organization_id
+    }
+
+    pub fn user_id_value(&self) -> i64 {
+        self.user_id
+    }
+}
 
 #[derive(Clone, Debug)]
 pub struct ResolvedPromptsContext(pub PromptsRequestContext);
@@ -45,13 +84,13 @@ pub fn build_context(headers: &HeaderMap) -> PromptsRequestContext {
 
     let tenant_id = header_i64(headers, "x-sdkwork-tenant-id")
         .or_else(|| env_i64("SDKWORK_PROMPTS_DEFAULT_TENANT_ID"))
-        .unwrap_or(1);
+        .unwrap_or(DEFAULT_IAM_TENANT_ID);
     let organization_id = header_i64(headers, "x-sdkwork-organization-id")
         .or_else(|| env_i64("SDKWORK_PROMPTS_DEFAULT_ORGANIZATION_ID"))
-        .unwrap_or(0);
+        .unwrap_or(DEFAULT_IAM_ORGANIZATION_ID);
     let user_id = header_i64(headers, "x-sdkwork-user-id")
         .or_else(|| env_i64("SDKWORK_PROMPTS_DEFAULT_USER_ID"))
-        .unwrap_or(1);
+        .unwrap_or(DEFAULT_IAM_USER_ID);
 
     let mut ctx = PromptsRequestContext::new(tenant_id, organization_id, user_id);
     if let Some(request_id) = header_string(headers, "x-request-id") {
@@ -76,16 +115,6 @@ fn header_string(headers: &HeaderMap, name: &str) -> Option<String> {
 
 fn env_i64(name: &str) -> Option<i64> {
     std::env::var(name).ok()?.parse().ok()
-}
-
-pub fn page_json<T: serde::Serialize>(
-    page: &sdkwork_intelligence_prompts_service::domain::results::CursorPage<T>,
-) -> serde_json::Value {
-    serde_json::json!({
-        "items": page.items,
-        "nextCursor": page.next_cursor,
-        "hasMore": page.has_more
-    })
 }
 
 #[cfg(test)]

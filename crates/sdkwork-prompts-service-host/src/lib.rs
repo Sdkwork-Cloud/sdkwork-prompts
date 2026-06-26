@@ -1,20 +1,14 @@
 use std::sync::Arc;
 
 use sdkwork_intelligence_prompts_ai_repository_sqlx::SqlxPromptAiRepository;
-use sdkwork_intelligence_prompts_repository_sqlx::SqlxPromptsRepository;
-use sdkwork_prm_database_host::bootstrap_prompts_database_from_env;
+use sdkwork_prompts_database_host::bootstrap_prompts_database_from_env;
 use sqlx::PgPool;
-use sdkwork_intelligence_prompts_service::PromptsService;
-use sdkwork_intelligence_prompts_service::value_objects::PromptsRequestContext;
 use sdkwork_database_ops::DatabaseOpsService;
 use sdkwork_database_spi::{DefaultDatabaseModule, LocaleTag, SeedProfile};
 use sdkwork_database_sqlx::DatabasePool;
 use tracing;
 
-mod ports;
-
 pub struct PromptsServiceHost {
-    service: PromptsService<SqlxPromptsRepository>,
     ai_repository: SqlxPromptAiRepository,
     pool: DatabasePool,
     pg_pool: PgPool,
@@ -48,29 +42,17 @@ impl PromptsServiceHost {
 
         tracing::info!("Database connected successfully");
 
-        let repository = SqlxPromptsRepository::new(pg_pool.clone());
         let ai_repository = SqlxPromptAiRepository::new(pg_pool.clone());
-        let service = PromptsService::new_with_ports(
-            repository,
-            ports::build_drive_port(),
-            ports::build_search_port(),
-            ports::build_notification_port(),
-        );
 
         tracing::info!("Prompts service initialized");
 
         Self {
-            service,
             ai_repository,
             pool,
             pg_pool,
             iam_pool,
             database_module,
         }
-    }
-
-    pub fn service(&self) -> &PromptsService<SqlxPromptsRepository> {
-        &self.service
     }
 
     pub fn ai_repository(&self) -> &SqlxPromptAiRepository {
@@ -96,15 +78,6 @@ impl PromptsServiceHost {
     pub fn database_ops_service(&self) -> DatabaseOpsService {
         DatabaseOpsService::new(self.pool.clone(), self.database_module.clone())
     }
-
-    pub fn build_request_context(
-        &self,
-        tenant_id: i64,
-        organization_id: i64,
-        user_id: i64,
-    ) -> PromptsRequestContext {
-        PromptsRequestContext::new(tenant_id, organization_id, user_id)
-    }
 }
 
 fn iam_enabled_from_env() -> bool {
@@ -114,7 +87,7 @@ fn iam_enabled_from_env() -> bool {
     )
 }
 
-async fn load_iam_pool(prm_pool: &PgPool) -> PgPool {
+async fn load_iam_pool(prompts_pool: &PgPool) -> PgPool {
     if let Ok(url) = std::env::var("SDKWORK_PROMPTS_IAM_DATABASE_URL") {
         if !url.trim().is_empty() {
             return PgPool::connect(&url)
@@ -122,11 +95,7 @@ async fn load_iam_pool(prm_pool: &PgPool) -> PgPool {
                 .expect("Failed to connect SDKWORK_PROMPTS_IAM_DATABASE_URL");
         }
     }
-    prm_pool.clone()
-}
-
-pub fn build_prm_service() -> PromptsService<SqlxPromptsRepository> {
-    PromptsService::new(SqlxPromptsRepository::new_placeholder())
+    prompts_pool.clone()
 }
 
 pub fn default_seed_locale() -> LocaleTag {

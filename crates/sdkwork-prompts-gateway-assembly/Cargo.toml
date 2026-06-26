@@ -12,6 +12,3 @@ path = "src/lib.rs"
 [dependencies]
 axum.workspace = true
 tokio = { version = "1.48", features = ["macros", "rt-multi-thread"] }
-sdkwork_routes_prompts_app_api = { package = "sdkwork-routes-prompts-app-api", path = "../sdkwork-routes-prompts-app-api" }
-sdkwork_routes_prompts_backend_api = { package = "sdkwork-routes-prompts-backend-api", path = "../sdkwork-routes-prompts-backend-api" }
-sdkwork_routes_prompts_open_api = { package = "sdkwork-routes-prompts-open-api", path = "../sdkwork-routes-prompts-open-api" }

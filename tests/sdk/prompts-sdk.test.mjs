@@ -98,6 +98,9 @@ for (const file of composedFacades) {
   if (file.includes("app-sdk") && !text.includes("templates")) {
     fail(`${file} app facade must expose prompt templates API`);
   }
+  if (file.includes("app-sdk") && !text.includes("agentTemplates")) {
+    fail(`${file} app facade must expose agent prompt templates API`);
+  }
   if (file === "sdks/sdkwork-prompts-sdk/composed/src/index.ts" && !text.includes("catalog")) {
     fail(`${file} open facade must expose prompt catalog API`);
   }

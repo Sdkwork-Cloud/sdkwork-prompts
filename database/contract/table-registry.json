@@ -27,13 +27,13 @@
       "lifecycle_status": "active"
     },
     {
-      "table_name": "ai_agent_prompt_template",
+      "table_name": "ai_prompt_template",
       "owner": "prompts-platform",
       "compliance_level": "L2",
       "lifecycle_status": "active"
     },
     {
-      "table_name": "ai_prompt_usage_event",
+      "table_name": "ai_prompt_usage",
       "owner": "prompts-platform",
       "compliance_level": "L2",
       "lifecycle_status": "active"

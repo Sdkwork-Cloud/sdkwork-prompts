@@ -9,8 +9,8 @@ const expectedTables = [
   "ai_prompt",
   "ai_prompt_version",
   "ai_prompt_binding",
-  "ai_agent_prompt_template",
-  "ai_prompt_usage_event",
+  "ai_prompt_template",
+  "ai_prompt_usage",
 ];
 
 for (const table of expectedTables) {
@@ -22,6 +22,9 @@ const appOpenApi = fs.readFileSync(
   "utf8",
 );
 assert.match(appOpenApi, /prompts\.templates\.list/, "app openapi must declare prompts.templates.list");
+assert.match(appOpenApi, /prompts\.agentTemplates\.list/, "app openapi must declare prompts.agentTemplates.list");
+assert.match(appOpenApi, /\/app\/v3\/api\/prompts\/agent_templates/, "app openapi must use snake_case agent_templates path");
+assert.match(appOpenApi, /name: Access-Token/, "app openapi AccessToken must be apiKey header");
 assert.match(appOpenApi, /x-sdkwork-request-context: WebRequestContext/, "app openapi must declare WebRequestContext");
 
 console.log("prompts contracts validation passed");

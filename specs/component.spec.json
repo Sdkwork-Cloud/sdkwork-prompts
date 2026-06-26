@@ -120,10 +120,9 @@
       "sdks/sdkwork-prompts-sdk"
     ],
     "events": [
-      "prompts.topic.created",
-      "prompts.topic.updated",
-      "prompts.reply.created",
-      "prompts.moderation.decision_created"
+      "prompts.definition.created",
+      "prompts.version.published",
+      "prompts.binding.updated"
     ],
     "configKeys": [
       "SDKWORK_PROMPTS_DATABASE_URL",
@@ -168,10 +167,11 @@
     "sdkPolicy": "Frontend and app clients consume generated SDKs or approved composed wrappers; no raw HTTP or manual auth headers.",
     "languagePolicy": "Rust crates expose service and route boundaries; generated TypeScript SDK output remains under sdks."
   },
-  "verification": {
+    "verification": {
     "commands": [
       "node tests/static/prompts-contract-boundary.test.mjs",
-      "node tools/validators/validate_prm_contracts.mjs"
+      "node tests/static/no-forum-debt.test.mjs",
+      "node tools/validators/validate_prompts_contracts.mjs"
     ]
   },
   "metadata": {

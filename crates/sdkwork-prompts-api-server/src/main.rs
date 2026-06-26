@@ -45,7 +45,7 @@ async fn main() {
     let app = infra_router::mount_service_routes(
         attach_ops_routes(
             Router::new()
-                .merge(routes::build_prm_routes())
+                .merge(routes::build_prompts_routes())
                 .layer(from_fn(middleware::require_dual_token_auth))
                 .layer(from_fn_with_state(state.clone(), iam::resolve_iam_context))
                 .with_state(state),

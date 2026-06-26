@@ -1,22 +1,28 @@
 # Prompts Specs
 
-This directory contains authored, reviewable contracts for the `intelligence/forum` capability.
+Authoritative contracts for the `intelligence/prompts` capability.
 
 ## Contracts
 
-- `component.spec.json`: SDKWork component contract for this root.
-- `forum-database.schema.yaml`: database schema registry and table contracts.
+| File | Purpose |
+| --- | --- |
+| `component.spec.json` | SDKWork component contract for this application root |
+| `prompts-ai-database.schema.yaml` | Database schema registry (6 `ai_` tables) |
+| `topology.spec.json` | Deployment topology and process orchestration |
 
-## Schema Summary
+## Database tables (`ai_`)
 
-- 45 tables across 8 groups (taxonomy, discussion, qa_poll, engagement, member, moderation, projection, integration)
-- Standard field sets: tenant_entity (11 fields), integration_log (8 fields)
-- Full constraint and index definitions per table
-- Implementation guidance in `implementation_todo` fields
+| Group | Tables |
+| --- | --- |
+| taxonomy | `ai_prompt_category` |
+| core | `ai_prompt`, `ai_prompt_version` |
+| binding | `ai_prompt_binding` |
+| template | `ai_prompt_template` |
+| audit | `ai_prompt_usage` |
 
-## DDL Generation
+## Verification
 
-SQL DDL snapshots will be generated when the schema generator tool is connected. Target databases:
-- PostgreSQL (primary)
-- MySQL (secondary)
-- SQLite (development/testing)
+```bash
+pnpm run db:validate
+node tests/schema/prompts-ai-schema.test.mjs
+```

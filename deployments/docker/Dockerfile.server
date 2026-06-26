@@ -15,6 +15,6 @@ COPY --from=builder /app/target/release/ ./
 EXPOSE 8080
 
 ENV RUST_LOG=info
-ENV SDKWORK_PROMPTS_DATABASE_URL=postgres://localhost:5432/forum
+ENV SDKWORK_PROMPTS_DATABASE_URL=postgres://localhost:5432/prompts
 
 CMD ["./sdkwork-prompts-api-server"]

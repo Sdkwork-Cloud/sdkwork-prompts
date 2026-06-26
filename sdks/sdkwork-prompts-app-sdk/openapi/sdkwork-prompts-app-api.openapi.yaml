@@ -13,7 +13,7 @@ servers:
 tags:
   - name: prompts
 paths:
-  /prompts/templates:
+  /app/v3/api/prompts/templates:
     get:
       tags: [prompts]
       summary: List prompt templates.
@@ -80,7 +80,7 @@ paths:
                 $ref: "#/components/schemas/PromptTemplate"
         default:
           $ref: "#/components/responses/Problem"
-  /prompts/templates/{templateId}:
+  /app/v3/api/prompts/templates/{templateId}:
     get:
       tags: [prompts]
       summary: Get prompt template.
@@ -141,7 +141,7 @@ paths:
                 $ref: "#/components/schemas/PromptTemplate"
         default:
           $ref: "#/components/responses/Problem"
-  /prompts/templates/{templateId}/versions:
+  /app/v3/api/prompts/templates/{templateId}/versions:
     get:
       tags: [prompts]
       summary: List template versions.
@@ -202,6 +202,64 @@ paths:
                 $ref: "#/components/schemas/PromptTemplateVersion"
         default:
           $ref: "#/components/responses/Problem"
+  /app/v3/api/prompts/agent_templates:
+    get:
+      tags: [prompts]
+      summary: List agent prompt templates.
+      operationId: prompts.agentTemplates.list
+      security:
+        - AuthToken: []
+          AccessToken: []
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-app-api
+      x-sdkwork-api-surface: app-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-resource: ai_prompt_template
+      x-sdkwork-permission: prompts.agentTemplates.read
+      x-sdkwork-tenant-scope: tenant
+      x-sdkwork-auth-mode: dual-token
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 200, default: 50 }
+      responses:
+        "200":
+          description: Agent template page.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentPromptTemplatePage"
+        default:
+          $ref: "#/components/responses/Problem"
+  /app/v3/api/prompts/agent_templates/{templateId}:
+    get:
+      tags: [prompts]
+      summary: Get agent prompt template.
+      operationId: prompts.agentTemplates.get
+      security:
+        - AuthToken: []
+          AccessToken: []
+      x-sdkwork-owner: sdkwork-prompts
+      x-sdkwork-api-authority: sdkwork-prompts-app-api
+      x-sdkwork-api-surface: app-api
+      x-sdkwork-request-context: WebRequestContext
+      x-sdkwork-domain: intelligence
+      x-sdkwork-resource: ai_prompt_template
+      x-sdkwork-permission: prompts.agentTemplates.read
+      x-sdkwork-tenant-scope: tenant
+      x-sdkwork-auth-mode: dual-token
+      parameters:
+        - $ref: "#/components/parameters/AgentTemplateId"
+      responses:
+        "200":
+          description: Agent prompt template.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentPromptTemplate"
+        default:
+          $ref: "#/components/responses/Problem"
 components:
   securitySchemes:
     AuthToken:
@@ -209,11 +267,16 @@ components:
       scheme: bearer
       bearerFormat: JWT
     AccessToken:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+      type: apiKey
+      in: header
+      name: Access-Token
   parameters:
     TemplateId:
+      name: templateId
+      in: path
+      required: true
+      schema: { type: string }
+    AgentTemplateId:
       name: templateId
       in: path
       required: true
@@ -322,3 +385,27 @@ components:
         required: { type: boolean, default: false }
         default_value: { type: string }
         description: { type: string }
+    AgentPromptTemplate:
+      type: object
+      required: [id, code, displayName, promptKind, templateFormat, status]
+      properties:
+        id: { type: string }
+        uuid: { type: string }
+        promptId: { type: string }
+        code: { type: string }
+        displayName: { type: string }
+        description: { type: string, nullable: true }
+        promptKind: { type: string }
+        templateFormat: { type: string }
+        templateBody: { type: string }
+        safetyProfileId: { type: string, nullable: true }
+        status: { type: integer }
+        visibility: { type: integer }
+    AgentPromptTemplatePage:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/AgentPromptTemplate"

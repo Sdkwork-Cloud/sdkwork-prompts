@@ -43,5 +43,5 @@ fn auth_required() -> bool {
 }
 
 fn requires_auth(path: &str) -> bool {
-    path.starts_with("/app/v3/api/forum") || path.starts_with("/backend/v3/api/forum")
+    path.starts_with("/app/v3/api/prompts") || path.starts_with("/backend/v3/api/prompts")
 }

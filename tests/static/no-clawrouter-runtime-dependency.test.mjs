@@ -2,7 +2,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
-const forbidden = ["clawrouter", "claw-router", "sdkwork-claw-router"];
+const forbidden = ["clawrouter", "claw-router", "sdkwork-clawrouter"];
 
 function fail(message) {
   console.error(message);

@@ -1,5 +1,20 @@
 # Open API Examples
 
-Public read examples for open-api forum operations. No credentials required.
+Public catalog reads — no credentials required.
 
-- `public-reads.example.md` - List boards, list topics, retrieve topic, search examples
+```http
+GET /prompts/v3/api/prompts/catalog
+```
+
+Response shape:
+
+```json
+{
+  "success": true,
+  "data": {
+    "items": [
+      { "key": "support.greeting", "name": "Support Greeting", "description": null }
+    ]
+  }
+}
+```

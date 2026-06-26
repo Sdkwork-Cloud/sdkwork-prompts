@@ -6,16 +6,12 @@
   "activeLocales": ["zh-CN"],
   "profiles": {
     "minimal": {
-      "common": ["001_prm_bootstrap.sql"],
-      "locales": {
-        "zh-CN": []
-      }
+      "common": ["001_bootstrap.sql"],
+      "locales": { "zh-CN": [] }
     },
     "standard": {
-      "common": ["001_prm_bootstrap.sql"],
-      "locales": {
-        "zh-CN": []
-      }
+      "common": ["001_bootstrap.sql"],
+      "locales": { "zh-CN": [] }
     }
   }
 }

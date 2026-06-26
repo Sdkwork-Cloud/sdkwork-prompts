@@ -1,9 +1,7 @@
-/** Versions list result schema exposed by SDKWork Prompts Backend API. */
+import type { AdminPromptVersionItem } from './admin-prompt-version-item';
+
 export interface VersionsListResult {
-  /** Business response code. */
   code: string;
-  /** Data field on versions list result. */
-  data?: unknown;
-  /** Human-readable response message. */
   msg?: string;
+  data?: Record<string, unknown>;
 }

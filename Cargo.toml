@@ -2,17 +2,11 @@
 resolver = "2"
 members = [
     "crates/sdkwork-prompts-gateway-assembly",
-  "crates/sdkwork-intelligence-prompts-ai-contract",
-  "crates/sdkwork-intelligence-prompts-ai-repository-sqlx",
-  "crates/sdkwork-intelligence-prompts-service",
-  "crates/sdkwork-intelligence-prompts-repository-sqlx",
-  "crates/sdkwork-prompts-database-host",
-  "crates/sdkwork-routes-prompts-app-api",
-  "crates/sdkwork-routes-prompts-backend-api",
-  "crates/sdkwork-routes-prompts-open-api",
-  "crates/sdkwork-prompts-api-server",
-  "crates/sdkwork-prompts-service-host",
-  "crates/sdkwork-intelligence-prompts-worker"
+    "crates/sdkwork-intelligence-prompts-ai-contract",
+    "crates/sdkwork-intelligence-prompts-ai-repository-sqlx",
+    "crates/sdkwork-prompts-database-host",
+    "crates/sdkwork-prompts-api-server",
+    "crates/sdkwork-prompts-service-host",
 ]
 
 [workspace.package]

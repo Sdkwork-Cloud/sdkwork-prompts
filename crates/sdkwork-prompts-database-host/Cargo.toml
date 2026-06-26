@@ -5,7 +5,7 @@ edition.workspace = true
 description = "SDKWork Prompts database lifecycle bootstrap."
 
 [lib]
-name = "sdkwork_prm_database_host"
+name = "sdkwork_prompts_database_host"
 path = "src/lib.rs"
 
 [dependencies]

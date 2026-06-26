@@ -6,10 +6,9 @@ use axum::{
     response::{IntoResponse, Response},
     Json,
 };
-use sdkwork_intelligence_prompts_service::value_objects::PromptsRequestContext;
 use sdkwork_iam_web_adapter::resolve_iam_app_context_from_dual_tokens;
 
-use crate::context::ResolvedPromptsContext;
+use crate::context::{PromptsRequestContext, ResolvedPromptsContext};
 use crate::AppState;
 
 pub fn iam_enabled() -> bool {
@@ -55,7 +54,7 @@ pub async fn resolve_iam_context(
                 Some(iam) => {
                     request
                         .extensions_mut()
-                        .insert(ResolvedPromptsContext(prm_context_from_iam(&iam)));
+                        .insert(ResolvedPromptsContext(prompts_context_from_iam(&iam)));
                 }
                 None if iam_strict() => return unauthorized("invalid or expired IAM session"),
                 None => {}
@@ -70,7 +69,7 @@ pub async fn resolve_iam_context(
     next.run(request).await
 }
 
-fn prm_context_from_iam(
+fn prompts_context_from_iam(
     iam: &sdkwork_iam_context_service::IamAppContext,
 ) -> PromptsRequestContext {
     let tenant_id = iam.tenant_id.parse().unwrap_or(0);
@@ -118,7 +117,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn prm_context_from_iam_parses_numeric_ids() {
+    fn prompts_context_from_iam_parses_numeric_ids() {
         let iam = sdkwork_iam_context_service::IamAppContext::new(
             "42",
             Some("7"),
@@ -131,7 +130,7 @@ mod tests {
             Vec::new(),
             Vec::new(),
         );
-        let ctx = prm_context_from_iam(&iam);
+        let ctx = prompts_context_from_iam(&iam);
         assert_eq!(ctx.tenant_id_value(), 42);
         assert_eq!(ctx.organization_id_value(), 7);
         assert_eq!(ctx.user_id_value(), 99);

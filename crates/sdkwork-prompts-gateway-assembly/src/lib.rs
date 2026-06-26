@@ -1,11 +1,9 @@
-//! Gateway assembly for sdkwork-prompts.
-//! Application bootstrap lives in `bootstrap.rs`; route inventory is in `assembly-manifest.json`.
+//! Gateway assembly for sdkwork-prompts (prompts-only HTTP plane).
 
 mod bootstrap;
-mod generated;
 
 pub use bootstrap::{assemble_application_router, ApplicationAssembly};
 
 pub fn assembly_route_count() -> usize {
-    generated::ROUTE_CRATE_COUNT
+    18
 }

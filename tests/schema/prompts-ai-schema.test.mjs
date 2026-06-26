@@ -14,8 +14,8 @@ const required = [
   "ai_prompt",
   "ai_prompt_version",
   "ai_prompt_binding",
-  "ai_agent_prompt_template",
-  "ai_prompt_usage_event",
+  "ai_prompt_template",
+  "ai_prompt_usage",
 ];
 
 for (const table of required) {

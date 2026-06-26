@@ -13,15 +13,8 @@
     "generated": false,
     "manifests": ["Cargo.toml"]
   },
-  "canonicalSpecs": [
-    {"file": "WEB_BACKEND_SPEC.md", "path": "../../sdkwork-specs/WEB_BACKEND_SPEC.md", "purpose": "Web backend implementation."},
-    {"file": "API_SPEC.md", "path": "../../sdkwork-specs/API_SPEC.md", "purpose": "HTTP API surfaces."},
-    {"file": "RUST_CODE_SPEC.md", "path": "../../sdkwork-specs/RUST_CODE_SPEC.md", "purpose": "Rust code structure."},
-    {"file": "DEPLOYMENT_SPEC.md", "path": "../../sdkwork-specs/DEPLOYMENT_SPEC.md", "purpose": "Deployment rules."},
-    {"file": "TEST_SPEC.md", "path": "../../sdkwork-specs/TEST_SPEC.md", "purpose": "Verification tests."}
-  ],
   "contracts": {
-    "runtimeEntrypoints": ["compose_prm_api_routes"],
+    "runtimeEntrypoints": ["compose_prompts_api_routes"],
     "sdkDependencies": [],
     "dependencyApiExports": []
   },

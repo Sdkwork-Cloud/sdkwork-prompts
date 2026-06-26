@@ -1,9 +1,7 @@
-/** Definition bindings update result schema exposed by SDKWork Prompts Backend API. */
+import type { AdminPromptBindingItem } from './admin-prompt-binding-item';
+
 export interface DefinitionBindingsUpdateResult {
-  /** Business response code. */
   code: string;
-  /** Data field on definition bindings update result. */
-  data?: unknown;
-  /** Human-readable response message. */
   msg?: string;
+  data?: Record<string, unknown>;
 }

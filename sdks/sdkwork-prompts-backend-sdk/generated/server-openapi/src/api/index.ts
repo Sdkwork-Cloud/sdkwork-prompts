@@ -1,3 +1,3 @@
 export { BaseApi } from './base';
 export { backendApiPath } from './paths';
-export { PromptsApi, createPromptsApi } from './prompts';
+export { PromptsAdminApi, createPromptsAdminApi } from './prompts-admin';

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "name": "sdkwork-prompts-app-sdk",
+  "version": "0.1.1",
+  "language": "typescript",
+  "sdkType": "app",
+  "packageName": "@sdkwork/prompts-app-sdk",
+  "generator": "@sdkwork/sdk-generator",
+  "capabilities": {
+    "supportsGeneratedTests": true,
+    "supportsReadme": true,
+    "supportsCustomScaffold": true,
+    "supportsPublishWorkflow": true,
+    "hasDistinctBuildStep": true
+  },
+  "generation": {
+    "readme": true,
+    "tests": false
+  },
+  "ownership": {
+    "generatedOwnership": "generated",
+    "scaffoldOwnership": "scaffold",
+    "scaffoldRoots": [
+      "custom/"
+    ],
+    "stateRoots": [
+      ".sdkwork/"
+    ]
+  }
+}

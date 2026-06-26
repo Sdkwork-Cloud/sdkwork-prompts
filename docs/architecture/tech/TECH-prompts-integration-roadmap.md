@@ -1,108 +1,49 @@
-> Migrated from `docs/prompts-integration-roadmap.md` on 2026-06-24.
-> Owner: SDKWork maintainers
+# SDKWork Prompts — Integration Roadmap
 
-## Foundation Dependencies
+Status: active  
+Owner: prompts-platform  
+Updated: 2026-06-26
 
-Current metadata avoids declaring unresolved SDK dependencies as generation inputs. The following integrations must be added once their local SDK family paths and authority contracts are verified:
+## Current integrations
 
-- Appbase app SDK: login/session/current user/workspace context for app clients.
-- Appbase backend SDK: backend-admin IAM and permission management.
-- Drive app/backend SDKs: attachment upload sessions, media resource selection, and download grants.
-- Search backend SDK: full reindex and incremental indexing adapters.
-- Messaging or notification SDK: subscription and moderation notification delivery.
+### IAM (implemented)
 
-## Integration Status
+When `SDKWORK_PROMPTS_IAM_ENABLED=true`, the API server resolves `Authorization` + `Access-Token` via `sdkwork-iam-web-adapter` and populates `PromptsRequestContext` before handlers run.
 
-### SDK Dependencies
+- `SDKWORK_PROMPTS_IAM_STRICT=true` rejects invalid sessions on app/backend routes
+- `SDKWORK_PROMPTS_IAM_DATABASE_URL` optional; defaults to prompts PostgreSQL pool
 
-Planned `sdkDependencies` entries for each SDK family:
+### Kernel (contract)
 
-```yaml
-# sdkwork-prompts-app-sdk
-sdkDependencies:
-  - sdkFamily: sdkwork-iam-app-sdk
-    authority: sdkwork-iam-app-api
-    purpose: IAM login, session, current user context
-  - sdkFamily: sdkwork-drive-app-sdk
-    authority: sdkwork-drive-app-api
-    purpose: Attachment upload sessions and media resource selection
+`sdkwork-kernel` / `sdkwork-agent-business` MUST consume:
 
-# sdkwork-prompts-backend-sdk
-sdkDependencies:
-  - sdkFamily: sdkwork-iam-backend-sdk
-    authority: sdkwork-iam-backend-api
-    purpose: IAM permission management and operator context
-  - sdkFamily: sdkwork-drive-backend-sdk
-    authority: sdkwork-drive-backend-api
-    purpose: Download grants and media lifecycle management
-  - sdkFamily: sdkwork-search-backend-sdk
-    authority: sdkwork-search-backend-api
-    purpose: Full reindex and incremental indexing
-
-# sdkwork-prompts-sdk (open)
-sdkDependencies: []
-# Open API is anonymous public reads only; no external SDK dependencies required.
+```
+sdkwork-intelligence-prompts-ai-contract
 ```
 
-### Service Ports (Implemented)
+Never `sdkwork-intelligence-prompts-ai-repository-sqlx` or local `ai_` DDL.
 
-| Port | Trait | Status | Implementations |
-|------|-------|--------|-----------------|
-| Drive | `PromptsDrivePort` | Partial | `NoopPromptsDrivePort`, `LoggingPromptsDrivePort` (awaiting Drive SDK) |
-| Search | `PromptsSearchPort` | Implemented | `HttpPromptsSearchPort` (`sdkwork-search-backend-api` upsert/delete/rebuild), `LoggingPromptsSearchPort`, `NoopPromptsSearchPort` |
-| Notification | `PromptsNotificationPort` | Partial | `HttpPromptsNotificationPort` (generic HTTP), `LoggingPromptsNotificationPort`, `NoopPromptsNotificationPort` |
+## Deferred integrations
 
-### IAM Request Context
+| Integration | Status | Notes |
+| --- | --- | --- |
+| Usage audit writes | Schema ready | `ai_prompt_usage` DDL live; async compaction job deferred |
+| External search index | Not required | Prompts lists use DB indexes |
+| Drive attachments | Not in v1 | No binary storage in prompts tables |
+| Notification fanout | Not in v1 | No forum subscription model |
 
-When `SDKWORK_PROMPTS_IAM_ENABLED=true`, the forum API server resolves `Authorization` + `Access-Token` against `iam_session` via `sdkwork-iam-web-adapter`. The resolved tenant/org/user ids populate `PromptsRequestContext` before handlers run. Set `SDKWORK_PROMPTS_IAM_STRICT=true` to reject invalid sessions on app/backend forum routes instead of falling back to header/env defaults.
+## Environment variables
 
-Use `SDKWORK_PROMPTS_IAM_DATABASE_URL` when IAM sessions live outside the forum database module; otherwise the forum PostgreSQL pool is reused.
+| Key | Purpose |
+| --- | --- |
+| `SDKWORK_PROMPTS_DATABASE_URL` | PostgreSQL connection |
+| `SDKWORK_PROMPTS_IAM_ENABLED` | Enable IAM session resolution |
+| `SDKWORK_PROMPTS_IAM_STRICT` | Fail closed on bad sessions |
+| `SDKWORK_PROMPTS_DEFAULT_TENANT_ID` | Open catalog default tenant |
 
-### Drive Media Grants
+## Verification
 
-`PromptsDrivePort` provides:
-- `validate_media_reference(media_resource_id)` - Verify tenant scope, ownership, scan status, and lifecycle
-- `create_download_grant(media_resource_id)` - Create scoped download grant for attachments
-
-Awaiting `sdkwork-drive-app-sdk` dependency resolution for real implementation.
-
-### Notification Event Publisher
-
-`PromptsNotificationPort` provides:
-- `publish_prm_event(event_type, aggregate_id)` - Generic forum event publication
-- `publish_moderation_alert(case_id, severity)` - Moderation alert to operators
-- `publish_subscription_notification(user_id, event_type, target_id)` - Subscription delivery
-
-Awaiting `sdkwork-messaging-sdk` dependency resolution for real implementation.
-
-### Search Indexing Adapter
-
-`PromptsSearchPort` provides:
-- `index_document(source_type, source_id)` - Upsert via `PUT /backend/v3/api/search/indexes/{indexId}/documents/{documentId}`
-- `delete_document(source_type, source_id)` - Remove via `DELETE` on the same path
-- `rebuild_index(board_id)` - Trigger `POST /backend/v3/api/search/jobs/rebuild` for the configured index
-
-Configure `SDKWORK_PROMPTS_SEARCH_URL`, `SDKWORK_PROMPTS_SEARCH_INDEX_ID`, and private bootstrap `SDKWORK_ACCESS_TOKEN` for backend search calls. Board-scoped rebuild remains a forum-side concern until search exposes scoped rebuild filters.
-
-### Appbase Permission Mapping
-
-Prompts permission codes planned:
-
-| Code | Description | Surface |
-|------|-------------|---------|
-| `prompts.topics.create` | Create topics | app-api |
-| `prompts.topics.read` | Read topics | app-api, open-api |
-| `prompts.topics.update` | Update own topics | app-api |
-| `prompts.topics.delete` | Delete own topics | app-api |
-| `prompts.replies.create` | Create replies | app-api |
-| `prompts.replies.read` | Read replies | app-api, open-api |
-| `prompts.replies.update` | Update own replies | app-api |
-| `prompts.replies.delete` | Delete own replies | app-api |
-| `prompts.moderation.read` | Read moderation queue | backend-api |
-| `prompts.moderation.write` | Create decisions | backend-api |
-| `prompts.admin.nodes` | Manage taxonomy | backend-api |
-| `prompts.admin.reputation` | Manage reputation rules | backend-api |
-| `prompts.admin.badges` | Manage badges | backend-api |
-
-Awaiting `sdkwork-iam-backend-sdk` dependency resolution for permission enforcement on backend routes. IAM session resolution is implemented in `sdkwork-prompts-api-server` when enabled via env.
-
+```bash
+node tests/static/prompts-iam-path-alignment.test.mjs
+node tests/static/no-clawrouter-runtime-dependency.test.mjs
+```

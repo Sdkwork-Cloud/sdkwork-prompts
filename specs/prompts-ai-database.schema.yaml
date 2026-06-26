@@ -4,7 +4,7 @@ owner: sdkwork-prompts
 domain: intelligence
 capability: prompts
 module_prefix: ai
-standard_version: "2026-06-24"
+standard_version: "2026-06-26"
 contract_status: implemented
 compliance_level: L2
 timezone: UTC
@@ -22,20 +22,22 @@ serialization:
   enum: string
 
 principles:
-  - All prompt tables use ai_ module prefix per DATABASE_SPEC.md.
-  - Forum/community tables remain prm_ in specs/prompts-database.schema.yaml (separate capability).
-  - sdkwork-prompts is the sole owner of prompt fact tables.
+  - sdkwork-prompts owns prompt persistence only; no forum or community tables.
+  - Table prefix ai_ follows DATABASE_SPEC.md for the intelligence prompts module.
+  - Entity–version pattern matches industry prompt registries (Langfuse, Braintrust, PromptLayer).
+  - Immutable published versions; bindings attach versions to runtime owners (agent, workflow, scene).
+  - ai_prompt_template is the lightweight marketplace catalog; ai_prompt is the governed definition with lifecycle.
   - sdkwork-kernel consumes prompts through sdkwork-intelligence-prompts-ai-contract, not local DDL.
 
 migration_sources:
-  # Historical only — sdkwork-prompts must not take a runtime dependency on these repositories.
-  - repository: sdkwork-claw-router
+  - repository: sdkwork-clawrouter
     status: migrated
     tables: [ai_prompt, ai_prompt_version, ai_prompt_binding]
   - repository: sdkwork-kernel
     status: migrated
     tables: [a_agent_prompt_template]
-  - deprecated_contract: prm_template, prm_template_version, prm_template_variable, prm_category, prm_usage_event
+    target: ai_prompt_template
+  - deprecated_contract: prm_template, prm_template_version, prm_template_variable, prm_category, prm_usage_event, prm_*
 
 field_sets:
   tenant_entity:
@@ -51,13 +53,22 @@ field_sets:
     - { name: deleted_at, type: instant, required: false }
     - { name: deleted_by, type: int64, required: false }
     - { name: metadata, type: json, required: true }
+  integration_log:
+    - { name: id, type: int64, required: true }
+    - { name: uuid, type: uuid, required: true }
+    - { name: tenant_id, type: int64, required: true }
+    - { name: organization_id, type: int64, required: true }
+    - { name: status, type: int32, required: true }
+    - { name: version, type: int64, required: true }
+    - { name: created_at, type: instant, required: true }
+    - { name: updated_at, type: instant, required: true }
 
 tables:
   - name: ai_prompt_category
     group: taxonomy
     profile: tenant_entity
     owner: prompts.taxonomy
-    description: Tenant-scoped prompt template categories.
+    description: Tenant-scoped prompt categories for navigation and filtering.
     columns:
       - { name: code, type: string(128), required: true }
       - { name: name, type: string(255), required: true }
@@ -72,7 +83,7 @@ tables:
     group: core
     profile: tenant_entity
     owner: prompts.core
-    description: Prompt metadata keyed by prompt_key within tenant/org scope.
+    description: Prompt definition metadata keyed by prompt_key within tenant scope.
     columns:
       - { name: prompt_key, type: string(128), required: true }
       - { name: name, type: string(255), required: true }
@@ -97,7 +108,7 @@ tables:
     group: core
     profile: tenant_entity
     owner: prompts.core
-    description: Immutable versioned prompt body and schemas.
+    description: Immutable prompt version with body, variable schema, and model constraints.
     columns:
       - { name: prompt_id, type: int64, required: true, references: ai_prompt.id }
       - { name: version_no, type: string(64), required: true }
@@ -107,7 +118,7 @@ tables:
       - { name: output_schema, type: json, required: true }
       - { name: model_constraints, type: json, required: true }
       - { name: safety_policy, type: json, required: true }
-      - { name: examples_json, type: json, required: true }
+      - { name: examples, type: json, required: true }
       - { name: checksum_hash, type: string(128), required: false }
       - { name: lifecycle_status, type: string(64), required: true }
       - { name: review_status, type: string(64), required: false }
@@ -124,7 +135,7 @@ tables:
     group: binding
     profile: tenant_entity
     owner: prompts.binding
-    description: Binds a prompt version to an owner entity (agent, workflow, scene).
+    description: Binds a prompt version to a runtime owner (agent, workflow, scene).
     columns:
       - { name: prompt_id, type: int64, required: true, references: ai_prompt.id }
       - { name: prompt_version_id, type: int64, required: false, references: ai_prompt_version.id }
@@ -133,52 +144,52 @@ tables:
       - { name: binding_role, type: string(64), required: true }
       - { name: priority, type: int32, required: true }
       - { name: enabled, type: boolean, required: true }
-      - { name: policy_json, type: json, required: true }
-      - { name: snapshot_json, type: json, required: true }
+      - { name: policy, type: json, required: true }
+      - { name: snapshot, type: json, required: true }
     indexes:
       - { name: idx_ai_prompt_binding_owner, columns: [tenant_id, organization_id, owner_type, owner_id, binding_role, priority, id] }
       - { name: idx_ai_prompt_binding_prompt, columns: [tenant_id, organization_id, prompt_id, prompt_version_id, enabled, id] }
 
-  - name: ai_agent_prompt_template
-    group: agent_marketplace
+  - name: ai_prompt_template
+    group: template
     profile: tenant_entity
-    owner: prompts.agent_marketplace
-    description: Agent marketplace reusable prompt templates (migrated from kernel a_agent_prompt_template).
+    owner: prompts.template
+    description: Reusable prompt template catalog for app and agent marketplace surfaces.
     columns:
       - { name: owner_user_id, type: int64, required: true }
-      - { name: prompt_id, type: string(128), required: true, note: "Format prompt.<segment>" }
+      - { name: template_key, type: string(128), required: true, note: "Stable key, format prompt.<segment>" }
       - { name: code, type: string(128), required: true }
       - { name: display_name, type: string(255), required: true }
       - { name: description, type: text, required: false }
       - { name: prompt_kind, type: string(32), required: true, enum: [system, developer, user, workflow, tool, mcp-prompt] }
       - { name: template_format, type: string(32), required: true, enum: [plain-text, handlebars, liquid, jinja, json-schema] }
       - { name: template_body, type: text, required: true }
-      - { name: variables_schema_json, type: json, required: true }
-      - { name: model_constraints_json, type: json, required: true }
-      - { name: capability_ids_json, type: json, required: true }
-      - { name: categories_json, type: json, required: true }
-      - { name: tags_json, type: json, required: true }
+      - { name: variables_schema, type: json, required: true }
+      - { name: model_constraints, type: json, required: true }
+      - { name: capability_ids, type: json, required: true }
+      - { name: categories, type: json, required: true }
+      - { name: tags, type: json, required: true }
       - { name: safety_profile_id, type: string(128), required: false }
       - { name: visibility, type: int32, required: true }
     constraints:
-      - { name: uk_ai_agent_prompt_template_tenant_prompt, type: unique, columns: [tenant_id, prompt_id] }
-      - { name: uk_ai_agent_prompt_template_tenant_code, type: unique, columns: [tenant_id, code] }
+      - { name: uk_ai_prompt_template_tenant_key, type: unique, columns: [tenant_id, template_key] }
+      - { name: uk_ai_prompt_template_tenant_code, type: unique, columns: [tenant_id, code] }
     indexes:
-      - { name: idx_ai_agent_prompt_template_tenant_org_status, columns: [tenant_id, organization_id, status, updated_at, code] }
-      - { name: idx_ai_agent_prompt_template_visibility, columns: [tenant_id, visibility, status] }
+      - { name: idx_ai_prompt_template_tenant_org_status, columns: [tenant_id, organization_id, status, updated_at, code] }
+      - { name: idx_ai_prompt_template_visibility, columns: [tenant_id, visibility, status] }
 
-  - name: ai_prompt_usage_event
+  - name: ai_prompt_usage
     group: audit
     profile: integration_log
     owner: prompts.audit
-    description: Audit trail for prompt resolution, render, and catalog access.
+    description: Append-only audit log for prompt resolve, render, and catalog access.
     columns:
       - { name: prompt_id, type: int64, required: false, references: ai_prompt.id }
       - { name: prompt_version_id, type: int64, required: false, references: ai_prompt_version.id }
-      - { name: agent_prompt_template_id, type: int64, required: false, references: ai_agent_prompt_template.id }
+      - { name: prompt_template_id, type: int64, required: false, references: ai_prompt_template.id }
       - { name: actor_id, type: int64, required: false }
       - { name: surface, type: string(64), required: true }
       - { name: context, type: json, required: true }
     indexes:
-      - { name: idx_ai_prompt_usage_event_tenant_created, columns: [tenant_id, created_at, id] }
-      - { name: idx_ai_prompt_usage_event_prompt, columns: [tenant_id, prompt_id, created_at, id] }
+      - { name: idx_ai_prompt_usage_tenant_created, columns: [tenant_id, created_at, id] }
+      - { name: idx_ai_prompt_usage_prompt, columns: [tenant_id, prompt_id, created_at, id] }
