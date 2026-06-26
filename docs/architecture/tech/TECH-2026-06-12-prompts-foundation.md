@@ -63,9 +63,9 @@
 **Files:**
 - Create: `crates/sdkwork-intelligence-prompts-service/**`
 - Create: `crates/sdkwork-intelligence-prompts-repository-sqlx/**`
-- Create: `crates/sdkwork-router-prompts-app-api/**`
-- Create: `crates/sdkwork-router-prompts-backend-api/**`
-- Create: `crates/sdkwork-router-prompts-open-api/**`
+- Create: `crates/sdkwork-routes-prompts-app-api/**`
+- Create: `crates/sdkwork-routes-prompts-backend-api/**`
+- Create: `crates/sdkwork-routes-prompts-open-api/**`
 - Create: `crates/sdkwork-prompts-api-server/**`
 - Create: `crates/sdkwork-prompts-service-host/**`
 - Create: `crates/sdkwork-intelligence-prompts-worker/**`

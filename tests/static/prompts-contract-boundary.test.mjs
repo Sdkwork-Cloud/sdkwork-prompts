@@ -3,7 +3,7 @@ import { join } from "node:path";
 
 const root = process.cwd();
 const boundaries = [
-  "crates/sdkwork-router-prompts-app-api",
+  "crates/sdkwork-routes-prompts-app-api",
   "crates/sdkwork-intelligence-prompts-service",
   "apps/sdkwork-prompts-pc",
 ];

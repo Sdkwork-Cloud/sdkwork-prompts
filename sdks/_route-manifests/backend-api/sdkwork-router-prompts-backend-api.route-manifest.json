@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "kind": "sdkwork.route.manifest",
-  "packageName": "sdkwork-router-prompts-backend-api",
+  "packageName": "sdkwork-routes-prompts-backend-api",
   "surface": "backend-api",
   "owner": "sdkwork-prompts",
   "domain": "intelligence",
@@ -10,8 +10,8 @@
   "sdkFamily": "sdkwork-prompts-backend-sdk",
   "prefix": "/backend/v3/api",
   "source": {
-    "crateRoot": "crates/sdkwork-router-prompts-backend-api",
-    "crateImport": "sdkwork_router_prompts_backend_api"
+    "crateRoot": "crates/sdkwork-routes-prompts-backend-api",
+    "crateImport": "sdkwork_routes_prompts_backend_api"
   },
   "routes": [
     { "method": "GET", "path": "/backend/v3/api/prompts/nodes", "operationId": "nodes.list", "tags": ["intelligence"], "auth": { "mode": "dual-token", "required": true, "permission": "prompts.backend.nodes.read", "tenantScope": "tenant", "dataScope": "organization" }, "handler": { "module": "crate::handlers", "name": "list_nodes" }, "schemas": { "request": null, "response": "PromptsNodePage", "problem": "ProblemDetail" }, "ownership": { "owner": "sdkwork-prompts", "apiAuthority": "sdkwork-prompts-backend-api" }, "source": { "file": "src/paths.rs" } },

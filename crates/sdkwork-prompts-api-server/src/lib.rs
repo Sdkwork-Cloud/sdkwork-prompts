@@ -1,7 +1,7 @@
 pub fn compose_prm_api_routes() -> Vec<PromptsRouteInfo> {
-    let app_routes = sdkwork_router_prompts_app_api::build_sdkwork_prm_app_api_router();
-    let backend_routes = sdkwork_router_prompts_backend_api::build_sdkwork_prm_backend_api_router();
-    let open_routes = sdkwork_router_prompts_open_api::build_sdkwork_prm_open_api_router();
+    let app_routes = sdkwork_routes_prompts_app_api::build_sdkwork_prm_app_api_router();
+    let backend_routes = sdkwork_routes_prompts_backend_api::build_sdkwork_prm_backend_api_router();
+    let open_routes = sdkwork_routes_prompts_open_api::build_sdkwork_prm_open_api_router();
 
     let mut all_routes: Vec<PromptsRouteInfo> = Vec::new();
 

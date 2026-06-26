@@ -1,5 +1,4 @@
 use axum::{
-    async_trait,
     extract::FromRequestParts,
     http::{request::Parts, HeaderMap, StatusCode},
 };
@@ -12,7 +11,6 @@ pub struct ResolvedPromptsContext(pub PromptsRequestContext);
 
 pub struct PromptsCtx(pub PromptsRequestContext);
 
-#[async_trait]
 impl<S> FromRequestParts<S> for PromptsCtx
 where
     S: Send + Sync,

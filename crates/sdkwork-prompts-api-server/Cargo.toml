@@ -6,9 +6,10 @@ license.workspace = true
 publish.workspace = true
 
 [dependencies]
-sdkwork-router-prompts-app-api = { path = "../sdkwork-router-prompts-app-api" }
-sdkwork-router-prompts-backend-api = { path = "../sdkwork-router-prompts-backend-api" }
-sdkwork-router-prompts-open-api = { path = "../sdkwork-router-prompts-open-api" }
+sdkwork_prompts_gateway_assembly = { package = "sdkwork-prompts-gateway-assembly", path = "../sdkwork-prompts-gateway-assembly" }
+sdkwork-routes-prompts-app-api = { path = "../sdkwork-routes-prompts-app-api" }
+sdkwork-routes-prompts-backend-api = { path = "../sdkwork-routes-prompts-backend-api" }
+sdkwork-routes-prompts-open-api = { path = "../sdkwork-routes-prompts-open-api" }
 sdkwork-prompts-service-host = { path = "../sdkwork-prompts-service-host" }
 sdkwork-intelligence-prompts-ai-contract = { path = "../sdkwork-intelligence-prompts-ai-contract" }
 sdkwork-intelligence-prompts-service = { path = "../sdkwork-intelligence-prompts-service" }
@@ -24,10 +25,15 @@ tracing-subscriber = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 base64 = "0.22"
+sdkwork-web-bootstrap = { workspace = true }
 
 [lib]
 path = "src/lib.rs"
 
 [[bin]]
 name = "forum-server"
+path = "src/main.rs"
+
+[[bin]]
+name = "sdkwork-prompts-standalone-gateway"
 path = "src/main.rs"

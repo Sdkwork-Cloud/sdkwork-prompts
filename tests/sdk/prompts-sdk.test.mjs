@@ -40,9 +40,9 @@ for (const [file, authority, family, prefix, surface] of sdkgenConfigs) {
 }
 
 const manifestFiles = [
-  "sdks/_route-manifests/app-api/sdkwork-router-prompts-app-api.route-manifest.json",
-  "sdks/_route-manifests/backend-api/sdkwork-router-prompts-backend-api.route-manifest.json",
-  "sdks/_route-manifests/open-api/sdkwork-router-prompts-open-api.route-manifest.json",
+  "sdks/_route-manifests/app-api/sdkwork-routes-prompts-app-api.route-manifest.json",
+  "sdks/_route-manifests/backend-api/sdkwork-routes-prompts-backend-api.route-manifest.json",
+  "sdks/_route-manifests/open-api/sdkwork-routes-prompts-open-api.route-manifest.json",
 ];
 
 for (const file of manifestFiles) {

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "kind": "sdkwork.route.manifest",
-  "packageName": "sdkwork-router-prompts-open-api",
+  "packageName": "sdkwork-routes-prompts-open-api",
   "surface": "open-api",
   "owner": "sdkwork-prompts",
   "domain": "intelligence",
@@ -10,8 +10,8 @@
   "sdkFamily": "sdkwork-prompts-sdk",
   "prefix": "/prompts/v3/api",
   "source": {
-    "crateRoot": "crates/sdkwork-router-prompts-open-api",
-    "crateImport": "sdkwork_router_prompts_open_api"
+    "crateRoot": "crates/sdkwork-routes-prompts-open-api",
+    "crateImport": "sdkwork_routes_prompts_open_api"
   },
   "routes": [
     { "method": "GET", "path": "/prompts/v3/api/sites/{siteSlug}/boards", "operationId": "boards.list", "tags": ["intelligence"], "auth": { "mode": "public", "required": false, "tenantScope": "platform", "dataScope": "public" }, "handler": { "module": "crate::handlers", "name": "list_public_boards" }, "schemas": { "request": null, "response": "PromptsBoard[]", "problem": "ProblemDetail" }, "ownership": { "owner": "sdkwork-prompts", "apiAuthority": "sdkwork-prompts-open-api" }, "source": { "file": "src/paths.rs" } },
