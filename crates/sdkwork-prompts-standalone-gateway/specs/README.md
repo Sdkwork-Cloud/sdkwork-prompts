@@ -1,9 +1,9 @@
 # SDKWork Prompts API Server
 
-- **Crate**: `sdkwork-prompts-api-server`
+- **Crate**: `sdkwork-prompts-standalone-gateway`
 - **Domain**: intelligence
 - **Capability**: prompts
-- **Binary**: `sdkwork-prompts-api-server`
+- **Binary**: `sdkwork-prompts-standalone-gateway`
 - **Routes**: 18 (app-api 8, backend-api 9, open-api 1)
 - **Exports**: `compose_prompts_api_routes()`, `PromptsRouteInfo`, `route_count()`, `find_route()`
 
@@ -19,6 +19,6 @@
 ## Verification
 
 ```bash
-cargo build -p sdkwork-prompts-api-server
+cargo build -p sdkwork-prompts-standalone-gateway
 pnpm verify
 ```

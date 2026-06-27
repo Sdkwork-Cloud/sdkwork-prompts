@@ -111,7 +111,7 @@
   "contracts": {
     "publicExports": [],
     "runtimeEntrypoints": [
-      "crates/sdkwork-prompts-api-server",
+      "crates/sdkwork-prompts-standalone-gateway",
       "crates/sdkwork-prompts-service-host"
     ],
     "sdkClients": [

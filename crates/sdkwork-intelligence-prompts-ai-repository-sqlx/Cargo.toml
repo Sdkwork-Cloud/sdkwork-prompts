@@ -10,7 +10,7 @@ path = "src/lib.rs"
 
 [dependencies]
 sdkwork-intelligence-prompts-ai-contract = { path = "../sdkwork-intelligence-prompts-ai-contract" }
-sdkwork-id-core = { workspace = true }
+sdkwork-database-id = { workspace = true }
 sqlx = { workspace = true, features = ["runtime-tokio", "postgres", "json"] }
 serde = { workspace = true }
 serde_json = { workspace = true }

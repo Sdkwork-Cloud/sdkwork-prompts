@@ -127,12 +127,12 @@ mod tests {
         let mut headers = HeaderMap::new();
         headers.insert(
             "Access-Token",
-            HeaderValue::from_static("tenant_id=42;organization_id=7;user_id=99"),
+            HeaderValue::from_static("tenant_id=100001;organization_id=0;user_id=1"),
         );
 
         let ctx = build_context(&headers);
-        assert_eq!(ctx.tenant_id_value(), 42);
-        assert_eq!(ctx.organization_id_value(), 7);
-        assert_eq!(ctx.user_id_value(), 99);
+        assert_eq!(ctx.tenant_id_value(), 100_001);
+        assert_eq!(ctx.organization_id_value(), 0);
+        assert_eq!(ctx.user_id_value(), 1);
     }
 }

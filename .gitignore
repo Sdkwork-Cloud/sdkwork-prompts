@@ -12,3 +12,7 @@ coverage/
 .sdkwork/cache/
 .sdkwork/secrets/
 sdks/**/generated/server-openapi/.sdkwork/
+
+# SDKWork local runtime state
+.runtime/
+**/.runtime/

@@ -5,7 +5,7 @@ members = [
     "crates/sdkwork-intelligence-prompts-ai-contract",
     "crates/sdkwork-intelligence-prompts-ai-repository-sqlx",
     "crates/sdkwork-prompts-database-host",
-    "crates/sdkwork-prompts-api-server",
+    "crates/sdkwork-prompts-standalone-gateway",
     "crates/sdkwork-prompts-service-host",
 ]
 
@@ -33,7 +33,7 @@ thiserror = "1"
 async-trait = "0.1"
 sdkwork-intelligence-prompts-ai-contract = { path = "crates/sdkwork-intelligence-prompts-ai-contract" }
 sdkwork-intelligence-prompts-ai-repository-sqlx = { path = "crates/sdkwork-intelligence-prompts-ai-repository-sqlx" }
-sdkwork-id-core = { path = "../sdkwork-id/crates/sdkwork-id-core" }
+sdkwork-database-id = { path = "../sdkwork-database/crates/sdkwork-database-id", package = "sdkwork-database-id" }
 sdkwork-prompts-database-host = { path = "crates/sdkwork-prompts-database-host" }
 sdkwork-database-config = { path = "../sdkwork-database/crates/sdkwork-database-config" }
 sdkwork-database-lifecycle = { path = "../sdkwork-database/crates/sdkwork-database-lifecycle" }

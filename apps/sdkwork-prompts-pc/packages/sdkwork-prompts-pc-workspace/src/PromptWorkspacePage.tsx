@@ -57,7 +57,7 @@ export function PromptWorkspacePage() {
       {loading ? <p>Loading prompts…</p> : null}
       {error ? (
         <p role="alert">
-          Prompt list unavailable: {error}. Start <code>sdkwork-prompts-api-server</code> on port
+          Prompt list unavailable: {error}. Start <code>sdkwork-prompts-standalone-gateway</code> on port
           8080 or set <code>VITE_SDKWORK_PROMPTS_API_BASE_URL</code>.
         </p>
       ) : null}

@@ -27,7 +27,7 @@ Specs: ARCHITECTURE_DECISION_SPEC.md, DOCUMENTATION_SPEC.md
 
 ## 3. Deployment
 
-- Binary: `sdkwork-prompts-api-server`
+- Binary: `sdkwork-prompts-standalone-gateway`
 - Docker: `deployments/docker/docker-compose.yml` (API + Postgres)
 - Topology: `specs/topology.spec.json`
 

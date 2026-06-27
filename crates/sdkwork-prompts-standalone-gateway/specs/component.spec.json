@@ -2,11 +2,11 @@
   "schemaVersion": 1,
   "kind": "sdkwork.component.spec",
   "component": {
-    "name": "sdkwork-prompts-api-server",
+    "name": "sdkwork-prompts-standalone-gateway",
     "displayName": "SDKWork Prompts API Server",
     "version": "0.1.0",
     "type": "rust-crate",
-    "root": "crates/sdkwork-prompts-api-server",
+    "root": "crates/sdkwork-prompts-standalone-gateway",
     "domain": "intelligence",
     "capability": "prompts",
     "languages": ["rust"],
@@ -19,6 +19,6 @@
     "dependencyApiExports": []
   },
   "verification": {
-    "commands": ["cargo check -p sdkwork-prompts-api-server"]
+    "commands": ["cargo check -p sdkwork-prompts-standalone-gateway"]
   }
 }

@@ -90,7 +90,7 @@
   },
   "devApp": {
     "enabled": true,
-    "entrypoint": "crates/sdkwork-prompts-api-server"
+    "entrypoint": "crates/sdkwork-prompts-standalone-gateway"
   },
   "metadata": {
     "standardVersion": "2026-06-12",

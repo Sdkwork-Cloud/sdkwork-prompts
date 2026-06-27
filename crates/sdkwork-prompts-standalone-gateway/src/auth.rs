@@ -108,11 +108,11 @@ mod tests {
     #[test]
     fn parse_kv_access_token_values() {
         let claims = parse_access_token(
-            "tenant_id=42;organization_id=7;user_id=99;session_id=abc",
+            "tenant_id=100001;organization_id=0;user_id=1;session_id=abc",
         )
         .expect("claims");
-        assert_eq!(claims.tenant_id, 42);
-        assert_eq!(claims.organization_id, 7);
-        assert_eq!(claims.user_id, 99);
+        assert_eq!(claims.tenant_id, 100_001);
+        assert_eq!(claims.organization_id, 0);
+        assert_eq!(claims.user_id, 1);
     }
 }

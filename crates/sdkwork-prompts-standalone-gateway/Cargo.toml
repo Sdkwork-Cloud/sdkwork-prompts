@@ -1,9 +1,13 @@
 [package]
-name = "sdkwork-prompts-api-server"
+name = "sdkwork-prompts-standalone-gateway"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 publish.workspace = true
+
+[[bin]]
+name = "sdkwork-prompts-standalone-gateway"
+path = "src/main.rs"
 
 [dependencies]
 sdkwork-prompts-service-host = { path = "../sdkwork-prompts-service-host" }
@@ -25,10 +29,3 @@ sdkwork-web-bootstrap = { workspace = true }
 [lib]
 path = "src/lib.rs"
 
-[[bin]]
-name = "sdkwork-prompts-api-server"
-path = "src/main.rs"
-
-[[bin]]
-name = "sdkwork-prompts-standalone-gateway"
-path = "src/main.rs"
