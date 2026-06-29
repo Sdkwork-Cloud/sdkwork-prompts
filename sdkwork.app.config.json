@@ -66,7 +66,7 @@
     "defaultDeploymentProfile": "cloud"
   },
   "media": {
-    "policy": "Prompt content is stored in prompts-owned ai_ tables; binary assets remain in Drive when referenced by future features."
+    "policy": "Prompt text and metadata live in prompts-owned ai_ tables. Binary assets must use sdkwork-drive when attachment features are enabled."
   },
   "publish": {
     "channels": [

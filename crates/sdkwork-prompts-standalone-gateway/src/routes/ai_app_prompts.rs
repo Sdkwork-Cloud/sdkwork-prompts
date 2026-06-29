@@ -1,6 +1,6 @@
 use axum::{
     extract::{Path, Query, State},
-    http::StatusCode,
+    response::Response,
     routing::get,
     Json, Router,
 };
@@ -9,12 +9,17 @@ use sdkwork_intelligence_prompts_ai_contract::{
         CreatePromptCommand, CreatePromptVersionCommand, ListPromptsQuery, ListPromptVersionsQuery,
         PromptAiItem, PromptAiSubject, PromptAiVersionItem, UpdatePromptCommand,
     },
-    PromptAiError, PromptAiRepository,
+    PromptAiRepository,
 };
+use sdkwork_web_core::WebFrameworkErrorKind;
 use serde::Deserialize;
 use serde_json::{json, Value};
 
 use crate::context::PromptsCtx;
+use crate::response::{
+    created_json, cursor_page_info, map_prompt_error, ok_json, page_data, resource_data,
+    status_problem,
+};
 use crate::AppState;
 
 const DEFAULT_LIMIT: i64 = 20;
@@ -82,7 +87,7 @@ async fn list_templates(
     State(state): State<AppState>,
     PromptsCtx(ctx): PromptsCtx,
     Query(query): Query<TemplateListQuery>,
-) -> Result<Json<Value>, StatusCode> {
+) -> Response {
     let limit = query.limit.unwrap_or(DEFAULT_LIMIT).clamp(1, MAX_LIMIT);
     let offset = query
         .cursor
@@ -92,7 +97,7 @@ async fn list_templates(
         .max(0);
     let page_no = offset / limit + 1;
     let list_query = ListPromptsQuery {
-        subject: subject(&PromptsCtx(ctx)),
+        subject: subject(&PromptsCtx(ctx.clone())),
         keyword: None,
         prompt_type: None,
         visibility: None,
@@ -105,17 +110,18 @@ async fn list_templates(
     match state.service_host.ai_repository().list_prompts(list_query).await {
         Ok(items) => {
             let mapped: Vec<Value> = items.iter().map(template_json).collect();
-            let next_cursor = if mapped.len() as i64 == limit {
+            let has_more = mapped.len() as i64 == limit;
+            let next_cursor = if has_more {
                 Some((offset + limit).to_string())
             } else {
                 None
             };
-            Ok(Json(json!({
-                "items": mapped,
-                "next_cursor": next_cursor,
-            })))
+            ok_json(
+                &ctx,
+                page_data(mapped, cursor_page_info(next_cursor, has_more)),
+            )
         }
-        Err(error) => Err(map_error(error)),
+        Err(error) => map_prompt_error(&ctx, error),
     }
 }
 
@@ -123,9 +129,9 @@ async fn create_template(
     State(state): State<AppState>,
     PromptsCtx(ctx): PromptsCtx,
     Json(request): Json<TemplateCreateRequest>,
-) -> Result<(StatusCode, Json<Value>), StatusCode> {
+) -> Response {
     let command = CreatePromptCommand {
-        subject: subject(&PromptsCtx(ctx)),
+        subject: subject(&PromptsCtx(ctx.clone())),
         prompt_key: request.key,
         name: request.name,
         description: request.description,
@@ -135,8 +141,8 @@ async fn create_template(
         tags: request.tags.unwrap_or_default(),
     };
     match state.service_host.ai_repository().create_prompt(command).await {
-        Ok(item) => Ok((StatusCode::CREATED, Json(template_json(&item)))),
-        Err(error) => Err(map_error(error)),
+        Ok(item) => created_json(&ctx, resource_data(template_json(&item))),
+        Err(error) => map_prompt_error(&ctx, error),
     }
 }
 
@@ -144,16 +150,22 @@ async fn get_template(
     State(state): State<AppState>,
     PromptsCtx(ctx): PromptsCtx,
     Path(template_id): Path<String>,
-) -> Result<Json<Value>, StatusCode> {
-    let prompt_id = parse_id(&template_id)?;
+) -> Response {
+    let prompt_id = match parse_id(&template_id, &ctx) {
+        Ok(id) => id,
+        Err(response) => return response,
+    };
     match state
         .service_host
         .ai_repository()
-        .get_prompt(subject(&PromptsCtx(ctx)).tenant_id, prompt_id)
+        .get_prompt(subject(&PromptsCtx(ctx.clone())).tenant_id, prompt_id)
         .await
     {
-        Ok(record) => Ok(Json(template_json_from_record(&record))),
-        Err(error) => Err(map_error(error)),
+        Ok(record) => ok_json(
+            &ctx,
+            resource_data(template_json_from_record(&record)),
+        ),
+        Err(error) => map_prompt_error(&ctx, error),
     }
 }
 
@@ -162,18 +174,22 @@ async fn update_template(
     PromptsCtx(ctx): PromptsCtx,
     Path(template_id): Path<String>,
     Json(request): Json<TemplateUpdateRequest>,
-) -> Result<Json<Value>, StatusCode> {
+) -> Response {
+    let prompt_id = match parse_id(&template_id, &ctx) {
+        Ok(id) => id,
+        Err(response) => return response,
+    };
     let command = UpdatePromptCommand {
-        subject: subject(&PromptsCtx(ctx)),
-        prompt_id: parse_id(&template_id)?,
+        subject: subject(&PromptsCtx(ctx.clone())),
+        prompt_id,
         name: request.name,
         description: request.description,
         tags: request.tags,
         status: request.status,
     };
     match state.service_host.ai_repository().update_prompt(command).await {
-        Ok(item) => Ok(Json(template_json(&item))),
-        Err(error) => Err(map_error(error)),
+        Ok(item) => ok_json(&ctx, resource_data(template_json(&item))),
+        Err(error) => map_prompt_error(&ctx, error),
     }
 }
 
@@ -181,16 +197,24 @@ async fn list_template_versions(
     State(state): State<AppState>,
     PromptsCtx(ctx): PromptsCtx,
     Path(template_id): Path<String>,
-) -> Result<Json<Value>, StatusCode> {
+) -> Response {
+    let prompt_id = match parse_id(&template_id, &ctx) {
+        Ok(id) => id,
+        Err(response) => return response,
+    };
     let query = ListPromptVersionsQuery {
-        subject: subject(&PromptsCtx(ctx)),
-        prompt_id: parse_id(&template_id)?,
+        subject: subject(&PromptsCtx(ctx.clone())),
+        prompt_id,
     };
     match state.service_host.ai_repository().list_versions(query).await {
-        Ok(items) => Ok(Json(json!({
-            "items": items.iter().map(version_json).collect::<Vec<_>>(),
-        }))),
-        Err(error) => Err(map_error(error)),
+        Ok(items) => {
+            let mapped: Vec<Value> = items.iter().map(version_json).collect();
+            ok_json(
+                &ctx,
+                page_data(mapped, cursor_page_info(None, false)),
+            )
+        }
+        Err(error) => map_prompt_error(&ctx, error),
     }
 }
 
@@ -199,12 +223,16 @@ async fn create_template_version(
     PromptsCtx(ctx): PromptsCtx,
     Path(template_id): Path<String>,
     Json(request): Json<TemplateVersionCreateRequest>,
-) -> Result<(StatusCode, Json<Value>), StatusCode> {
+) -> Response {
+    let prompt_id = match parse_id(&template_id, &ctx) {
+        Ok(id) => id,
+        Err(response) => return response,
+    };
     let variable_schema = variables_to_schema(request.variables.as_deref());
     let version_label = request.version_label;
     let command = CreatePromptVersionCommand {
-        subject: subject(&PromptsCtx(ctx)),
-        prompt_id: parse_id(&template_id)?,
+        subject: subject(&PromptsCtx(ctx.clone())),
+        prompt_id,
         version_no: version_label.clone(),
         title: version_label,
         content: request.content,
@@ -218,8 +246,8 @@ async fn create_template_version(
         examples_json: json!([]),
     };
     match state.service_host.ai_repository().create_version(command).await {
-        Ok(item) => Ok((StatusCode::CREATED, Json(version_json(&item)))),
-        Err(error) => Err(map_error(error)),
+        Ok(item) => created_json(&ctx, resource_data(version_json(&item))),
+        Err(error) => map_prompt_error(&ctx, error),
     }
 }
 
@@ -322,15 +350,8 @@ fn schema_to_variables(schema: &Value) -> Vec<Value> {
         .collect()
 }
 
-fn parse_id(raw: &str) -> Result<i64, StatusCode> {
-    raw.parse::<i64>().map_err(|_| StatusCode::BAD_REQUEST)
-}
-
-fn map_error(error: PromptAiError) -> StatusCode {
-    match error {
-        PromptAiError::NotFound(_) => StatusCode::NOT_FOUND,
-        PromptAiError::Conflict(_) => StatusCode::CONFLICT,
-        PromptAiError::Validation(_) => StatusCode::BAD_REQUEST,
-        PromptAiError::Internal(_) => StatusCode::INTERNAL_SERVER_ERROR,
-    }
+fn parse_id(raw: &str, ctx: &crate::context::PromptsRequestContext) -> Result<i64, Response> {
+    raw.parse::<i64>().map_err(|_| {
+        status_problem(ctx, WebFrameworkErrorKind::BadRequest, "invalid resource id")
+    })
 }

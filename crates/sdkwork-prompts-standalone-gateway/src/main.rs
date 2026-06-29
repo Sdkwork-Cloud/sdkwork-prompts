@@ -1,13 +1,13 @@
 mod auth;
 mod context;
-mod dto;
+mod response;
 mod iam;
 mod infra_router;
 mod middleware;
 mod routes;
 
 use axum::{middleware::from_fn, middleware::from_fn_with_state, Router};
-use sdkwork_database_ops_http::{attach_ops_routes, BearerTokenOpsAuth, DatabaseOpsHttpState};
+use sdkwork_database_ops_http::{attach_ops_routes, default_ops_auth, DatabaseOpsHttpState};
 use sdkwork_prompts_service_host::{default_seed_locale, default_seed_profile, PromptsServiceHost};
 use sdkwork_web_bootstrap::ServiceRouterConfig;
 use std::sync::Arc;
@@ -33,7 +33,7 @@ async fn main() {
         service_host: service_host.clone(),
     };
 
-    let ops_auth = Arc::new(BearerTokenOpsAuth::from_env("SDKWORK_ACCESS_TOKEN"));
+    let ops_auth = default_ops_auth();
     let ops_state = DatabaseOpsHttpState::new(
         service_host.database_pool(),
         service_host.database_module(),

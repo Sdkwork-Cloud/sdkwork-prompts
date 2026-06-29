@@ -55,7 +55,7 @@ sdks/                          # Materialized OpenAPI + composed facades
 - Contract-first: OpenAPI and database schema precede implementation
 - High cohesion: all `ai_` DDL owned here
 - Low coupling: ports for kernel; no raw HTTP in consumers
-- Open/closed: new prompt types and binding roles extend via schema + API, not forum tables
+- Open/closed: new prompt types and binding roles extend via schema and API without cross-domain table ownership
 
 ## Verification
 

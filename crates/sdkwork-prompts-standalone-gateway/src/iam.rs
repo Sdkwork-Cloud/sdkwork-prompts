@@ -1,10 +1,9 @@
 use axum::{
     body::Body,
     extract::State,
-    http::{HeaderMap, Request, StatusCode},
+    http::{HeaderMap, Request},
     middleware::Next,
-    response::{IntoResponse, Response},
-    Json,
+    response::Response,
 };
 use sdkwork_iam_web_adapter::resolve_iam_app_context_from_dual_tokens;
 
@@ -100,16 +99,21 @@ fn header_value(headers: &HeaderMap, name: &str) -> Option<String> {
         .map(str::to_string)
 }
 
+use crate::response::anonymous_trace_id;
+use sdkwork_web_core::{
+    problem_response, ProblemCorrelation, WebFrameworkError, WebFrameworkErrorKind,
+};
+
 fn unauthorized(message: &str) -> Response {
-    (
-        StatusCode::UNAUTHORIZED,
-        Json(serde_json::json!({
-            "success": false,
-            "error": message,
-            "code": "sdkwork.auth.invalid_session",
-        })),
+    let trace_id = anonymous_trace_id();
+    problem_response(
+        &WebFrameworkError {
+            kind: WebFrameworkErrorKind::MissingCredentials,
+            message: message.to_string(),
+            retry_after_seconds: None,
+        },
+        ProblemCorrelation::new(None, Some(&trace_id)),
     )
-        .into_response()
 }
 
 #[cfg(test)]

@@ -70,7 +70,9 @@
   "contracts": {
     "publicExports": [
       "packages/sdkwork-prompts-pc-core",
-      "packages/sdkwork-prompts-pc-discussion"
+      "packages/sdkwork-prompts-pc-commons",
+      "packages/sdkwork-prompts-pc-admin-prompts",
+      "packages/sdkwork-prompts-pc-workspace"
     ],
     "sdkClients": [
       "sdks/sdkwork-prompts-app-sdk",

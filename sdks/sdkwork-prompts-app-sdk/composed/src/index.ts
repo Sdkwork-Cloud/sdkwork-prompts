@@ -32,7 +32,17 @@ export interface PromptTemplate {
 
 export interface PromptTemplatePage {
   items: PromptTemplate[];
-  next_cursor?: string | null;
+  pageInfo: PageInfo;
+}
+
+export interface PageInfo {
+  mode: 'offset' | 'cursor';
+  page?: number;
+  pageSize?: number;
+  totalItems?: string;
+  totalPages?: number;
+  nextCursor?: string | null;
+  hasMore?: boolean;
 }
 
 export interface PromptTemplateCreateRequest {
@@ -61,6 +71,7 @@ export interface PromptTemplateVersion {
 
 export interface PromptTemplateVersionPage {
   items: PromptTemplateVersion[];
+  pageInfo: PageInfo;
 }
 
 export interface PromptTemplateVersionCreateRequest {
@@ -103,6 +114,7 @@ export interface AgentPromptTemplate {
 
 export interface AgentPromptTemplatePage {
   items: AgentPromptTemplate[];
+  pageInfo: PageInfo;
 }
 
 export class PromptsAppFacade {

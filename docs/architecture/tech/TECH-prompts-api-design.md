@@ -2,7 +2,7 @@
 
 Status: active  
 Owner: prompts-platform  
-Updated: 2026-06-26
+Updated: 2026-06-29
 
 ## Surfaces
 
@@ -37,6 +37,19 @@ Resource mapping: `ai_prompt`, `ai_prompt_version`, `ai_prompt_template`.
 
 Public — no dual-token headers on read operations per `API_SPEC.md`.
 
+## Response envelope
+
+All L2+ surfaces use `SdkWorkApiResponse` (`API_SPEC.md` §15):
+
+- Success: `{ "code": 0, "data": <payload>, "traceId": "<uuid>" }`
+- Lists: `data.items` + `data.pageInfo` (`mode`: `offset` or `cursor`)
+- Single resource: `data.item`
+- Errors: HTTP 4xx/5xx with `application/problem+json` (`ProblemDetail`)
+
+Legacy envelopes (`PlusApiResult`, `{ success, data, error }`) are forbidden.
+
+Generated SDKs use `--standard-profile sdkwork-v3` and unwrap `data` by default.
+
 ## Security
 
 - App and backend routes require `Authorization` + `Access-Token` (dual-token)
@@ -54,6 +67,10 @@ Outputs under `sdks/sdkwork-prompts-*-sdk/openapi/`.
 ## Verification
 
 ```bash
+pnpm api:materialize
+pnpm api:sdkgen
+pnpm verify
+node ../sdkwork-specs/tools/check-api-response-envelope.mjs --workspace .
 node tests/sdk/prompts-sdk.test.mjs
 node tests/static/prompts-iam-path-alignment.test.mjs
 ```

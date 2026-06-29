@@ -1,6 +1,6 @@
 # sdkwork-prompts
 
-SDKWork Prompts — intelligence-domain prompt template management (templates, versions, variables) with Rust HTTP backend and PC browser application.
+SDKWork Prompts — intelligence-domain prompt registry (definitions, versions, bindings, templates, catalog) with Rust HTTP backend and PC browser application.
 
 ## Standards
 
@@ -15,14 +15,20 @@ SDKWork Prompts — intelligence-domain prompt template management (templates, v
 | App API | `apis/app-api/intelligence/prompts/` | Authenticated template CRUD for apps |
 | Backend API | `apis/backend-api/intelligence/prompts/` | Operator governance |
 | Open API | `apis/open-api/intelligence/prompts/` | Public catalog reads |
-| PC app | `apps/sdkwork-prompts-pc/` | Browser/desktop prompt workspace UI |
+| PC app | `apps/sdkwork-prompts-pc/` | Browser prompt workspace UI |
 
 ## Platform integration
 
-- `sdkwork-web-framework` — HTTP route crates and API server
-- `sdkwork-database` — `database/` lifecycle and SQLx repositories
-- `sdkwork-utils` — shared Rust/TypeScript helpers (`sdkwork-utils-rust`, `@sdkwork/utils`)
-- `sdkwork-discovery` — deferred until RPC services exist
+| Framework | Integration |
+| --- | --- |
+| `sdkwork-web-framework` | Gateway bootstrap, infra routes, `ProblemDetail` / `SdkWorkApiResponse` |
+| `sdkwork-database` | `database/` lifecycle, SQLx repositories, ops HTTP |
+| `sdkwork-utils` | `sdkwork-utils-rust` (Rust envelope), `@sdkwork/utils` (TypeScript HTTP helpers) |
+| `sdkwork-iam` | Optional dual-token session resolution |
+| `sdkwork-drive` | Declared SDK dependency; used when binary attachment features ship |
+| `sdkwork-discovery` | Not used (HTTP-only; add with RPC services) |
+
+See [TECH-prompts-integration-roadmap.md](docs/architecture/tech/TECH-prompts-integration-roadmap.md) for integration details.
 
 ## Verification
 

@@ -1,5 +1,3 @@
-# runbooks
+# Runbooks (PC app mirror)
 
-See `DOCUMENTATION_SPEC.md` section 2.
-
-See `DOCUMENTATION_SPEC.md` section 2.
+Canonical runbooks: [repository docs/runbooks/](../../../../docs/runbooks/README.md).

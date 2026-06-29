@@ -1,5 +1,5 @@
-# migrations
+# Application docs
 
-See `DOCUMENTATION_SPEC.md` section 2.
+See repository [docs/](../../../docs/README.md) for architecture, guides, and runbooks.
 
-See `DOCUMENTATION_SPEC.md` section 2.
+PC app package docs live alongside each package under `packages/*/`.

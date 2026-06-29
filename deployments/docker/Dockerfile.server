@@ -1,20 +1,36 @@
-FROM rust:1.77-slim as builder
+# syntax=docker/dockerfile:1
 
-WORKDIR /app
-COPY Cargo.toml Cargo.lock ./
-COPY crates/ crates/
+FROM rust:1.83-bookworm AS builder
 
-RUN cargo build --release --bin sdkwork-prompts-api-server || cargo build --release --lib
+WORKDIR /ws
+
+COPY sdkwork-prompts/Cargo.toml sdkwork-prompts/Cargo.lock sdkwork-prompts/
+COPY sdkwork-prompts/crates sdkwork-prompts/crates
+COPY sdkwork-database sdkwork-database
+COPY sdkwork-web-framework sdkwork-web-framework
+COPY sdkwork-utils sdkwork-utils
+COPY sdkwork-id sdkwork-id
+COPY sdkwork-iam sdkwork-iam
+
+WORKDIR /ws/sdkwork-prompts
+RUN cargo build --release --bin sdkwork-prompts-standalone-gateway
 
 FROM debian:bookworm-slim
-RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-COPY --from=builder /app/target/release/ ./
+
+COPY --from=builder /ws/sdkwork-prompts/target/release/sdkwork-prompts-standalone-gateway /app/sdkwork-prompts-standalone-gateway
+COPY sdkwork-prompts/database /app/database
+COPY sdkwork-prompts/sdkwork.app.config.json /app/sdkwork.app.config.json
 
 EXPOSE 8080
 
 ENV RUST_LOG=info
-ENV SDKWORK_PROMPTS_DATABASE_URL=postgres://localhost:5432/prompts
+ENV SDKWORK_PROMPTS_APP_ROOT=/app
+ENV SDKWORK_PROMPTS_DATABASE_URL=postgres://prompts:prompts@postgres:5432/prompts
 
-CMD ["./sdkwork-prompts-api-server"]
+CMD ["/app/sdkwork-prompts-standalone-gateway"]

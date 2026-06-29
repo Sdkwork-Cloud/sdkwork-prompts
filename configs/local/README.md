@@ -4,17 +4,18 @@ Local development configuration templates.
 
 ## Files
 
-- `.env.example` - Local environment variables
+- `.env.example` — environment variables for `sdkwork-prompts-standalone-gateway`
 
 ## Usage
 
 ```bash
 cp configs/local/.env.example .env.local
-# Edit .env.local with your local database/service URLs
+# Edit SDKWORK_PROMPTS_DATABASE_URL and optional integration URLs
+pnpm db:bootstrap
+cargo run --bin sdkwork-prompts-standalone-gateway
 ```
 
-## Services Required
+## Services
 
-- PostgreSQL 16+ with `forum` database
-- OpenSearch 2+ (optional, for search)
-- Drive service (optional, for attachments)
+- **Required**: PostgreSQL 16+ with a `prompts` database
+- **Optional**: Drive (attachments), search index, notification adapter

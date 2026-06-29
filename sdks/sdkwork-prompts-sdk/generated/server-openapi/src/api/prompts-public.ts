@@ -1,7 +1,7 @@
 import { customApiPath } from './paths';
 import type { HttpClient } from '../http/client';
 
-import type { PromptCatalogPage } from '../types';
+import type { PageInfo, PromptCatalogEntry } from '../types';
 
 
 export class PromptsPublicPromptsCatalogApi {
@@ -12,8 +12,8 @@ export class PromptsPublicPromptsCatalogApi {
   }
 
 
-async list(): Promise<PromptCatalogPage> {
-    return this.client.get<PromptCatalogPage>(customApiPath(`/prompts/catalog`));
+async list(): Promise<Record<string, unknown>> {
+    return this.client.get<Record<string, unknown>>(customApiPath(`/prompts/catalog`));
   }
 }
 

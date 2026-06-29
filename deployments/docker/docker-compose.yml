@@ -1,8 +1,8 @@
 services:
   prompts-api:
     build:
-      context: ../..
-      dockerfile: deployments/docker/Dockerfile.server
+      context: ../../..
+      dockerfile: sdkwork-prompts/deployments/docker/Dockerfile.server
     ports:
       - "8080:8080"
     environment:

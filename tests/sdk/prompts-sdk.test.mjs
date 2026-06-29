@@ -92,6 +92,9 @@ for (const file of composedFacades) {
   if (!text.includes("export class")) fail(`${file} missing exported class`);
   if (!text.includes("constructor")) fail(`${file} missing constructor`);
   if (text.includes("forum:")) fail(`${file} must not use legacy forum dependency key`);
+  if (/PlusApiResult|PlusApiEnvelope|success:\s*false/.test(text)) {
+    fail(`${file} must not declare legacy HTTP envelopes`);
+  }
   if (file.includes("backend") && !text.includes("definitions")) {
     fail(`${file} backend facade must expose prompt definitions API`);
   }

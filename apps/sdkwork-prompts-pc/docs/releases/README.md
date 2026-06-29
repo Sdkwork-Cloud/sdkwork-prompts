@@ -1,5 +1,3 @@
-# releases
+# Releases (PC app mirror)
 
-See `DOCUMENTATION_SPEC.md` section 2.
-
-See `DOCUMENTATION_SPEC.md` section 2.
+Canonical release notes: [repository docs/releases/](../../../../docs/releases/README.md).

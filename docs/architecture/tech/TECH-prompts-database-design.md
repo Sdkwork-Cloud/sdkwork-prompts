@@ -2,7 +2,7 @@
 
 Status: active  
 Owner: prompts-platform  
-Updated: 2026-06-26
+Updated: 2026-06-29
 
 ## Authoritative contract
 

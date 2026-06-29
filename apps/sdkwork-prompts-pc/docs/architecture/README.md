@@ -1,5 +1,3 @@
-# Architecture Documentation
+# Architecture (PC app mirror)
 
-Technical architecture directory, ADRs, and views.
-
-See `DOCUMENTATION_SPEC.md` section 2.
+Canonical architecture docs: [repository docs/architecture/](../../../../docs/architecture/README.md).

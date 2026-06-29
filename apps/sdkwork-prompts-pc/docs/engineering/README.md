@@ -1,5 +1,3 @@
-# Engineering Collaboration
+# Engineering (PC app mirror)
 
-Implementation plans and review records.
-
-See `DOCUMENTATION_SPEC.md` section 2.
+Canonical engineering docs: [repository docs/engineering/](../../../../docs/engineering/README.md).

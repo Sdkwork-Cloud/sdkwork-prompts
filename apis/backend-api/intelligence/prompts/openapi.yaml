@@ -4,17 +4,18 @@ info:
   version: 0.1.0
   summary: Operator backend API for prompt governance (ai_prompt tables).
 servers:
-  - url: /backend/v3/api
+- url: /backend/v3/api
 tags:
-  - name: promptsAdmin
+- name: promptsAdmin
 paths:
   /backend/v3/api/prompts:
     get:
-      tags: [promptsAdmin]
+      tags:
+      - promptsAdmin
       operationId: prompts.admin.definitions.list
       security:
-        - AuthToken: []
-          AccessToken: []
+      - AuthToken: []
+        AccessToken: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-backend-api
       x-sdkwork-api-surface: backend-api
@@ -24,42 +25,55 @@ paths:
       x-sdkwork-permission: prompts.admin.templates.read
       x-sdkwork-auth-mode: dual-token
       parameters:
-        - name: page
-          in: query
-          schema: { type: integer, minimum: 1, default: 1 }
-        - name: page_size
-          in: query
-          schema: { type: integer, minimum: 1, maximum: 200, default: 50 }
-        - name: q
-          in: query
-          schema: { type: string }
-        - name: prompt_type
-          in: query
-          schema: { type: string }
-        - name: visibility
-          in: query
-          schema: { type: string }
-        - name: status
-          in: query
-          schema: { type: string }
-        - name: category_id
-          in: query
-          schema: { type: string }
+      - name: page
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: page_size
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+      - name: q
+        in: query
+        schema:
+          type: string
+      - name: prompt_type
+        in: query
+        schema:
+          type: string
+      - name: visibility
+        in: query
+        schema:
+          type: string
+      - name: status
+        in: query
+        schema:
+          type: string
+      - name: category_id
+        in: query
+        schema:
+          type: string
       responses:
-        "200":
+        '200':
           description: Admin prompt list.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DefinitionsListResult"
+                $ref: '#/components/schemas/SdkWorkListResponse'
         default:
-          $ref: "#/components/responses/Problem"
+          $ref: '#/components/responses/Problem'
     post:
-      tags: [promptsAdmin]
+      tags:
+      - promptsAdmin
       operationId: prompts.admin.definitions.create
       security:
-        - AuthToken: []
-          AccessToken: []
+      - AuthToken: []
+        AccessToken: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-backend-api
       x-sdkwork-api-surface: backend-api
@@ -73,23 +87,36 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AdminPromptCreateRequest"
+              $ref: '#/components/schemas/AdminPromptCreateRequest'
       responses:
-        "201":
+        '201':
           description: Created prompt.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DefinitionsCreateResult"
+                allOf:
+                - $ref: '#/components/schemas/SdkWorkApiResponse'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      type: object
+                      required:
+                      - item
+                      properties:
+                        item:
+                          $ref: '#/components/schemas/AdminPromptItem'
         default:
-          $ref: "#/components/responses/Problem"
+          $ref: '#/components/responses/Problem'
   /backend/v3/api/prompts/{promptId}/versions:
     get:
-      tags: [promptsAdmin]
+      tags:
+      - promptsAdmin
       operationId: prompts.admin.versions.list
       security:
-        - AuthToken: []
-          AccessToken: []
+      - AuthToken: []
+        AccessToken: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-backend-api
       x-sdkwork-api-surface: backend-api
@@ -99,22 +126,23 @@ paths:
       x-sdkwork-permission: prompts.admin.templates.read
       x-sdkwork-auth-mode: dual-token
       parameters:
-        - $ref: "#/components/parameters/PromptId"
+      - $ref: '#/components/parameters/PromptId'
       responses:
-        "200":
+        '200':
           description: Prompt version list.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/VersionsListResult"
+                $ref: '#/components/schemas/SdkWorkListResponse'
         default:
-          $ref: "#/components/responses/Problem"
+          $ref: '#/components/responses/Problem'
     post:
-      tags: [promptsAdmin]
+      tags:
+      - promptsAdmin
       operationId: prompts.admin.versions.create
       security:
-        - AuthToken: []
-          AccessToken: []
+      - AuthToken: []
+        AccessToken: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-backend-api
       x-sdkwork-api-surface: backend-api
@@ -124,29 +152,42 @@ paths:
       x-sdkwork-permission: prompts.admin.templates.create
       x-sdkwork-auth-mode: dual-token
       parameters:
-        - $ref: "#/components/parameters/PromptId"
+      - $ref: '#/components/parameters/PromptId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AdminPromptVersionCreateRequest"
+              $ref: '#/components/schemas/AdminPromptVersionCreateRequest'
       responses:
-        "201":
+        '201':
           description: Created version.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/VersionsCreateResult"
+                allOf:
+                - $ref: '#/components/schemas/SdkWorkApiResponse'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      type: object
+                      required:
+                      - item
+                      properties:
+                        item:
+                          $ref: '#/components/schemas/AdminPromptVersionItem'
         default:
-          $ref: "#/components/responses/Problem"
+          $ref: '#/components/responses/Problem'
   /backend/v3/api/prompts/versions/{versionId}/publish:
     post:
-      tags: [promptsAdmin]
+      tags:
+      - promptsAdmin
       operationId: prompts.admin.versions.publish
       security:
-        - AuthToken: []
-          AccessToken: []
+      - AuthToken: []
+        AccessToken: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-backend-api
       x-sdkwork-api-surface: backend-api
@@ -156,23 +197,36 @@ paths:
       x-sdkwork-permission: prompts.admin.templates.publish
       x-sdkwork-auth-mode: dual-token
       parameters:
-        - $ref: "#/components/parameters/VersionId"
+      - $ref: '#/components/parameters/VersionId'
       responses:
-        "200":
+        '200':
           description: Published version.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/VersionsPublishResult"
+                allOf:
+                - $ref: '#/components/schemas/SdkWorkApiResponse'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      type: object
+                      required:
+                      - item
+                      properties:
+                        item:
+                          $ref: '#/components/schemas/AdminPromptVersionItem'
         default:
-          $ref: "#/components/responses/Problem"
+          $ref: '#/components/responses/Problem'
   /backend/v3/api/prompts/versions/{versionId}/render:
     post:
-      tags: [promptsAdmin]
+      tags:
+      - promptsAdmin
       operationId: prompts.admin.versions.render
       security:
-        - AuthToken: []
-          AccessToken: []
+      - AuthToken: []
+        AccessToken: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-backend-api
       x-sdkwork-api-surface: backend-api
@@ -182,28 +236,41 @@ paths:
       x-sdkwork-permission: prompts.admin.templates.render
       x-sdkwork-auth-mode: dual-token
       parameters:
-        - $ref: "#/components/parameters/VersionId"
+      - $ref: '#/components/parameters/VersionId'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AdminPromptRenderRequest"
+              $ref: '#/components/schemas/AdminPromptRenderRequest'
       responses:
-        "200":
+        '200':
           description: Rendered prompt text.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/VersionRendersCreateResult"
+                allOf:
+                - $ref: '#/components/schemas/SdkWorkApiResponse'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      type: object
+                      required:
+                      - rendered
+                      properties:
+                        rendered:
+                          type: string
         default:
-          $ref: "#/components/responses/Problem"
+          $ref: '#/components/responses/Problem'
   /backend/v3/api/prompts/{promptId}/bindings:
     get:
-      tags: [promptsAdmin]
+      tags:
+      - promptsAdmin
       operationId: prompts.admin.bindings.list
       security:
-        - AuthToken: []
-          AccessToken: []
+      - AuthToken: []
+        AccessToken: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-backend-api
       x-sdkwork-api-surface: backend-api
@@ -213,22 +280,23 @@ paths:
       x-sdkwork-permission: prompts.admin.bindings.read
       x-sdkwork-auth-mode: dual-token
       parameters:
-        - $ref: "#/components/parameters/PromptId"
+      - $ref: '#/components/parameters/PromptId'
       responses:
-        "200":
+        '200':
           description: Binding list.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DefinitionBindingsListResult"
+                $ref: '#/components/schemas/SdkWorkListResponse'
         default:
-          $ref: "#/components/responses/Problem"
+          $ref: '#/components/responses/Problem'
     post:
-      tags: [promptsAdmin]
+      tags:
+      - promptsAdmin
       operationId: prompts.admin.bindings.create
       security:
-        - AuthToken: []
-          AccessToken: []
+      - AuthToken: []
+        AccessToken: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-backend-api
       x-sdkwork-api-surface: backend-api
@@ -238,29 +306,42 @@ paths:
       x-sdkwork-permission: prompts.admin.bindings.create
       x-sdkwork-auth-mode: dual-token
       parameters:
-        - $ref: "#/components/parameters/PromptId"
+      - $ref: '#/components/parameters/PromptId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AdminPromptBindingCreateRequest"
+              $ref: '#/components/schemas/AdminPromptBindingCreateRequest'
       responses:
-        "201":
+        '201':
           description: Created binding.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DefinitionBindingsCreateResult"
+                allOf:
+                - $ref: '#/components/schemas/SdkWorkApiResponse'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      type: object
+                      required:
+                      - item
+                      properties:
+                        item:
+                          $ref: '#/components/schemas/AdminPromptBindingItem'
         default:
-          $ref: "#/components/responses/Problem"
+          $ref: '#/components/responses/Problem'
   /backend/v3/api/prompts/bindings/{bindingId}:
     put:
-      tags: [promptsAdmin]
+      tags:
+      - promptsAdmin
       operationId: prompts.admin.bindings.update
       security:
-        - AuthToken: []
-          AccessToken: []
+      - AuthToken: []
+        AccessToken: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-backend-api
       x-sdkwork-api-surface: backend-api
@@ -270,22 +351,34 @@ paths:
       x-sdkwork-permission: prompts.admin.bindings.update
       x-sdkwork-auth-mode: dual-token
       parameters:
-        - $ref: "#/components/parameters/BindingId"
+      - $ref: '#/components/parameters/BindingId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AdminPromptBindingUpdateRequest"
+              $ref: '#/components/schemas/AdminPromptBindingUpdateRequest'
       responses:
-        "200":
+        '200':
           description: Updated binding.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DefinitionBindingsUpdateResult"
+                allOf:
+                - $ref: '#/components/schemas/SdkWorkApiResponse'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      type: object
+                      required:
+                      - item
+                      properties:
+                        item:
+                          $ref: '#/components/schemas/AdminPromptBindingItem'
         default:
-          $ref: "#/components/responses/Problem"
+          $ref: '#/components/responses/Problem'
 components:
   securitySchemes:
     AuthToken:
@@ -301,241 +394,461 @@ components:
       name: promptId
       in: path
       required: true
-      schema: { type: string }
+      schema:
+        type: string
     VersionId:
       name: versionId
       in: path
       required: true
-      schema: { type: string }
+      schema:
+        type: string
     BindingId:
       name: bindingId
       in: path
       required: true
-      schema: { type: string }
+      schema:
+        type: string
   responses:
     Problem:
-      description: Problem response.
+      description: RFC 9457 problem response.
       content:
-        application/json:
+        application/problem+json:
           schema:
-            type: object
+            $ref: '#/components/schemas/ProblemDetail'
   schemas:
-    PlusApiEnvelope:
-      type: object
-      required: [code]
-      properties:
-        code: { type: string }
-        msg: { type: string }
     AdminPromptItem:
       type: object
-      required: [id, uuid, tenantId, organizationId, promptKey, name, promptType, visibility, status, tags, createdAt, updatedAt]
+      required:
+      - id
+      - uuid
+      - tenantId
+      - organizationId
+      - promptKey
+      - name
+      - promptType
+      - visibility
+      - status
+      - tags
+      - createdAt
+      - updatedAt
       properties:
-        id: { type: string }
-        uuid: { type: string }
-        tenantId: { type: string }
-        organizationId: { type: string }
-        promptKey: { type: string }
-        name: { type: string }
-        description: { type: string, nullable: true }
-        categoryId: { type: string, nullable: true }
-        categoryCode: { type: string, nullable: true }
-        promptType: { type: string }
-        visibility: { type: string }
-        status: { type: string }
+        id:
+          type: string
+        uuid:
+          type: string
+        tenantId:
+          type: string
+        organizationId:
+          type: string
+        promptKey:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        categoryId:
+          type: string
+          nullable: true
+        categoryCode:
+          type: string
+          nullable: true
+        promptType:
+          type: string
+        visibility:
+          type: string
+        status:
+          type: string
         tags:
           type: array
-          items: { type: string }
-        ownerUserId: { type: string, nullable: true }
-        latestVersionId: { type: string, nullable: true }
-        publishedVersionId: { type: string, nullable: true }
-        createdAt: { type: string, format: date-time }
-        updatedAt: { type: string, format: date-time }
+          items:
+            type: string
+        ownerUserId:
+          type: string
+          nullable: true
+        latestVersionId:
+          type: string
+          nullable: true
+        publishedVersionId:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
     AdminPromptVersionItem:
       type: object
-      required: [id, uuid, tenantId, organizationId, promptId, versionNo, title, content, lifecycleStatus, reviewStatus, createdAt, updatedAt]
+      required:
+      - id
+      - uuid
+      - tenantId
+      - organizationId
+      - promptId
+      - versionNo
+      - title
+      - content
+      - lifecycleStatus
+      - reviewStatus
+      - createdAt
+      - updatedAt
       properties:
-        id: { type: string }
-        uuid: { type: string }
-        tenantId: { type: string }
-        organizationId: { type: string }
-        promptId: { type: string }
-        versionNo: { type: string }
-        title: { type: string }
-        content: { type: string }
-        lifecycleStatus: { type: string }
-        reviewStatus: { type: string }
-        checksumHash: { type: string }
-        variableSchema: { type: object }
-        outputSchema: { type: object }
-        modelConstraints: { type: object }
-        safetyPolicy: { type: object }
-        examplesJson: { type: array, items: { type: object } }
-        createdBy: { type: string }
-        publishedAt: { type: string, format: date-time, nullable: true }
-        reviewComment: { type: string, nullable: true }
-        createdAt: { type: string, format: date-time }
-        updatedAt: { type: string, format: date-time }
+        id:
+          type: string
+        uuid:
+          type: string
+        tenantId:
+          type: string
+        organizationId:
+          type: string
+        promptId:
+          type: string
+        versionNo:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        lifecycleStatus:
+          type: string
+        reviewStatus:
+          type: string
+        checksumHash:
+          type: string
+        variableSchema:
+          type: object
+        outputSchema:
+          type: object
+        modelConstraints:
+          type: object
+        safetyPolicy:
+          type: object
+        examplesJson:
+          type: array
+          items:
+            type: object
+        createdBy:
+          type: string
+        publishedAt:
+          type: string
+          format: date-time
+          nullable: true
+        reviewComment:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
     AdminPromptBindingItem:
       type: object
-      required: [id, uuid, tenantId, organizationId, promptId, ownerType, ownerId, bindingRole, priority, enabled, createdAt, updatedAt]
+      required:
+      - id
+      - uuid
+      - tenantId
+      - organizationId
+      - promptId
+      - ownerType
+      - ownerId
+      - bindingRole
+      - priority
+      - enabled
+      - createdAt
+      - updatedAt
       properties:
-        id: { type: string }
-        uuid: { type: string }
-        tenantId: { type: string }
-        organizationId: { type: string }
-        promptId: { type: string }
-        promptVersionId: { type: string, nullable: true }
-        ownerType: { type: string }
-        ownerId: { type: string }
-        bindingRole: { type: string }
-        priority: { type: integer }
-        enabled: { type: boolean }
-        policyJson: { type: object }
-        snapshotJson: { type: object }
-        createdAt: { type: string, format: date-time }
-        updatedAt: { type: string, format: date-time }
-    DefinitionsListResult:
-      allOf:
-        - $ref: "#/components/schemas/PlusApiEnvelope"
-        - type: object
-          properties:
-            data:
-              type: object
-              properties:
-                items:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/AdminPromptItem"
-    DefinitionsCreateResult:
-      allOf:
-        - $ref: "#/components/schemas/PlusApiEnvelope"
-        - type: object
-          properties:
-            data:
-              type: object
-              properties:
-                item:
-                  $ref: "#/components/schemas/AdminPromptItem"
-    VersionsListResult:
-      allOf:
-        - $ref: "#/components/schemas/PlusApiEnvelope"
-        - type: object
-          properties:
-            data:
-              type: object
-              properties:
-                items:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/AdminPromptVersionItem"
-    VersionsCreateResult:
-      allOf:
-        - $ref: "#/components/schemas/PlusApiEnvelope"
-        - type: object
-          properties:
-            data:
-              type: object
-              properties:
-                item:
-                  $ref: "#/components/schemas/AdminPromptVersionItem"
-    VersionsPublishResult:
-      allOf:
-        - $ref: "#/components/schemas/PlusApiEnvelope"
-        - type: object
-          properties:
-            data:
-              type: object
-              properties:
-                item:
-                  $ref: "#/components/schemas/AdminPromptVersionItem"
-    VersionRendersCreateResult:
-      allOf:
-        - $ref: "#/components/schemas/PlusApiEnvelope"
-        - type: object
-          properties:
-            data:
-              type: object
-              properties:
-                rendered: { type: string }
-    DefinitionBindingsListResult:
-      allOf:
-        - $ref: "#/components/schemas/PlusApiEnvelope"
-        - type: object
-          properties:
-            data:
-              type: object
-              properties:
-                items:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/AdminPromptBindingItem"
-    DefinitionBindingsCreateResult:
-      allOf:
-        - $ref: "#/components/schemas/PlusApiEnvelope"
-        - type: object
-          properties:
-            data:
-              type: object
-              properties:
-                item:
-                  $ref: "#/components/schemas/AdminPromptBindingItem"
-    DefinitionBindingsUpdateResult:
-      allOf:
-        - $ref: "#/components/schemas/PlusApiEnvelope"
-        - type: object
-          properties:
-            data:
-              type: object
-              properties:
-                item:
-                  $ref: "#/components/schemas/AdminPromptBindingItem"
+        id:
+          type: string
+        uuid:
+          type: string
+        tenantId:
+          type: string
+        organizationId:
+          type: string
+        promptId:
+          type: string
+        promptVersionId:
+          type: string
+          nullable: true
+        ownerType:
+          type: string
+        ownerId:
+          type: string
+        bindingRole:
+          type: string
+        priority:
+          type: integer
+        enabled:
+          type: boolean
+        policyJson:
+          type: object
+        snapshotJson:
+          type: object
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
     AdminPromptCreateRequest:
       type: object
-      required: [promptKey, name]
+      required:
+      - promptKey
+      - name
       properties:
-        promptKey: { type: string }
-        name: { type: string }
-        description: { type: string }
-        categoryId: { type: string }
-        promptType: { type: string }
-        visibility: { type: string }
+        promptKey:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        categoryId:
+          type: string
+        promptType:
+          type: string
+        visibility:
+          type: string
         tags:
           type: array
-          items: { type: string }
+          items:
+            type: string
     AdminPromptVersionCreateRequest:
       type: object
-      required: [versionNo, title, content]
+      required:
+      - versionNo
+      - title
+      - content
       properties:
-        versionNo: { type: string }
-        title: { type: string }
-        content: { type: string }
-        variableSchema: { type: object }
-        outputSchema: { type: object }
-        modelConstraints: { type: object }
-        safetyPolicy: { type: object }
-        examplesJson: { type: array }
+        versionNo:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        variableSchema:
+          type: object
+        outputSchema:
+          type: object
+        modelConstraints:
+          type: object
+        safetyPolicy:
+          type: object
+        examplesJson:
+          type: array
     AdminPromptRenderRequest:
       type: object
       properties:
-        variables: { type: object }
+        variables:
+          type: object
     AdminPromptBindingCreateRequest:
       type: object
-      required: [ownerType, ownerId, bindingRole]
+      required:
+      - ownerType
+      - ownerId
+      - bindingRole
       properties:
-        promptVersionId: { type: string }
-        ownerType: { type: string }
-        ownerId: { type: integer, format: int64 }
-        bindingRole: { type: string }
-        priority: { type: integer }
-        enabled: { type: boolean }
-        policyJson: { type: object }
+        promptVersionId:
+          type: string
+        ownerType:
+          type: string
+        ownerId:
+          type: integer
+          format: int64
+        bindingRole:
+          type: string
+        priority:
+          type: integer
+        enabled:
+          type: boolean
+        policyJson:
+          type: object
     AdminPromptBindingUpdateRequest:
       type: object
       properties:
         promptVersionId: {}
-        ownerType: { type: string }
-        ownerId: { type: integer, format: int64 }
-        bindingRole: { type: string }
-        priority: { type: integer }
-        enabled: { type: boolean }
-        policyJson: { type: object }
+        ownerType:
+          type: string
+        ownerId:
+          type: integer
+          format: int64
+        bindingRole:
+          type: string
+        priority:
+          type: integer
+        enabled:
+          type: boolean
+        policyJson:
+          type: object
+    SdkWorkApiResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - code
+      - data
+      - traceId
+      properties:
+        code:
+          type: integer
+          format: int32
+          enum:
+          - 0
+          default: 0
+          minimum: 0
+          maximum: 0
+        data:
+          description: Operation-specific payload typed per response schema.
+        traceId:
+          type: string
+          format: uuid
+          description: Server-owned request correlation id.
+    SdkWorkResourceData:
+      type: object
+      additionalProperties: false
+      required:
+      - item
+      properties:
+        item:
+          type: object
+          additionalProperties: true
+          description: Typed domain resource for the operation.
+    SdkWorkPageData:
+      type: object
+      additionalProperties: false
+      required:
+      - items
+      - pageInfo
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+    SdkWorkCommandData:
+      type: object
+      additionalProperties: false
+      required:
+      - accepted
+      properties:
+        accepted:
+          type: boolean
+          const: true
+        resourceId:
+          type: string
+        status:
+          type: string
+    PageInfo:
+      type: object
+      additionalProperties: false
+      required:
+      - mode
+      properties:
+        mode:
+          type: string
+          enum:
+          - offset
+          - cursor
+        page:
+          type: integer
+          minimum: 1
+        pageSize:
+          type: integer
+          minimum: 1
+          maximum: 200
+        totalItems:
+          type: string
+          pattern: ^[0-9]+$
+        totalPages:
+          type: integer
+          minimum: 0
+        nextCursor:
+          type:
+          - string
+          - 'null'
+        hasMore:
+          type: boolean
+    SdkWorkPlatformErrorCode:
+      type: integer
+      format: int32
+      minimum: 40001
+      maximum: 79999
+      description: Platform or domain error code per API_SPEC.md 搂15.3.
+    ProblemDetail:
+      type: object
+      additionalProperties: true
+      required:
+      - type
+      - title
+      - status
+      - code
+      - traceId
+      properties:
+        type:
+          type: string
+          format: uri-reference
+        title:
+          type: string
+        status:
+          type: integer
+          minimum: 100
+          maximum: 599
+        detail:
+          type: string
+        instance:
+          type: string
+        code:
+          $ref: '#/components/schemas/SdkWorkPlatformErrorCode'
+        traceId:
+          type: string
+          format: uuid
+          description: Server-owned request correlation id.
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldError'
+    FieldError:
+      type: object
+      additionalProperties: false
+      required:
+      - field
+      - message
+      properties:
+        field:
+          type: string
+        message:
+          type: string
+        code:
+          type: integer
+          format: int32
+          minimum: 40011
+          maximum: 40099
+    SdkWorkResourceResponse:
+      allOf:
+      - $ref: '#/components/schemas/SdkWorkApiResponse'
+      - type: object
+        required:
+        - data
+        properties:
+          data:
+            $ref: '#/components/schemas/SdkWorkResourceData'
+    SdkWorkListResponse:
+      allOf:
+      - $ref: '#/components/schemas/SdkWorkApiResponse'
+      - type: object
+        required:
+        - data
+        properties:
+          data:
+            $ref: '#/components/schemas/SdkWorkPageData'
+    SdkWorkCommandResponse:
+      allOf:
+      - $ref: '#/components/schemas/SdkWorkApiResponse'
+      - type: object
+        required:
+        - data
+        properties:
+          data:
+            $ref: '#/components/schemas/SdkWorkCommandData'

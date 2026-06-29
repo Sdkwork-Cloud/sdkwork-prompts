@@ -1,6 +1,5 @@
-Locale seed directories:
+# Database seed locales
 
-- `zh-CN/` — default active locale
-- `en-US/`, `ja-JP/`, `de-DE/`, `fr-FR/`, `ru-RU/`, `ko-KR/` — reserved placeholders
+Active locale: `zh-CN/standard/` (see `database/seeds/locales/zh-CN/`).
 
-Each active locale directory contains ordered SQL seed files referenced by `seeds/seed.manifest.json`.
+Additional locale directories (`en-US`, `ja-JP`, …) are reserved for future seed profiles declared in `database/database.manifest.json`.

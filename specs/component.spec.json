@@ -11,7 +11,7 @@
     "declaredDomain": "intelligence",
     "capability": "prompts",
     "surface": "app",
-    "status": "contract-scaffolded",
+    "status": "active",
     "languages": [
       "rust",
       "typescript",
@@ -146,6 +146,32 @@
         "packageByLanguage": {
           "typescript": "@sdkwork/iam-app-sdk",
           "rust": "sdkwork-iam-app-sdk"
+        }
+      },
+      {
+        "workspace": "../sdkwork-drive/sdks/sdkwork-drive-app-sdk",
+        "role": "drive-app-capability",
+        "required": false,
+        "dependencyMode": "consumer-sdk",
+        "apiPrefix": "/app/v3/api",
+        "apiAuthority": "sdkwork-drive.app",
+        "generatedTransportImportPolicy": "forbidden",
+        "packageByLanguage": {
+          "typescript": "@sdkwork-internal/drive-app-sdk-generated",
+          "rust": "sdkwork-drive-app-sdk-generated"
+        }
+      },
+      {
+        "workspace": "../sdkwork-drive/sdks/sdkwork-drive-backend-sdk",
+        "role": "drive-backend-capability",
+        "required": false,
+        "dependencyMode": "consumer-sdk",
+        "apiPrefix": "/backend/v3/api",
+        "apiAuthority": "sdkwork-drive.backend",
+        "generatedTransportImportPolicy": "forbidden",
+        "packageByLanguage": {
+          "typescript": "@sdkwork-internal/drive-backend-sdk-generated",
+          "rust": "sdkwork-drive-backend-sdk-generated"
         }
       }
     ],

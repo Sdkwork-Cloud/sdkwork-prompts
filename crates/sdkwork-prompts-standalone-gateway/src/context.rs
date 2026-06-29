@@ -2,6 +2,7 @@ use axum::{
     extract::FromRequestParts,
     http::{request::Parts, HeaderMap, StatusCode},
 };
+use sdkwork_utils_rust::uuid;
 
 use crate::auth::parse_access_token_header;
 
@@ -42,6 +43,17 @@ impl PromptsRequestContext {
 
     pub fn user_id_value(&self) -> i64 {
         self.user_id
+    }
+
+    pub fn request_id(&self) -> Option<String> {
+        self.request_id.clone()
+    }
+
+    pub fn trace_id(&self) -> String {
+        self.request_id
+            .clone()
+            .filter(|value| !value.is_empty())
+            .unwrap_or_else(uuid)
     }
 }
 

@@ -1,5 +1,3 @@
-# changelogs
+# Changelogs (PC app mirror)
 
-See `DOCUMENTATION_SPEC.md` section 2.
-
-See `DOCUMENTATION_SPEC.md` section 2.
+Canonical changelogs: [repository docs/changelogs/](../../../../docs/changelogs/README.md).

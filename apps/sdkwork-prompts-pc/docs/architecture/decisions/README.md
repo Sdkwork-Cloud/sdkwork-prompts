@@ -1,7 +1,5 @@
-# Architecture Decision Records
+# Architecture Decision Records (PC app mirror)
 
-New ADRs use `ADR-YYYYMMDD-<short-title>.md` in this directory.
+Canonical ADR index: [repository docs/architecture/decisions/](../../../../../docs/architecture/decisions/README.md).
 
-Retired layout: `docs/adr/` must not be used for new ADRs.
-
-See `ARCHITECTURE_DECISION_SPEC.md`.
+New ADRs belong in the repository root `docs/architecture/decisions/` using `ADR-YYYYMMDD-<short-title>.md`.

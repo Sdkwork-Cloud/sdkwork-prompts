@@ -90,11 +90,33 @@ for (const dep of [
   "sdkwork-database-config",
   "sdkwork-database-sqlx",
   "sdkwork-utils-rust",
-  "sdkwork-id-core",
 ]) {
   assert(cargoToml.includes(dep), `Cargo.toml must declare ${dep}`);
 }
 assert(!cargoToml.includes("sdkwork-discovery"), "sdkwork-discovery deferred until RPC exists");
+
+for (const openapiPath of [
+  "apis/app-api/intelligence/prompts/openapi.yaml",
+  "apis/backend-api/intelligence/prompts/openapi.yaml",
+  "apis/open-api/intelligence/prompts/openapi.yaml",
+]) {
+  const openapi = readText(openapiPath);
+  assert(
+    !/PlusApiEnvelope|PlusApiResult/.test(openapi),
+    `${openapiPath} must not declare legacy PlusApi envelopes`,
+  );
+}
+
+for (const docPath of [
+  "configs/local/.env.example",
+  "configs/test/.env.test",
+  "deployments/docker/README.md",
+  "sdks/README.md",
+  "crates/sdkwork-prompts-service-host/README.md",
+]) {
+  const text = readText(docPath);
+  assert(!/\bprm_|\bbuild_prm|SDKWORK_CLAW_|forum-api/.test(text), `${docPath} must not reference legacy forum/prm surfaces`);
+}
 
 const componentSpec = readJson("specs/component.spec.json");
 assert(componentSpec.component?.domain === "intelligence", "domain must be intelligence");

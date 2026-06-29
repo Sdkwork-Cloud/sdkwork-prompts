@@ -1,7 +1,7 @@
 import { backendApiPath } from './paths';
 import type { HttpClient } from '../http/client';
 
-import type { AdminPromptBindingCreateRequest, AdminPromptBindingUpdateRequest, AdminPromptCreateRequest, AdminPromptRenderRequest, AdminPromptVersionCreateRequest, DefinitionBindingsCreateResult, DefinitionBindingsListResult, DefinitionBindingsUpdateResult, DefinitionsCreateResult, DefinitionsListResult, VersionRendersCreateResult, VersionsCreateResult, VersionsListResult, VersionsPublishResult } from '../types';
+import type { AdminPromptBindingCreateRequest, AdminPromptBindingItem, AdminPromptBindingUpdateRequest, AdminPromptCreateRequest, AdminPromptItem, AdminPromptRenderRequest, AdminPromptVersionCreateRequest, AdminPromptVersionItem, PageInfo } from '../types';
 
 
 export class PromptsAdminPromptsAdminBindingsApi {
@@ -12,16 +12,16 @@ export class PromptsAdminPromptsAdminBindingsApi {
   }
 
 
-async list(promptId: string): Promise<DefinitionBindingsListResult> {
-    return this.client.get<DefinitionBindingsListResult>(backendApiPath(`/prompts/${serializePathParameter(promptId, { name: 'promptId', style: 'simple', explode: false })}/bindings`));
+async list(promptId: string): Promise<Record<string, unknown>> {
+    return this.client.get<Record<string, unknown>>(backendApiPath(`/prompts/${serializePathParameter(promptId, { name: 'promptId', style: 'simple', explode: false })}/bindings`));
   }
 
-async create(promptId: string, body: AdminPromptBindingCreateRequest): Promise<DefinitionBindingsCreateResult> {
-    return this.client.post<DefinitionBindingsCreateResult>(backendApiPath(`/prompts/${serializePathParameter(promptId, { name: 'promptId', style: 'simple', explode: false })}/bindings`), body, undefined, undefined, 'application/json');
+async create(promptId: string, body: AdminPromptBindingCreateRequest): Promise<AdminPromptBindingItem> {
+    return this.client.post<AdminPromptBindingItem>(backendApiPath(`/prompts/${serializePathParameter(promptId, { name: 'promptId', style: 'simple', explode: false })}/bindings`), body, undefined, undefined, 'application/json');
   }
 
-async update(bindingId: string, body: AdminPromptBindingUpdateRequest): Promise<DefinitionBindingsUpdateResult> {
-    return this.client.put<DefinitionBindingsUpdateResult>(backendApiPath(`/prompts/bindings/${serializePathParameter(bindingId, { name: 'bindingId', style: 'simple', explode: false })}`), body, undefined, undefined, 'application/json');
+async update(bindingId: string, body: AdminPromptBindingUpdateRequest): Promise<AdminPromptBindingItem> {
+    return this.client.put<AdminPromptBindingItem>(backendApiPath(`/prompts/bindings/${serializePathParameter(bindingId, { name: 'bindingId', style: 'simple', explode: false })}`), body, undefined, undefined, 'application/json');
   }
 }
 
@@ -33,20 +33,20 @@ export class PromptsAdminPromptsAdminVersionsApi {
   }
 
 
-async list(promptId: string): Promise<VersionsListResult> {
-    return this.client.get<VersionsListResult>(backendApiPath(`/prompts/${serializePathParameter(promptId, { name: 'promptId', style: 'simple', explode: false })}/versions`));
+async list(promptId: string): Promise<Record<string, unknown>> {
+    return this.client.get<Record<string, unknown>>(backendApiPath(`/prompts/${serializePathParameter(promptId, { name: 'promptId', style: 'simple', explode: false })}/versions`));
   }
 
-async create(promptId: string, body: AdminPromptVersionCreateRequest): Promise<VersionsCreateResult> {
-    return this.client.post<VersionsCreateResult>(backendApiPath(`/prompts/${serializePathParameter(promptId, { name: 'promptId', style: 'simple', explode: false })}/versions`), body, undefined, undefined, 'application/json');
+async create(promptId: string, body: AdminPromptVersionCreateRequest): Promise<AdminPromptVersionItem> {
+    return this.client.post<AdminPromptVersionItem>(backendApiPath(`/prompts/${serializePathParameter(promptId, { name: 'promptId', style: 'simple', explode: false })}/versions`), body, undefined, undefined, 'application/json');
   }
 
-async publish(versionId: string): Promise<VersionsPublishResult> {
-    return this.client.post<VersionsPublishResult>(backendApiPath(`/prompts/versions/${serializePathParameter(versionId, { name: 'versionId', style: 'simple', explode: false })}/publish`));
+async publish(versionId: string): Promise<AdminPromptVersionItem> {
+    return this.client.post<AdminPromptVersionItem>(backendApiPath(`/prompts/versions/${serializePathParameter(versionId, { name: 'versionId', style: 'simple', explode: false })}/publish`));
   }
 
-async render(versionId: string, body?: AdminPromptRenderRequest): Promise<VersionRendersCreateResult> {
-    return this.client.post<VersionRendersCreateResult>(backendApiPath(`/prompts/versions/${serializePathParameter(versionId, { name: 'versionId', style: 'simple', explode: false })}/render`), body, undefined, undefined, 'application/json');
+async render(versionId: string, body?: AdminPromptRenderRequest): Promise<Record<string, unknown>> {
+    return this.client.post<Record<string, unknown>>(backendApiPath(`/prompts/versions/${serializePathParameter(versionId, { name: 'versionId', style: 'simple', explode: false })}/render`), body, undefined, undefined, 'application/json');
   }
 }
 
@@ -68,7 +68,7 @@ export class PromptsAdminPromptsAdminDefinitionsApi {
   }
 
 
-async list(params?: PromptsAdminPromptsAdminDefinitionsListParams): Promise<DefinitionsListResult> {
+async list(params?: PromptsAdminPromptsAdminDefinitionsListParams): Promise<Record<string, unknown>> {
     const query = buildQueryString([
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
@@ -78,11 +78,11 @@ async list(params?: PromptsAdminPromptsAdminDefinitionsListParams): Promise<Defi
       { name: 'status', value: params?.status, style: 'form', explode: true, allowReserved: false },
       { name: 'category_id', value: params?.categoryId, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<DefinitionsListResult>(appendQueryString(backendApiPath(`/prompts`), query));
+    return this.client.get<Record<string, unknown>>(appendQueryString(backendApiPath(`/prompts`), query));
   }
 
-async create(body: AdminPromptCreateRequest): Promise<DefinitionsCreateResult> {
-    return this.client.post<DefinitionsCreateResult>(backendApiPath(`/prompts`), body, undefined, undefined, 'application/json');
+async create(body: AdminPromptCreateRequest): Promise<AdminPromptItem> {
+    return this.client.post<AdminPromptItem>(backendApiPath(`/prompts`), body, undefined, undefined, 'application/json');
   }
 }
 

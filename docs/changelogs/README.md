@@ -1,3 +1,3 @@
-# Prompts Changelogs
+# Release notes
 
-- [v0.2.0-prompts-only.md](v0.2.0-prompts-only.md) — Prompts-only alignment (removed forum)
+- [RELEASE-v0.1.0.md](RELEASE-v0.1.0.md) — pre-release baseline

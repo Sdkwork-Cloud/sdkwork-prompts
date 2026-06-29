@@ -1,7 +1,7 @@
 import { appApiPath } from './paths';
 import type { HttpClient } from '../http/client';
 
-import type { AgentPromptTemplate, AgentPromptTemplatePage, PromptTemplate, PromptTemplateCreateRequest, PromptTemplatePage, PromptTemplateUpdateRequest, PromptTemplateVersion, PromptTemplateVersionCreateRequest, PromptTemplateVersionPage } from '../types';
+import type { AgentPromptTemplate, PageInfo, PromptTemplate, PromptTemplateCreateRequest, PromptTemplateUpdateRequest, PromptTemplateVersion, PromptTemplateVersionCreateRequest } from '../types';
 
 
 export interface PromptsAgentTemplatesListParams {
@@ -17,11 +17,11 @@ export class PromptsAgentTemplatesApi {
 
 
 /** List agent prompt templates. */
-  async list(params?: PromptsAgentTemplatesListParams): Promise<AgentPromptTemplatePage> {
+  async list(params?: PromptsAgentTemplatesListParams): Promise<Record<string, unknown>> {
     const query = buildQueryString([
       { name: 'limit', value: params?.limit, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<AgentPromptTemplatePage>(appendQueryString(appApiPath(`/prompts/agent_templates`), query));
+    return this.client.get<Record<string, unknown>>(appendQueryString(appApiPath(`/prompts/agent_templates`), query));
   }
 
 /** Get agent prompt template. */
@@ -39,8 +39,8 @@ export class PromptsTemplateVersionsApi {
 
 
 /** List template versions. */
-  async list(templateId: string): Promise<PromptTemplateVersionPage> {
-    return this.client.get<PromptTemplateVersionPage>(appApiPath(`/prompts/templates/${serializePathParameter(templateId, { name: 'templateId', style: 'simple', explode: false })}/versions`));
+  async list(templateId: string): Promise<Record<string, unknown>> {
+    return this.client.get<Record<string, unknown>>(appApiPath(`/prompts/templates/${serializePathParameter(templateId, { name: 'templateId', style: 'simple', explode: false })}/versions`));
   }
 
 /** Create template version. */
@@ -64,13 +64,13 @@ export class PromptsTemplatesApi {
 
 
 /** List prompt templates. */
-  async list(params?: PromptsTemplatesListParams): Promise<PromptTemplatePage> {
+  async list(params?: PromptsTemplatesListParams): Promise<Record<string, unknown>> {
     const query = buildQueryString([
       { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
       { name: 'limit', value: params?.limit, style: 'form', explode: true, allowReserved: false },
       { name: 'status', value: params?.status, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<PromptTemplatePage>(appendQueryString(appApiPath(`/prompts/templates`), query));
+    return this.client.get<Record<string, unknown>>(appendQueryString(appApiPath(`/prompts/templates`), query));
   }
 
 /** Create prompt template. */

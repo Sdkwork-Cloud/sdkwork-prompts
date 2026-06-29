@@ -1,10 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { isBlank } from "@sdkwork/utils/string";
+import type { AdminPromptItem } from "@sdkwork/prompts-backend-sdk";
 import { listPrompts } from "@sdkwork/prompts-pc-admin-prompts";
-
-type PromptListData = {
-  items?: Array<{ promptKey?: string; name?: string; promptType?: string }>;
-};
 
 export function PromptWorkspacePage() {
   const subtitle = useMemo(() => {
@@ -14,17 +11,16 @@ export function PromptWorkspacePage() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [items, setItems] = useState<PromptListData["items"]>([]);
+  const [items, setItems] = useState<AdminPromptItem[]>([]);
 
   useEffect(() => {
     let active = true;
     listPrompts()
-      .then((result) => {
+      .then((promptItems) => {
         if (!active) {
           return;
         }
-        const data = (result.data ?? {}) as PromptListData;
-        setItems(Array.isArray(data.items) ? data.items : []);
+        setItems(promptItems);
         setError(null);
       })
       .catch((cause: unknown) => {
@@ -48,8 +44,7 @@ export function PromptWorkspacePage() {
     <section>
       <h1>Prompt Workspace</h1>
       <p>
-        Manage prompt definitions, versions, and bindings through the sdkwork-prompts backend
-        SDK. This foundation app does not depend on clawrouter.
+        Manage prompt definitions, versions, and bindings through the sdkwork-prompts backend SDK.
       </p>
       <p>
         Environment: <code>{subtitle}</code>
@@ -63,11 +58,11 @@ export function PromptWorkspacePage() {
       ) : null}
       {!loading && !error ? (
         <ul>
-          {(items ?? []).length === 0 ? (
+          {items.length === 0 ? (
             <li>No prompts yet.</li>
           ) : (
-            (items ?? []).map((item) => (
-              <li key={`${item.promptKey ?? item.name}`}>
+            items.map((item) => (
+              <li key={item.id ?? item.promptKey}>
                 <strong>{item.name ?? item.promptKey}</strong>
                 {item.promptType ? ` · ${item.promptType}` : null}
               </li>

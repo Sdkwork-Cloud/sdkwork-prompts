@@ -1,45 +1,40 @@
-# Prompts SDK Workspace
+# Prompts SDK workspace
 
-This directory is the SDKWork SDK generation workspace for the forum capability.
+SDK generation workspace for the intelligence **prompts** capability.
 
-## SDK Families
+## SDK families
 
-| Family | Surface | Prefix | Auth | Status |
-|--------|---------|--------|------|--------|
-| `sdkwork-prompts-app-sdk` | app-api | `/app/v3/api` | dual-token | Composed facade implemented |
-| `sdkwork-prompts-backend-sdk` | backend-api | `/backend/v3/api` | dual-token | Composed facade implemented |
-| `sdkwork-prompts-sdk` | open-api | `/prompts/v3/api` | anonymous | Composed facade implemented |
+| Family | Surface | Prefix | Auth |
+| --- | --- | --- | --- |
+| `sdkwork-prompts-app-sdk` | app-api | `/app/v3/api` | dual-token |
+| `sdkwork-prompts-backend-sdk` | backend-api | `/backend/v3/api` | dual-token |
+| `sdkwork-prompts-sdk` | open-api | `/prompts/v3/api` | public read |
 
-## Structure
+## Layout
 
 ```
 sdks/
   sdkwork-prompts-app-sdk/
-    openapi/                    # sdkgen configs
-    composed/src/index.ts       # PromptsAppFacade (22 methods)
-    generated/server-openapi/   # sdkgen output (awaiting generation)
+    openapi/                    # materialized OpenAPI authority
+    composed/src/index.ts       # PromptsAppFacade
+    generated/server-openapi/   # sdkgen output (do not hand-edit)
   sdkwork-prompts-backend-sdk/
-    openapi/
-    composed/src/index.ts       # PromptsBackendFacade (30+ methods)
-    generated/server-openapi/
   sdkwork-prompts-sdk/
-    openapi/
-    composed/src/index.ts       # PromptsOpenFacade (8 methods)
-    generated/server-openapi/
-  _route-manifests/             # Route manifest JSON files
-  _shared/                      # Shared schema fragments
-  test/                         # SDK tests
+  _route-manifests/
+  _shared/
 ```
 
-## Generation
+## Materialize and generate
 
-Generated transport output under each family `generated/server-openapi` is generator-owned and must not be hand-edited. Handwritten composition belongs in `composed/`.
-
-Run canonical sdkgen after authority OpenAPI review:
 ```bash
-../sdkwork-sdk-generator/bin/sdkgen.js --input sdks/sdkwork-prompts-app-sdk/openapi/sdkwork-prompts-app-api.sdkgen.yaml
+pnpm api:materialize
+pnpm api:sdkgen
 ```
+
+Generated transport under `generated/server-openapi` is generator-owned. Handwritten facades belong in `composed/`.
 
 ## Tests
 
-- `tests/sdk/forum-sdk.test.mjs` - Validates sdkgen configs, route manifests, and composed facades
+```bash
+node tests/sdk/prompts-sdk.test.mjs
+```

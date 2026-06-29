@@ -1,29 +1,5 @@
-# SDKWork Prompts PC PRD
+# SDKWork Prompts PC — PRD pointer
 
-Status: draft
-Owner: SDKWork maintainers
-Application: sdkwork-prompts-pc
-Updated: 2026-06-24
-Specs: REQUIREMENTS_SPEC.md, DOCUMENTATION_SPEC.md
+This file is a mirror entry only. Do not edit here.
 
-## Document Map
-
-- Add `PRD-<topic>.md` shards in this directory when the PRD grows beyond one reviewable screen.
-
-## 1. Background And Problem
-
-## 2. Target Users
-
-## 3. Goals And Non-Goals
-
-## 4. Scope
-
-## 5. User Scenarios
-
-## 6. Success Metrics
-
-## 7. Phases
-
-## 8. Linked Requirements
-
-## 9. Open Questions
+Canonical PRD: [repository PRD.md](../../../../../docs/product/prd/PRD.md).

@@ -1,5 +1,13 @@
-# Developer Guide
+# Developer guide (PC app)
 
-Local setup, verification, and contribution workflow.
+Canonical guide: [repository developer guide](../../../../../docs/guides/developer/README.md).
 
-See `DOCUMENTATION_SPEC.md` section 2.
+PC-specific quick start:
+
+```bash
+cd apps/sdkwork-prompts-pc
+pnpm install
+pnpm dev
+```
+
+Set `VITE_SDKWORK_PROMPTS_API_BASE_URL` for the standalone gateway (default `http://localhost:8080`).

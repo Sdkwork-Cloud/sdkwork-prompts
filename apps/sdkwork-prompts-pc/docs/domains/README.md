@@ -1,5 +1,3 @@
-# Domain Extensions
+# Domains (PC app mirror)
 
-Register domain-specific documentation directories here.
-
-See `DOCUMENTATION_SPEC.md` section 2.
+Canonical domain documentation: [repository docs/domains/](../../../../docs/domains/README.md).

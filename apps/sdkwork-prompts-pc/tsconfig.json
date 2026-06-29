@@ -13,6 +13,12 @@
       "@sdkwork/prompts-backend-sdk": [
         "../../sdks/sdkwork-prompts-backend-sdk/generated/server-openapi/src/index.ts"
       ],
+      "@sdkwork/utils": [
+        "../../../sdkwork-utils/packages/sdkwork-utils-typescript/src/index.ts"
+      ],
+      "@sdkwork/utils/*": [
+        "../../../sdkwork-utils/packages/sdkwork-utils-typescript/src/*"
+      ],
       "@sdkwork/prompts-pc-commons/runtime": [
         "./packages/sdkwork-prompts-pc-commons/src/runtime.ts"
       ],

@@ -1,31 +1,35 @@
 # SDKWork Prompts PC
 
-PC application for SDKWork Prompts.
+Browser/desktop prompt workspace for SDKWork Prompts (intelligence / prompts).
 
-## Architecture
+## Packages
 
-This application follows `APP_PC_ARCHITECTURE_SPEC.md` standards.
+| Package | Role |
+| --- | --- |
+| `sdkwork-prompts-pc-core` | Host composition, session, SDK inventory |
+| `sdkwork-prompts-pc-commons` | Backend SDK client wiring, `@sdkwork/utils` helpers |
+| `sdkwork-prompts-pc-admin-prompts` | Admin prompt service (definitions, versions, bindings) |
+| `sdkwork-prompts-pc-workspace` | Prompt workspace UI |
 
-### Package Structure
-
-- `sdkwork-prompts-pc-core` - Core runtime, SDK clients, session management
-- `sdkwork-prompts-pc-commons` - Shared UI components and utilities
-- `sdkwork-prompts-pc-shell` - PC navigation and shell components
-- `sdkwork-prompts-pc-discussion` - Prompts discussion feature package
-
-### Development
+## Development
 
 ```bash
-# Install dependencies
 pnpm install
-
-# Start development server
+cp ../../configs/local/.env.example .env.local   # optional API base URL
 pnpm dev
-
-# Build for production
-pnpm build
 ```
 
-### Configuration
+Set `VITE_SDKWORK_PROMPTS_API_BASE_URL` to the standalone gateway (default `http://localhost:8080`).
 
-Runtime configuration is in `config/browser/`. See `CONFIG_SPEC.md` for details.
+## Verification
+
+```bash
+pnpm typecheck
+pnpm test
+```
+
+Repository-wide checks: `pnpm verify` from `sdkwork-prompts` root.
+
+## Documentation
+
+See [repository docs](../../../docs/README.md).

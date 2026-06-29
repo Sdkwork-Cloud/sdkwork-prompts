@@ -25,7 +25,7 @@ Project rules:
 - Open API public read operations must not declare SDKWork dual-token headers or custom business context headers.
 - Generated SDK output under `sdks/**/generated/server-openapi` is generator-owned and must not be hand-edited.
 - sdkwork-kernel MUST depend on `sdkwork-intelligence-prompts-ai-contract` for prompt ports; it MUST NOT own prompt table DDL.
-- App/frontend implementation under `apps/` is out of scope for this foundation task.
+- PC app under `apps/sdkwork-prompts-pc` consumes `@sdkwork/prompts-backend-sdk`; no raw HTTP or manual auth headers.
 
 Implementation handoff:
 - TODO comments must be precise and small enough for another agent to implement without guessing.

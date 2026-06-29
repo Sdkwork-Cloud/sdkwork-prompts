@@ -1,5 +1,3 @@
-# roadmap
+# Product roadmap (PC app mirror)
 
-See `DOCUMENTATION_SPEC.md` section 2.
-
-See `DOCUMENTATION_SPEC.md` section 2.
+Canonical roadmap: [repository docs/product/roadmap/](../../../../../docs/product/roadmap/README.md).

@@ -1,5 +1,9 @@
-# releases
+# Releases
 
-See `DOCUMENTATION_SPEC.md` section 2.
+Pre-release baseline: [changelogs/RELEASE-v0.1.0.md](../changelogs/RELEASE-v0.1.0.md)
 
-See `DOCUMENTATION_SPEC.md` section 2.
+Verification before release:
+
+```bash
+pnpm verify
+```

@@ -1,17 +1,20 @@
 use axum::{
     extract::{Path, Query, State},
-    http::StatusCode,
+    response::Response,
     routing::get,
-    Json, Router,
+    Router,
 };
 use sdkwork_intelligence_prompts_ai_contract::{
-    domain::AgentPromptTemplateRecord, ports::AgentPromptTemplateListQuery, PromptAiError,
-    PromptAiRepository,
+    domain::AgentPromptTemplateRecord, ports::AgentPromptTemplateListQuery, PromptAiRepository,
 };
+use sdkwork_web_core::WebFrameworkErrorKind;
 use serde::Deserialize;
 use serde_json::{json, Value};
 
 use crate::context::PromptsCtx;
+use crate::response::{
+    map_prompt_error, ok_json, page_data, cursor_page_info, resource_data, status_problem,
+};
 use crate::AppState;
 
 const DEFAULT_LIMIT: u32 = 50;
@@ -38,7 +41,7 @@ async fn list_agent_templates(
     State(state): State<AppState>,
     PromptsCtx(ctx): PromptsCtx,
     Query(query): Query<AgentTemplateListQuery>,
-) -> Result<Json<Value>, StatusCode> {
+) -> Response {
     let limit = query.limit.unwrap_or(DEFAULT_LIMIT).clamp(1, MAX_LIMIT);
     let list_query = AgentPromptTemplateListQuery {
         tenant_id: ctx.tenant_id_value(),
@@ -51,10 +54,14 @@ async fn list_agent_templates(
         .list_agent_prompt_templates(list_query)
         .await
     {
-        Ok(items) => Ok(Json(json!({
-            "items": items.iter().map(agent_template_json).collect::<Vec<_>>(),
-        }))),
-        Err(error) => Err(map_error(error)),
+        Ok(items) => {
+            let mapped: Vec<Value> = items.iter().map(agent_template_json).collect();
+            ok_json(
+                &ctx,
+                page_data(mapped, cursor_page_info(None, false)),
+            )
+        }
+        Err(error) => map_prompt_error(&ctx, error),
     }
 }
 
@@ -62,16 +69,19 @@ async fn get_agent_template(
     State(state): State<AppState>,
     PromptsCtx(ctx): PromptsCtx,
     Path(template_id): Path<String>,
-) -> Result<Json<Value>, StatusCode> {
-    let id = parse_id(&template_id)?;
+) -> Response {
+    let id = match parse_id(&template_id, &ctx) {
+        Ok(id) => id,
+        Err(response) => return response,
+    };
     match state
         .service_host
         .ai_repository()
         .get_agent_prompt_template(ctx.tenant_id_value(), id)
         .await
     {
-        Ok(record) => Ok(Json(agent_template_json(&record))),
-        Err(error) => Err(map_error(error)),
+        Ok(record) => ok_json(&ctx, resource_data(agent_template_json(&record))),
+        Err(error) => map_prompt_error(&ctx, error),
     }
 }
 
@@ -79,7 +89,7 @@ fn agent_template_json(record: &AgentPromptTemplateRecord) -> Value {
     json!({
         "id": record.id.to_string(),
         "uuid": record.uuid,
-        "promptId": record.prompt_id,
+        "promptId": record.prompt_id.to_string(),
         "code": record.code,
         "displayName": record.display_name,
         "description": record.description,
@@ -92,15 +102,8 @@ fn agent_template_json(record: &AgentPromptTemplateRecord) -> Value {
     })
 }
 
-fn parse_id(raw: &str) -> Result<i64, StatusCode> {
-    raw.parse::<i64>().map_err(|_| StatusCode::BAD_REQUEST)
-}
-
-fn map_error(error: PromptAiError) -> StatusCode {
-    match error {
-        PromptAiError::NotFound(_) => StatusCode::NOT_FOUND,
-        PromptAiError::Conflict(_) => StatusCode::CONFLICT,
-        PromptAiError::Validation(_) => StatusCode::BAD_REQUEST,
-        PromptAiError::Internal(_) => StatusCode::INTERNAL_SERVER_ERROR,
-    }
+fn parse_id(raw: &str, ctx: &crate::context::PromptsRequestContext) -> Result<i64, Response> {
+    raw.parse::<i64>().map_err(|_| {
+        status_problem(ctx, WebFrameworkErrorKind::BadRequest, "invalid resource id")
+    })
 }

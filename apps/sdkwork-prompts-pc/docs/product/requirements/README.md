@@ -1,5 +1,3 @@
-# Engineering Requirements
+# Product requirements (PC app mirror)
 
-Implementable `REQ-*` records governed by `REQUIREMENTS_SPEC.md`.
-
-See `DOCUMENTATION_SPEC.md` section 2.
+Canonical requirements: [repository docs/product/requirements/](../../../../../docs/product/requirements/README.md).

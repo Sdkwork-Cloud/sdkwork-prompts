@@ -1,5 +1,3 @@
-# Operator Guide
+# Operator guide (PC app mirror)
 
-Deployment, monitoring, and incident response entrypoints.
-
-See `DOCUMENTATION_SPEC.md` section 2.
+Canonical guide: [repository operator guide](../../../../../docs/guides/operator/README.md).

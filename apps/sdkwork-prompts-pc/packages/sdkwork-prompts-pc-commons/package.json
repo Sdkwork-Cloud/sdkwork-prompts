@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@sdkwork/prompts-backend-sdk": "workspace:*",
-    "@sdkwork/sdk-common": "^1.0.2"
+    "@sdkwork/sdk-common": "^1.0.2",
+    "@sdkwork/utils": "file:../../../../../sdkwork-utils/packages/sdkwork-utils-typescript"
   }
 }

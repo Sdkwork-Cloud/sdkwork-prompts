@@ -1,6 +1,6 @@
 {
   "name": "@sdkwork/prompts-backend-sdk",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "private": true,
   "description": "Generator-owned TypeScript transport SDK for sdkwork-prompts-backend-sdk.",
   "author": "SDKWork Team",

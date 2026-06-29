@@ -3,7 +3,7 @@
 Status: active  
 Owner: prompts-platform  
 Application: sdkwork-prompts  
-Updated: 2026-06-26  
+Updated: 2026-06-29  
 Specs: REQUIREMENTS_SPEC.md, DOCUMENTATION_SPEC.md
 
 ## 1. Problem
@@ -21,25 +21,25 @@ Prompt definitions are scattered across services with inconsistent table prefixe
 
 - Single owner for `ai_` prompt tables in sdkwork-prompts
 - Versioned, publishable prompt definitions with render support
-- Bind prompts to agents/workflows/scenes
-- Marketplace template catalog for agent templates
+- Bind prompts to agents, workflows, and scenes
+- Agent template catalog (`ai_prompt_template`)
 - Public read-only catalog for published prompts
 
 ## 4. Non-goals
 
-- Forum, topics, replies, moderation
+- Community forum or moderation features
 - LLM execution or routing
-- Full-text search platform (use DB indexes for v1)
+- Dedicated search platform for v1 (DB indexes suffice)
 
 ## 5. Success metrics
 
 - `pnpm verify` green on every merge
 - Kernel depends only on `sdkwork-intelligence-prompts-ai-contract`
-- Zero `prm_` / forum routes in manifests and runtime
+- All HTTP surfaces use `SdkWorkApiResponse` / `ProblemDetail` per API_SPEC
 
 ## 6. Linked requirements
 
-- [REQ-2026-0001-prompt-tables-migration.md](../requirements/REQ-2026-0001-prompt-tables-migration.md)
+- [REQ-2026-0001-prompt-registry.md](../requirements/REQ-2026-0001-prompt-registry.md)
 
 ## 7. Verification
 

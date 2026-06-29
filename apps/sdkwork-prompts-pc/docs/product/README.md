@@ -1,5 +1,3 @@
-# Product Documentation
+# Product (PC app mirror)
 
-Product PRD directory, requirements, and roadmap.
-
-See `DOCUMENTATION_SPEC.md` section 2.
+Canonical product docs: [repository docs/product/](../../../../docs/product/README.md).

@@ -1,3 +1,15 @@
 export * from './common';
 export type { PromptCatalogEntry } from './prompt-catalog-entry';
 export type { PromptCatalogPage } from './prompt-catalog-page';
+export type { SdkWorkApiResponse } from './sdk-work-api-response';
+export type { SdkWorkResourceData } from './sdk-work-resource-data';
+export type { SdkWorkPageData } from './sdk-work-page-data';
+export type { SdkWorkCommandData } from './sdk-work-command-data';
+export type { PageInfo } from './page-info';
+export type { SdkWorkPlatformErrorCode } from './sdk-work-platform-error-code';
+export type { ProblemDetail } from './problem-detail';
+export type { FieldError } from './field-error';
+export type { SdkWorkResourceResponse } from './sdk-work-resource-response';
+export type { SdkWorkListResponse } from './sdk-work-list-response';
+export type { SdkWorkCommandResponse } from './sdk-work-command-response';
+export type { PromptsCatalogListResponse } from './prompts-catalog-list-response';

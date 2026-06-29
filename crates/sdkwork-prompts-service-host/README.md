@@ -1,10 +1,23 @@
 # SDKWork Prompts Service Host
 
-Dependency composition for forum service runtime.
+In-process composition root for the prompts HTTP gateway.
 
-## Implementation Status
+## Exports
 
-- `PromptsServiceHost`: Wraps `PromptsService<SqlxPromptsRepository>` with `service()` accessor and `build_request_context()` factory.
-- `build_prm_service()`: Constructs `PromptsService<SqlxPromptsRepository>` with placeholder repository.
+- `PromptsServiceHost::new()` — bootstraps PostgreSQL via `sdkwork-prompts-database-host`, wires `SqlxPromptAiRepository`, optional IAM pool
+- `database_ops_service()` — exposes `sdkwork-database-ops` for HTTP ops routes
+- `default_seed_locale()` / `default_seed_profile()` — database seed profile helpers
 
-Awaiting SQLx pool injection, Drive/Search/Notification adapter wiring, and appbase context integration.
+## Environment
+
+| Variable | Purpose |
+| --- | --- |
+| `SDKWORK_PROMPTS_DATABASE_URL` | PostgreSQL connection string |
+| `SDKWORK_PROMPTS_IAM_ENABLED` | Enable IAM session pool |
+| `SDKWORK_PROMPTS_IAM_DATABASE_URL` | Optional IAM database override |
+
+## Verification
+
+```bash
+cargo check -p sdkwork-prompts-service-host
+```

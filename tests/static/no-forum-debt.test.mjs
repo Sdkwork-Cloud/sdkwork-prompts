@@ -9,10 +9,14 @@ const forbiddenPatterns = [
   /\bforum-database\.schema\.yaml\b/,
   /\bcompose_prm_api_routes\b/,
   /\bbuild_prm_routes\b/,
+  /\bbuild_prm_service\b/,
   /\bai_agent_prompt_template\b/,
   /\bai_prompt_usage_event\b/,
   /\/app\/v3\/api\/forum\b/,
   /\/backend\/v3\/api\/forum\b/,
+  /\bforum-api\b/,
+  /\bforum-worker\b/,
+  /SDKWORK_CLAW_/,
 ];
 
 const scanRoots = [
@@ -20,6 +24,11 @@ const scanRoots = [
   "specs",
   "database",
   "crates",
+  "configs",
+  "apps/sdkwork-prompts-pc/specs",
+  "apps/sdkwork-prompts-pc/README.md",
+  "sdks/README.md",
+  "sdks/test/README.md",
   "sdks/_route-manifests",
   "apis",
   "deployments",
@@ -27,11 +36,13 @@ const scanRoots = [
   "sdkwork.app.config.json",
   "package.json",
   "Cargo.toml",
+  "README.md",
 ];
 
 const skipPaths = [
-  "specs/prompts-ai-database.schema.yaml", // deprecated_contract mentions prm_*
+  "specs/prompts-ai-database.schema.yaml",
   "tests/static/no-forum-debt.test.mjs",
+  ".env.postgres.example",
   "docs/archive",
   "docs/changelogs",
   "docs/migrations",

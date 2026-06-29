@@ -1,5 +1,3 @@
-# Integrator Guide
+# Integrator guide (PC app mirror)
 
-SDK consumption, API boundaries, and integration examples.
-
-See `DOCUMENTATION_SPEC.md` section 2.
+Canonical guide: [repository integrator guide](../../../../../docs/guides/integrator/README.md).

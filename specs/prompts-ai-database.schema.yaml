@@ -30,14 +30,7 @@ principles:
   - sdkwork-kernel consumes prompts through sdkwork-intelligence-prompts-ai-contract, not local DDL.
 
 migration_sources:
-  - repository: sdkwork-clawrouter
-    status: migrated
-    tables: [ai_prompt, ai_prompt_version, ai_prompt_binding]
-  - repository: sdkwork-kernel
-    status: migrated
-    tables: [a_agent_prompt_template]
-    target: ai_prompt_template
-  - deprecated_contract: prm_template, prm_template_version, prm_template_variable, prm_category, prm_usage_event, prm_*
+  - note: Prompt DDL consolidated into sdkwork-prompts ai_ tables per DATABASE_SPEC.md.
 
 field_sets:
   tenant_entity:

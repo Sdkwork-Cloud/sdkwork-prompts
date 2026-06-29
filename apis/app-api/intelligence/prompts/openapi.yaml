@@ -3,24 +3,26 @@ info:
   title: SDKWork Prompts App API
   version: 0.1.0
   summary: Authenticated app/client prompt template API.
-  description: >
-    App API for managing prompt templates, versions, and variables in the
-    intelligence prompts domain. Protected operations use SDKWork dual-token
-    security through generated SDK TokenManager integration.
+  description: 'App API for managing prompt templates, versions, and variables in
+    the intelligence prompts domain. Protected operations use SDKWork dual-token security
+    through generated SDK TokenManager integration.
+
+    '
 jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
 servers:
-  - url: /app/v3/api
+- url: /app/v3/api
 tags:
-  - name: prompts
+- name: prompts
 paths:
   /app/v3/api/prompts/templates:
     get:
-      tags: [prompts]
+      tags:
+      - prompts
       summary: List prompt templates.
       operationId: prompts.templates.list
       security:
-        - AuthToken: []
-          AccessToken: []
+      - AuthToken: []
+        AccessToken: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-app-api
       x-sdkwork-api-surface: app-api
@@ -31,31 +33,60 @@ paths:
       x-sdkwork-tenant-scope: tenant
       x-sdkwork-auth-mode: dual-token
       parameters:
-        - name: cursor
-          in: query
-          schema: { type: string }
-        - name: limit
-          in: query
-          schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
-        - name: status
-          in: query
-          schema: { type: string, enum: [draft, active, archived] }
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - draft
+          - active
+          - archived
       responses:
-        "200":
+        '200':
           description: Prompt template page.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PromptTemplatePage"
+                allOf:
+                - $ref: '#/components/schemas/SdkWorkApiResponse'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - items
+                      - pageInfo
+                      properties:
+                        items:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/PromptTemplate'
+                        pageInfo:
+                          $ref: '#/components/schemas/PageInfo'
         default:
-          $ref: "#/components/responses/Problem"
+          $ref: '#/components/responses/Problem'
     post:
-      tags: [prompts]
+      tags:
+      - prompts
       summary: Create prompt template.
       operationId: prompts.templates.create
       security:
-        - AuthToken: []
-          AccessToken: []
+      - AuthToken: []
+        AccessToken: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-app-api
       x-sdkwork-api-surface: app-api
@@ -70,24 +101,37 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PromptTemplateCreateRequest"
+              $ref: '#/components/schemas/PromptTemplateCreateRequest'
       responses:
-        "201":
+        '201':
           description: Created template.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PromptTemplate"
+                allOf:
+                - $ref: '#/components/schemas/SdkWorkApiResponse'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      type: object
+                      required:
+                      - item
+                      properties:
+                        item:
+                          $ref: '#/components/schemas/PromptTemplate'
         default:
-          $ref: "#/components/responses/Problem"
+          $ref: '#/components/responses/Problem'
   /app/v3/api/prompts/templates/{templateId}:
     get:
-      tags: [prompts]
+      tags:
+      - prompts
       summary: Get prompt template.
       operationId: prompts.templates.get
       security:
-        - AuthToken: []
-          AccessToken: []
+      - AuthToken: []
+        AccessToken: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-app-api
       x-sdkwork-api-surface: app-api
@@ -98,23 +142,36 @@ paths:
       x-sdkwork-tenant-scope: tenant
       x-sdkwork-auth-mode: dual-token
       parameters:
-        - $ref: "#/components/parameters/TemplateId"
+      - $ref: '#/components/parameters/TemplateId'
       responses:
-        "200":
+        '200':
           description: Prompt template.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PromptTemplate"
+                allOf:
+                - $ref: '#/components/schemas/SdkWorkApiResponse'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      type: object
+                      required:
+                      - item
+                      properties:
+                        item:
+                          $ref: '#/components/schemas/PromptTemplate'
         default:
-          $ref: "#/components/responses/Problem"
+          $ref: '#/components/responses/Problem'
     patch:
-      tags: [prompts]
+      tags:
+      - prompts
       summary: Update prompt template metadata.
       operationId: prompts.templates.update
       security:
-        - AuthToken: []
-          AccessToken: []
+      - AuthToken: []
+        AccessToken: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-app-api
       x-sdkwork-api-surface: app-api
@@ -125,30 +182,43 @@ paths:
       x-sdkwork-tenant-scope: tenant
       x-sdkwork-auth-mode: dual-token
       parameters:
-        - $ref: "#/components/parameters/TemplateId"
+      - $ref: '#/components/parameters/TemplateId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PromptTemplateUpdateRequest"
+              $ref: '#/components/schemas/PromptTemplateUpdateRequest'
       responses:
-        "200":
+        '200':
           description: Updated template.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PromptTemplate"
+                allOf:
+                - $ref: '#/components/schemas/SdkWorkApiResponse'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      type: object
+                      required:
+                      - item
+                      properties:
+                        item:
+                          $ref: '#/components/schemas/PromptTemplate'
         default:
-          $ref: "#/components/responses/Problem"
+          $ref: '#/components/responses/Problem'
   /app/v3/api/prompts/templates/{templateId}/versions:
     get:
-      tags: [prompts]
+      tags:
+      - prompts
       summary: List template versions.
       operationId: prompts.templateVersions.list
       security:
-        - AuthToken: []
-          AccessToken: []
+      - AuthToken: []
+        AccessToken: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-app-api
       x-sdkwork-api-surface: app-api
@@ -159,23 +229,42 @@ paths:
       x-sdkwork-tenant-scope: tenant
       x-sdkwork-auth-mode: dual-token
       parameters:
-        - $ref: "#/components/parameters/TemplateId"
+      - $ref: '#/components/parameters/TemplateId'
       responses:
-        "200":
+        '200':
           description: Version list.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PromptTemplateVersionPage"
+                allOf:
+                - $ref: '#/components/schemas/SdkWorkApiResponse'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - items
+                      - pageInfo
+                      properties:
+                        items:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/PromptTemplateVersion'
+                        pageInfo:
+                          $ref: '#/components/schemas/PageInfo'
         default:
-          $ref: "#/components/responses/Problem"
+          $ref: '#/components/responses/Problem'
     post:
-      tags: [prompts]
+      tags:
+      - prompts
       summary: Create template version.
       operationId: prompts.templateVersions.create
       security:
-        - AuthToken: []
-          AccessToken: []
+      - AuthToken: []
+        AccessToken: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-app-api
       x-sdkwork-api-surface: app-api
@@ -186,30 +275,43 @@ paths:
       x-sdkwork-tenant-scope: tenant
       x-sdkwork-auth-mode: dual-token
       parameters:
-        - $ref: "#/components/parameters/TemplateId"
+      - $ref: '#/components/parameters/TemplateId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PromptTemplateVersionCreateRequest"
+              $ref: '#/components/schemas/PromptTemplateVersionCreateRequest'
       responses:
-        "201":
+        '201':
           description: Created version.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PromptTemplateVersion"
+                allOf:
+                - $ref: '#/components/schemas/SdkWorkApiResponse'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      type: object
+                      required:
+                      - item
+                      properties:
+                        item:
+                          $ref: '#/components/schemas/PromptTemplateVersion'
         default:
-          $ref: "#/components/responses/Problem"
+          $ref: '#/components/responses/Problem'
   /app/v3/api/prompts/agent_templates:
     get:
-      tags: [prompts]
+      tags:
+      - prompts
       summary: List agent prompt templates.
       operationId: prompts.agentTemplates.list
       security:
-        - AuthToken: []
-          AccessToken: []
+      - AuthToken: []
+        AccessToken: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-app-api
       x-sdkwork-api-surface: app-api
@@ -220,26 +322,49 @@ paths:
       x-sdkwork-tenant-scope: tenant
       x-sdkwork-auth-mode: dual-token
       parameters:
-        - name: limit
-          in: query
-          schema: { type: integer, minimum: 1, maximum: 200, default: 50 }
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
       responses:
-        "200":
+        '200':
           description: Agent template page.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AgentPromptTemplatePage"
+                allOf:
+                - $ref: '#/components/schemas/SdkWorkApiResponse'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - items
+                      - pageInfo
+                      properties:
+                        items:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/AgentPromptTemplate'
+                        pageInfo:
+                          $ref: '#/components/schemas/PageInfo'
         default:
-          $ref: "#/components/responses/Problem"
+          $ref: '#/components/responses/Problem'
   /app/v3/api/prompts/agent_templates/{templateId}:
     get:
-      tags: [prompts]
+      tags:
+      - prompts
       summary: Get agent prompt template.
       operationId: prompts.agentTemplates.get
       security:
-        - AuthToken: []
-          AccessToken: []
+      - AuthToken: []
+        AccessToken: []
       x-sdkwork-owner: sdkwork-prompts
       x-sdkwork-api-authority: sdkwork-prompts-app-api
       x-sdkwork-api-surface: app-api
@@ -250,16 +375,28 @@ paths:
       x-sdkwork-tenant-scope: tenant
       x-sdkwork-auth-mode: dual-token
       parameters:
-        - $ref: "#/components/parameters/AgentTemplateId"
+      - $ref: '#/components/parameters/AgentTemplateId'
       responses:
-        "200":
+        '200':
           description: Agent prompt template.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AgentPromptTemplate"
+                allOf:
+                - $ref: '#/components/schemas/SdkWorkApiResponse'
+                - type: object
+                  required:
+                  - data
+                  properties:
+                    data:
+                      type: object
+                      required:
+                      - item
+                      properties:
+                        item:
+                          $ref: '#/components/schemas/AgentPromptTemplate'
         default:
-          $ref: "#/components/responses/Problem"
+          $ref: '#/components/responses/Problem'
 components:
   securitySchemes:
     AuthToken:
@@ -275,137 +412,403 @@ components:
       name: templateId
       in: path
       required: true
-      schema: { type: string }
+      schema:
+        type: string
     AgentTemplateId:
       name: templateId
       in: path
       required: true
-      schema: { type: string }
+      schema:
+        type: string
   responses:
     Problem:
       description: RFC 9457 problem response.
       content:
-        application/json:
+        application/problem+json:
           schema:
-            $ref: "#/components/schemas/Problem"
+            $ref: '#/components/schemas/ProblemDetail'
   schemas:
-    Problem:
-      type: object
-      required: [type, title, status]
-      properties:
-        type: { type: string, format: uri }
-        title: { type: string }
-        status: { type: integer }
-        detail: { type: string }
-        instance: { type: string }
     PromptTemplate:
       type: object
-      required: [id, key, name, status]
+      required:
+      - id
+      - key
+      - name
+      - status
       properties:
-        id: { type: string }
-        key: { type: string }
-        name: { type: string }
-        description: { type: string }
-        status: { type: string, enum: [draft, active, archived] }
-        tags: { type: array, items: { type: string } }
-        latest_version_id: { type: string, nullable: true }
-        updated_at: { type: string, format: date-time }
+        id:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum:
+          - draft
+          - active
+          - archived
+        tags:
+          type: array
+          items:
+            type: string
+        latest_version_id:
+          type: string
+          nullable: true
+        updated_at:
+          type: string
+          format: date-time
     PromptTemplatePage:
       type: object
-      required: [items]
+      required:
+      - items
       properties:
         items:
           type: array
           items:
-            $ref: "#/components/schemas/PromptTemplate"
-        next_cursor: { type: string, nullable: true }
+            $ref: '#/components/schemas/PromptTemplate'
+        next_cursor:
+          type: string
+          nullable: true
     PromptTemplateCreateRequest:
       type: object
-      required: [key, name]
+      required:
+      - key
+      - name
       properties:
-        key: { type: string }
-        name: { type: string }
-        description: { type: string }
-        tags: { type: array, items: { type: string } }
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
     PromptTemplateUpdateRequest:
       type: object
       properties:
-        name: { type: string }
-        description: { type: string }
-        status: { type: string, enum: [draft, active, archived] }
-        tags: { type: array, items: { type: string } }
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum:
+          - draft
+          - active
+          - archived
+        tags:
+          type: array
+          items:
+            type: string
     PromptTemplateVersion:
       type: object
-      required: [id, template_id, version_label, content, status]
+      required:
+      - id
+      - template_id
+      - version_label
+      - content
+      - status
       properties:
-        id: { type: string }
-        template_id: { type: string }
-        version_label: { type: string }
-        content: { type: string }
-        model_hint: { type: string, nullable: true }
-        status: { type: string, enum: [draft, active, archived] }
+        id:
+          type: string
+        template_id:
+          type: string
+        version_label:
+          type: string
+        content:
+          type: string
+        model_hint:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum:
+          - draft
+          - active
+          - archived
         variables:
           type: array
           items:
-            $ref: "#/components/schemas/PromptTemplateVariable"
+            $ref: '#/components/schemas/PromptTemplateVariable'
     PromptTemplateVersionPage:
       type: object
-      required: [items]
+      required:
+      - items
       properties:
         items:
           type: array
           items:
-            $ref: "#/components/schemas/PromptTemplateVersion"
+            $ref: '#/components/schemas/PromptTemplateVersion'
     PromptTemplateVersionCreateRequest:
       type: object
-      required: [version_label, content]
+      required:
+      - version_label
+      - content
       properties:
-        version_label: { type: string }
-        content: { type: string }
-        model_hint: { type: string }
+        version_label:
+          type: string
+        content:
+          type: string
+        model_hint:
+          type: string
         variables:
           type: array
           items:
-            $ref: "#/components/schemas/PromptTemplateVariableInput"
+            $ref: '#/components/schemas/PromptTemplateVariableInput'
     PromptTemplateVariable:
       type: object
-      required: [name, var_type, required]
+      required:
+      - name
+      - var_type
+      - required
       properties:
-        name: { type: string }
-        var_type: { type: string }
-        required: { type: boolean }
-        default_value: { type: string, nullable: true }
-        description: { type: string, nullable: true }
+        name:
+          type: string
+        var_type:
+          type: string
+        required:
+          type: boolean
+        default_value:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
     PromptTemplateVariableInput:
       type: object
-      required: [name]
+      required:
+      - name
       properties:
-        name: { type: string }
-        var_type: { type: string, default: string }
-        required: { type: boolean, default: false }
-        default_value: { type: string }
-        description: { type: string }
+        name:
+          type: string
+        var_type:
+          type: string
+          default: string
+        required:
+          type: boolean
+          default: false
+        default_value:
+          type: string
+        description:
+          type: string
     AgentPromptTemplate:
       type: object
-      required: [id, code, displayName, promptKind, templateFormat, status]
+      required:
+      - id
+      - code
+      - displayName
+      - promptKind
+      - templateFormat
+      - status
       properties:
-        id: { type: string }
-        uuid: { type: string }
-        promptId: { type: string }
-        code: { type: string }
-        displayName: { type: string }
-        description: { type: string, nullable: true }
-        promptKind: { type: string }
-        templateFormat: { type: string }
-        templateBody: { type: string }
-        safetyProfileId: { type: string, nullable: true }
-        status: { type: integer }
-        visibility: { type: integer }
+        id:
+          type: string
+        uuid:
+          type: string
+        promptId:
+          type: string
+        code:
+          type: string
+        displayName:
+          type: string
+        description:
+          type: string
+          nullable: true
+        promptKind:
+          type: string
+        templateFormat:
+          type: string
+        templateBody:
+          type: string
+        safetyProfileId:
+          type: string
+          nullable: true
+        status:
+          type: integer
+        visibility:
+          type: integer
     AgentPromptTemplatePage:
       type: object
-      required: [items]
+      required:
+      - items
       properties:
         items:
           type: array
           items:
-            $ref: "#/components/schemas/AgentPromptTemplate"
+            $ref: '#/components/schemas/AgentPromptTemplate'
+    SdkWorkApiResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - code
+      - data
+      - traceId
+      properties:
+        code:
+          type: integer
+          format: int32
+          enum:
+          - 0
+          default: 0
+          minimum: 0
+          maximum: 0
+        data:
+          description: Operation-specific payload typed per response schema.
+        traceId:
+          type: string
+          format: uuid
+          description: Server-owned request correlation id.
+    SdkWorkResourceData:
+      type: object
+      additionalProperties: false
+      required:
+      - item
+      properties:
+        item:
+          type: object
+          additionalProperties: true
+          description: Typed domain resource for the operation.
+    SdkWorkPageData:
+      type: object
+      additionalProperties: false
+      required:
+      - items
+      - pageInfo
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+    SdkWorkCommandData:
+      type: object
+      additionalProperties: false
+      required:
+      - accepted
+      properties:
+        accepted:
+          type: boolean
+          const: true
+        resourceId:
+          type: string
+        status:
+          type: string
+    PageInfo:
+      type: object
+      additionalProperties: false
+      required:
+      - mode
+      properties:
+        mode:
+          type: string
+          enum:
+          - offset
+          - cursor
+        page:
+          type: integer
+          minimum: 1
+        pageSize:
+          type: integer
+          minimum: 1
+          maximum: 200
+        totalItems:
+          type: string
+          pattern: ^[0-9]+$
+        totalPages:
+          type: integer
+          minimum: 0
+        nextCursor:
+          type:
+          - string
+          - 'null'
+        hasMore:
+          type: boolean
+    SdkWorkPlatformErrorCode:
+      type: integer
+      format: int32
+      minimum: 40001
+      maximum: 79999
+      description: Platform or domain error code per API_SPEC.md 搂15.3.
+    ProblemDetail:
+      type: object
+      additionalProperties: true
+      required:
+      - type
+      - title
+      - status
+      - code
+      - traceId
+      properties:
+        type:
+          type: string
+          format: uri-reference
+        title:
+          type: string
+        status:
+          type: integer
+          minimum: 100
+          maximum: 599
+        detail:
+          type: string
+        instance:
+          type: string
+        code:
+          $ref: '#/components/schemas/SdkWorkPlatformErrorCode'
+        traceId:
+          type: string
+          format: uuid
+          description: Server-owned request correlation id.
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldError'
+    FieldError:
+      type: object
+      additionalProperties: false
+      required:
+      - field
+      - message
+      properties:
+        field:
+          type: string
+        message:
+          type: string
+        code:
+          type: integer
+          format: int32
+          minimum: 40011
+          maximum: 40099
+    SdkWorkResourceResponse:
+      allOf:
+      - $ref: '#/components/schemas/SdkWorkApiResponse'
+      - type: object
+        required:
+        - data
+        properties:
+          data:
+            $ref: '#/components/schemas/SdkWorkResourceData'
+    SdkWorkListResponse:
+      allOf:
+      - $ref: '#/components/schemas/SdkWorkApiResponse'
+      - type: object
+        required:
+        - data
+        properties:
+          data:
+            $ref: '#/components/schemas/SdkWorkPageData'
+    SdkWorkCommandResponse:
+      allOf:
+      - $ref: '#/components/schemas/SdkWorkApiResponse'
+      - type: object
+        required:
+        - data
+        properties:
+          data:
+            $ref: '#/components/schemas/SdkWorkCommandData'

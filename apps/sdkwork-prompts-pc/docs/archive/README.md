@@ -1,5 +1,3 @@
-# Archive
+# Archive (PC app mirror)
 
-Read-only retired documentation with stable links.
-
-See `DOCUMENTATION_SPEC.md` section 2.
+Canonical archive index: [repository docs/archive/](../../../../docs/archive/README.md).

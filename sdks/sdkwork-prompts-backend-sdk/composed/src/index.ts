@@ -12,33 +12,125 @@ export interface PromptsBackendGeneratedClient {
       visibility?: string;
       status?: string;
       categoryId?: string;
-    }): Promise<DefinitionsListResult>;
+    }): Promise<AdminPromptListPage>;
     create(
       body: AdminPromptCreateRequest,
       params: { idempotencyKey: string },
-    ): Promise<DefinitionsCreateResult>;
+    ): Promise<AdminPromptItem>;
   };
   versions: {
-    list(promptId: string): Promise<VersionsListResult>;
+    list(promptId: string): Promise<AdminPromptVersionListPage>;
     create(
       promptId: string,
       body: AdminPromptVersionCreateRequest,
       params: { idempotencyKey: string },
-    ): Promise<VersionsCreateResult>;
-    publish(versionId: string): Promise<VersionsPublishResult>;
+    ): Promise<AdminPromptVersionItem>;
+    publish(versionId: string): Promise<AdminPromptVersionItem>;
   };
   versionRenders: {
-    create(versionId: string, body: AdminPromptRenderRequest): Promise<VersionRendersCreateResult>;
+    create(versionId: string, body: AdminPromptRenderRequest): Promise<AdminPromptRenderResult>;
   };
   definitionBindings: {
-    list(promptId: string): Promise<DefinitionBindingsListResult>;
+    list(promptId: string): Promise<AdminPromptBindingListPage>;
     create(
       promptId: string,
       body: AdminPromptBindingCreateRequest,
       params: { idempotencyKey: string },
-    ): Promise<DefinitionBindingsCreateResult>;
-    update(bindingId: string, body: AdminPromptBindingUpdateRequest): Promise<DefinitionBindingsUpdateResult>;
+    ): Promise<AdminPromptBindingItem>;
+    update(bindingId: string, body: AdminPromptBindingUpdateRequest): Promise<AdminPromptBindingItem>;
   };
+}
+
+export interface PageInfo {
+  mode: 'offset' | 'cursor';
+  page?: number;
+  pageSize?: number;
+  totalItems?: string;
+  totalPages?: number;
+  nextCursor?: string | null;
+  hasMore?: boolean;
+}
+
+export interface AdminPromptListPage {
+  items: AdminPromptItem[];
+  pageInfo: PageInfo;
+}
+
+export interface AdminPromptVersionListPage {
+  items: AdminPromptVersionItem[];
+  pageInfo: PageInfo;
+}
+
+export interface AdminPromptBindingListPage {
+  items: AdminPromptBindingItem[];
+  pageInfo: PageInfo;
+}
+
+export interface AdminPromptRenderResult {
+  rendered: string;
+}
+
+export interface AdminPromptItem {
+  id: string;
+  uuid: string;
+  tenantId: string;
+  organizationId: string;
+  promptKey: string;
+  name: string;
+  description?: string | null;
+  categoryId?: string | null;
+  categoryCode?: string | null;
+  promptType: string;
+  visibility: string;
+  status: string;
+  tags: string[];
+  ownerUserId?: string | null;
+  latestVersionId?: string | null;
+  publishedVersionId?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AdminPromptVersionItem {
+  id: string;
+  uuid: string;
+  tenantId: string;
+  organizationId: string;
+  promptId: string;
+  versionNo: string;
+  title: string;
+  content: string;
+  lifecycleStatus: string;
+  reviewStatus: string;
+  checksumHash: string;
+  variableSchema: Record<string, unknown>;
+  outputSchema: Record<string, unknown>;
+  modelConstraints: Record<string, unknown>;
+  safetyPolicy: Record<string, unknown>;
+  examplesJson: Record<string, unknown>[];
+  createdBy: string;
+  publishedAt?: string | null;
+  reviewComment?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AdminPromptBindingItem {
+  id: string;
+  uuid: string;
+  tenantId: string;
+  organizationId: string;
+  promptId: string;
+  promptVersionId?: string | null;
+  ownerType: string;
+  ownerId: string;
+  bindingRole: string;
+  priority: number;
+  enabled: boolean;
+  policyJson: Record<string, unknown>;
+  snapshotJson: Record<string, unknown>;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface AdminPromptCreateRequest {
@@ -85,22 +177,6 @@ export interface AdminPromptBindingUpdateRequest {
   enabled?: boolean;
   policyJson?: Record<string, unknown>;
 }
-
-export interface PlusApiResult {
-  code: string;
-  msg?: string;
-  data?: unknown;
-}
-
-export type DefinitionsListResult = PlusApiResult;
-export type DefinitionsCreateResult = PlusApiResult;
-export type VersionsListResult = PlusApiResult;
-export type VersionsCreateResult = PlusApiResult;
-export type VersionsPublishResult = PlusApiResult;
-export type VersionRendersCreateResult = PlusApiResult;
-export type DefinitionBindingsListResult = PlusApiResult;
-export type DefinitionBindingsCreateResult = PlusApiResult;
-export type DefinitionBindingsUpdateResult = PlusApiResult;
 
 export class PromptsBackendFacade {
   constructor(private readonly deps: PromptsBackendSdkDependencies) {}

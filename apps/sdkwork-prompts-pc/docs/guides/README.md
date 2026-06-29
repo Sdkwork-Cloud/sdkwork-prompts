@@ -1,5 +1,7 @@
-# Guides
+# Guides (PC app mirror)
 
-Role-based developer, operator, and integrator guides.
+Canonical guides live in the repository root:
 
-See `DOCUMENTATION_SPEC.md` section 2.
+- [Developer](../../../../docs/guides/developer/README.md)
+- [Operator](../../../../docs/guides/operator/README.md)
+- [Integrator](../../../../docs/guides/integrator/README.md)

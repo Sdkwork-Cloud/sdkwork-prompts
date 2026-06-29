@@ -1,10 +1,14 @@
 use axum::{
     body::Body,
-    http::{Request, StatusCode},
+    http::Request,
     middleware::Next,
-    response::{IntoResponse, Response},
-    Json,
+    response::Response,
 };
+use sdkwork_web_core::{
+    problem_response, ProblemCorrelation, WebFrameworkError, WebFrameworkErrorKind,
+};
+
+use crate::response::anonymous_trace_id;
 
 pub async fn require_dual_token_auth(request: Request<Body>, next: Next) -> Response {
     if !auth_required() {
@@ -23,15 +27,15 @@ pub async fn require_dual_token_auth(request: Request<Body>, next: Next) -> Resp
     if has_auth && has_access {
         next.run(request).await
     } else {
-        (
-            StatusCode::UNAUTHORIZED,
-            Json(serde_json::json!({
-                "success": false,
-                "error": "Authorization and Access-Token headers are required",
-                "code": "sdkwork.auth.missing_dual_token",
-            })),
+        let trace_id = anonymous_trace_id();
+        problem_response(
+            &WebFrameworkError {
+                kind: WebFrameworkErrorKind::MissingCredentials,
+                message: "Authorization and Access-Token headers are required".to_string(),
+                retry_after_seconds: None,
+            },
+            ProblemCorrelation::new(None, Some(&trace_id)),
         )
-            .into_response()
     }
 }
 
