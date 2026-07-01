@@ -1,15 +1,18 @@
-# Technical Architecture Directory
+# Technical architecture directory
 
-This directory owns the technical architecture Canon for the repository.
+This directory owns the technical architecture canon for sdkwork-prompts.
 
-## Fixed Entry
+## Fixed entry
 
-- [TECH_ARCHITECTURE.md](TECH_ARCHITECTURE.md) — required entry document. Keep summary, status, and links here.
+- [TECH_ARCHITECTURE.md](TECH_ARCHITECTURE.md) — required entry document with summary, status, and shard links.
 
-## Splitting Rules
+## Shards
 
-- Split large architecture content into sibling shards named `TECH-<kebab-topic>.md`.
-- Every shard `MUST` be linked from `TECH_ARCHITECTURE.md`.
-- Do not create competing architecture roots such as `docs/architecture/TECH_ARCHITECTURE.md`; that path is retired and redirect-only.
+| Topic | Document |
+| --- | --- |
+| System boundaries | [TECH-prompts-architecture.md](TECH-prompts-architecture.md) |
+| Database | [TECH-prompts-database-design.md](TECH-prompts-database-design.md) |
+| HTTP APIs | [TECH-prompts-api-design.md](TECH-prompts-api-design.md) |
+| Integrations | [TECH-prompts-integration-roadmap.md](TECH-prompts-integration-roadmap.md) |
 
-See `DOCUMENTATION_SPEC.md` section 2.2.
+Do not create competing architecture roots; `docs/architecture/TECH_ARCHITECTURE.md` is redirect-only.

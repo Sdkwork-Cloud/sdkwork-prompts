@@ -4,5 +4,17 @@ repository: sdkwork-prompts
 canon:
   prd: docs/product/prd/PRD.md
   techArchitecture: docs/architecture/tech/TECH_ARCHITECTURE.md
-entries: []
-domains: []
+entries:
+  - path: docs/guides/developer/README.md
+    audience: developer
+  - path: docs/guides/operator/README.md
+    audience: operator
+  - path: docs/guides/integrator/README.md
+    audience: integrator
+  - path: docs/product/requirements/REQ-2026-0001-prompt-registry.md
+    kind: requirement
+  - path: docs/changelogs/RELEASE-v0.1.0.md
+    kind: changelog
+domains:
+  - id: intelligence.prompts
+    tables: ai_prompt_category,ai_prompt,ai_prompt_version,ai_prompt_binding,ai_prompt_template,ai_prompt_usage

@@ -12,9 +12,9 @@ path = "src/main.rs"
 [dependencies]
 sdkwork-prompts-service-host = { path = "../sdkwork-prompts-service-host" }
 sdkwork-intelligence-prompts-ai-contract = { path = "../sdkwork-intelligence-prompts-ai-contract" }
-sdkwork-iam-web-adapter = { path = "../../../sdkwork-iam/crates/sdkwork-iam-web-adapter" }
-sdkwork-iam-context-service = { path = "../../../sdkwork-iam/crates/sdkwork-iam-context-service" }
-sdkwork-database-ops-http = { path = "../../../sdkwork-database/crates/sdkwork-database-ops-http" }
+sdkwork-iam-web-adapter = { workspace = true }
+sdkwork-iam-context-service = { workspace = true }
+sdkwork-database-ops-http = { workspace = true }
 axum = { workspace = true }
 tokio = { workspace = true }
 tower = { workspace = true }

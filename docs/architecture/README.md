@@ -1,5 +1,7 @@
-# Architecture Documentation
+# Architecture documentation
 
-Technical architecture, ADRs, and views.
-
-See `DOCUMENTATION_SPEC.md` section 2.
+| Area | Path |
+| --- | --- |
+| Technical architecture (canon) | [tech/TECH_ARCHITECTURE.md](tech/TECH_ARCHITECTURE.md) |
+| Architecture decisions | [decisions/README.md](decisions/README.md) |
+| Views | [views/README.md](views/README.md) |

@@ -79,8 +79,7 @@
       "sdks/sdkwork-prompts-backend-sdk"
     ],
     "sdkDependencies": [],
-    "dependencyApiExports": [],
-    "dependencyComposition": "specs/dependency.composition.json"
+    "dependencyApiExports": []
   },
   "verification": {
     "commands": [

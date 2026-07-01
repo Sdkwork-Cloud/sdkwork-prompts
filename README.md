@@ -1,4 +1,5 @@
 # sdkwork-prompts
+repository-kind: application
 
 SDKWork Prompts — intelligence-domain prompt registry (definitions, versions, bindings, templates, catalog) with Rust HTTP backend and PC browser application.
 

@@ -1,5 +1,9 @@
-# Domain Extensions
+# Domain extensions
 
-Register domain-specific documentation directories here.
+Canonical domain: **intelligence**, capability: **prompts**.
 
-See `DOCUMENTATION_SPEC.md` section 2.
+Domain-specific documentation for prompt registry tables, APIs, and SDK families lives under:
+
+- [architecture/tech/](../architecture/tech/)
+- [product/requirements/](../product/requirements/)
+- repository `specs/` and `apis/`

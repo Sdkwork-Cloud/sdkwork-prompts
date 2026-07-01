@@ -6,6 +6,14 @@ Canonical lifecycle assets for `sdkwork-prompts` per `DATABASE_FRAMEWORK_SPEC.md
 - serviceCode: `PROMPTS`
 - tablePrefix: `ai_`
 
+## Initialization state
+
+This module is in **initialization state** for greenfield deployments:
+
+1. **Baseline** — `database/ddl/baseline/{engine}/0001_prompts_baseline.sql` contains the full DDL snapshot.
+2. **Migrations** — `database/migrations/{engine}/` is reserved for post-GA incremental schema changes only. It is intentionally empty at initialization.
+3. **Drift** — run `pnpm db:drift:check` before release.
+
 ## Commands
 
 ```bash
@@ -18,15 +26,3 @@ pnpm run db:seed
 pnpm run db:status
 pnpm run db:drift:check
 ```
-
-## Contract sources
-
-- Semantic schema registry: `specs/prompts-ai-database.schema.yaml`
-- Framework contract: `database/contract/*`
-- Baseline DDL: `database/ddl/baseline/postgres/0001_prompts_ai_baseline.sql`
-
-## Runtime
-
-PostgreSQL services bootstrap through `sdkwork-prompts-database-host`:
-
-- `bootstrap_prompts_database()` / `bootstrap_prompts_database_from_env()`

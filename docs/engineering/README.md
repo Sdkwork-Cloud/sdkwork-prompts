@@ -1,5 +1,12 @@
-# Engineering Collaboration
+# Engineering collaboration
 
-Implementation plans and review records.
+| Area | Path |
+| --- | --- |
+| Implementation plans | [plans/README.md](plans/README.md) |
+| Review records | [reviews/README.md](reviews/README.md) |
 
-See `DOCUMENTATION_SPEC.md` section 2.
+Verification baseline for all engineering work:
+
+```bash
+pnpm verify
+```

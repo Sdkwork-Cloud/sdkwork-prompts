@@ -1,5 +1,9 @@
 # Guides
 
-Role-based developer, operator, and integrator guides.
+Role-based entry points for sdkwork-prompts:
 
-See `DOCUMENTATION_SPEC.md` section 2.
+| Role | Guide |
+| --- | --- |
+| Developer | [developer/README.md](developer/README.md) |
+| Operator | [operator/README.md](operator/README.md) |
+| Integrator | [integrator/README.md](integrator/README.md) |

@@ -1,5 +1,5 @@
-# plans
+# Engineering plans
 
-See `DOCUMENTATION_SPEC.md` section 2.
+Implementation plans for multi-step changes (schema, API, SDK, gateway) belong here as `PLAN-YYYYMMDD-<topic>.md`.
 
-See `DOCUMENTATION_SPEC.md` section 2.
+No active plans for v0.1.0 — baseline is documented in [architecture/tech/TECH_ARCHITECTURE.md](../../architecture/tech/TECH_ARCHITECTURE.md).

@@ -1,5 +1,5 @@
-# reviews
+# Engineering reviews
 
-See `DOCUMENTATION_SPEC.md` section 2.
+Design and implementation review records belong here as `REVIEW-YYYYMMDD-<topic>.md`.
 
-See `DOCUMENTATION_SPEC.md` section 2.
+No review records for v0.1.0 pre-release baseline.

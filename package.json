@@ -3,17 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.30.2",
+  "packageManager": "pnpm@10.33.0",
   "dependencies": {
-    "@sdkwork/app-topology": "file:../sdkwork-app-topology",
-    "@sdkwork/utils": "file:../sdkwork-utils/packages/sdkwork-utils-typescript"
+    "@sdkwork/app-topology": "workspace:*",
+    "@sdkwork/utils": "workspace:*"
   },
   "scripts": {
     "dev": "pnpm --filter sdkwork-prompts-pc run dev",
     "build": "cargo build --workspace --release && pnpm --filter sdkwork-prompts-pc run build",
     "test": "node tests/static/prompts-contract-boundary.test.mjs && node tests/static/no-clawrouter-runtime-dependency.test.mjs && node tests/static/no-forum-debt.test.mjs && node tests/static/prompts-iam-path-alignment.test.mjs && node tests/sdk/prompts-sdk.test.mjs && node tests/contract/prompts-contract.test.mjs && node tests/schema/prompts-ai-schema.test.mjs && node tests/contract/database-framework.contract.test.mjs",
-    "check": "node tools/ensure-workspace-deps.mjs && pnpm check:architecture-alignment && pnpm db:validate && pnpm api:materialize:check && node ../sdkwork-specs/tools/check-api-response-envelope.mjs --workspace . && pnpm topology:validate && pnpm gateway:validate:cloud && pnpm typecheck",
-    "verify": "pnpm api:materialize && pnpm check && pnpm test && node ../sdkwork-specs/tools/check-repository-docs-standard.mjs --root .",
+    "check": "pnpm run check:app-composition && node tools/ensure-workspace-deps.mjs && pnpm check:architecture-alignment && pnpm db:validate && pnpm api:materialize:check && node ../sdkwork-specs/tools/check-api-response-envelope.mjs --workspace . && pnpm topology:validate && pnpm gateway:validate:cloud && pnpm typecheck",
+    "verify": "pnpm api:materialize && pnpm check && pnpm test && node ../sdkwork-specs/tools/check-repository-docs-standard.mjs --root . && pnpm run check:app-composition",
     "clean": "cargo clean",
     "typecheck": "pnpm --filter sdkwork-prompts-pc run typecheck",
     "check:architecture-alignment": "node tools/check_sdkwork_prompts_architecture_alignment.mjs",
@@ -23,7 +23,7 @@
     "api:sdkgen": "node tools/generators/run_prompts_sdkgen.mjs",
     "api:check": "node tools/validators/validate_prompts_contracts.mjs",
     "db:validate": "node ../sdkwork-specs/tools/check-database-framework-standard.mjs --root .",
-    "db:materialize:contract": "node ../sdkwork-specs/tools/materialize-database-contract-from-baseline.mjs --root . --baseline database/ddl/baseline/postgres/0001_prompts_ai_baseline.sql --module-id prompts --owner prompts-platform --prefixes ai_ --engines postgres",
+    "db:materialize:contract": "node ../sdkwork-specs/tools/materialize-database-contract-from-baseline.mjs --root . --baseline database/ddl/baseline/postgres/0001_prompts_baseline.sql --module-id prompts --owner prompts-platform --prefixes ai_ --engines postgres",
     "db:plan": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . plan",
     "db:init": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . init",
     "db:migrate": "cargo run --manifest-path ../sdkwork-database/Cargo.toml -p sdkwork-database-cli -- --app-root . migrate",
@@ -40,6 +40,7 @@
     "gateway:assembly:materialize": "node scripts/gateway/assembly-materialize.mjs",
     "gateway:assembly:validate": "node scripts/gateway/assembly-validate.mjs",
     "db:postgres:init": "node ../sdkwork-specs/tools/postgres/postgres-db-cli.mjs --mode init --config .env.postgres --app-root .",
-    "db:postgres:plan": "node ../sdkwork-specs/tools/postgres/postgres-db-cli.mjs --mode plan --config .env.postgres --app-root . --dry-run"
+    "db:postgres:plan": "node ../sdkwork-specs/tools/postgres/postgres-db-cli.mjs --mode plan --config .env.postgres --app-root . --dry-run",
+    "check:app-composition": "node ../sdkwork-specs/tools/verify-repo.mjs --root ."
   }
 }

@@ -1,15 +1,11 @@
-# Product PRD Directory
+# Product PRD directory
 
-This directory owns the product Canon for the repository.
+This directory owns the product canon for sdkwork-prompts.
 
-## Fixed Entry
+## Fixed entry
 
-- [PRD.md](PRD.md) — required entry document. Keep summary, status, and links here.
+- [PRD.md](PRD.md) — required entry document with goals, scope, and linked requirements.
 
-## Splitting Rules
+Split large PRD content into sibling shards named `PRD-<kebab-topic>.md` and link them from `PRD.md`.
 
-- Split large PRD content into sibling shards named `PRD-<kebab-topic>.md`.
-- Every shard `MUST` be linked from `PRD.md`.
-- Do not create competing product roots such as `docs/product/PRD.md`; that path is retired and redirect-only.
-
-See `DOCUMENTATION_SPEC.md` section 2.2.
+Do not create competing product roots; `docs/product/PRD.md` is redirect-only.

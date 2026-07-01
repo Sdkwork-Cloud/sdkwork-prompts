@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@sdkwork/prompts-pc-workspace": "workspace:*",
-    "@sdkwork/utils": "file:../../../sdkwork-utils/packages/sdkwork-utils-typescript",
+    "@sdkwork/utils": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.0.0"

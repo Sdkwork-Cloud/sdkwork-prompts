@@ -11,7 +11,7 @@ sdkwork-prompts-database-host = { workspace = true }
 sdkwork-database-config = { workspace = true }
 sdkwork-database-sqlx = { workspace = true }
 sdkwork-database-spi = { workspace = true }
-sdkwork-database-ops = { path = "../../../sdkwork-database/crates/sdkwork-database-ops" }
+sdkwork-database-ops = { workspace = true }
 sqlx = { workspace = true }
 tokio = { workspace = true }
 tracing = { workspace = true }

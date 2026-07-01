@@ -1,5 +1,5 @@
-# views
+# Architecture views
 
-See `DOCUMENTATION_SPEC.md` section 2.
+C4 or deployment view diagrams belong here when the architecture grows beyond the text shards in [tech/](../tech/).
 
-See `DOCUMENTATION_SPEC.md` section 2.
+Current deployment topology is documented in [tech/TECH_ARCHITECTURE.md](../tech/TECH_ARCHITECTURE.md) and `specs/topology.spec.json`.
