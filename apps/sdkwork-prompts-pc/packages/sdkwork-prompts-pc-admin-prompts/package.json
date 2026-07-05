@@ -4,7 +4,11 @@
   "version": "0.1.0",
   "type": "module",
   "exports": {
-    ".": "./src/promptService.ts"
+    ".": {
+      "types": "./src/promptService.ts",
+      "import": "./src/promptService.ts",
+      "default": "./src/promptService.ts"
+    }
   },
   "dependencies": {
     "@sdkwork/prompts-backend-sdk": "workspace:*",

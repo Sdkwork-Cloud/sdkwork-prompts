@@ -11,7 +11,7 @@
     "types": ["vite/client"],
     "paths": {
       "@sdkwork/prompts-backend-sdk": [
-        "../../sdks/sdkwork-prompts-backend-sdk/generated/server-openapi/src/index.ts"
+        "../../sdks/sdkwork-prompts-backend-sdk/sdkwork-prompts-backend-sdk-typescript/src/index.ts"
       ],
       "@sdkwork/utils": [
         "../../../sdkwork-utils/packages/sdkwork-utils-typescript/src/index.ts"

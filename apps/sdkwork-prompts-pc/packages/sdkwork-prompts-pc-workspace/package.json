@@ -3,10 +3,17 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "main": "src/PromptWorkspacePage.tsx",
+  "main": "./src/PromptWorkspacePage.tsx",
   "dependencies": {
     "@sdkwork/prompts-pc-admin-prompts": "workspace:*",
     "@sdkwork/utils": "workspace:*",
     "react": "^19.0.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/PromptWorkspacePage.tsx",
+      "import": "./src/PromptWorkspacePage.tsx",
+      "default": "./src/PromptWorkspacePage.tsx"
+    }
   }
 }

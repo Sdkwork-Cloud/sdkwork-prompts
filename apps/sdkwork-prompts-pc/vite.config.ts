@@ -29,7 +29,7 @@ export default defineConfig(({ mode }) => {
         ),
         "@sdkwork/prompts-backend-sdk": path.resolve(
           __dirname,
-          "../../sdks/sdkwork-prompts-backend-sdk/generated/server-openapi/src/index.ts",
+          "../../sdks/sdkwork-prompts-backend-sdk/sdkwork-prompts-backend-sdk-typescript/src/index.ts",
         ),
       },
     },

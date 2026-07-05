@@ -1,5 +1,5 @@
 {
-  "name": "@sdkwork/prompts-app-sdk",
+  "name": "sdkwork-prompts-app-sdk-generated-typescript",
   "version": "0.1.3",
   "private": true,
   "description": "Generator-owned TypeScript transport SDK for sdkwork-prompts-app-sdk.",
@@ -37,5 +37,6 @@
     "api",
     "app",
     "sdkwork"
-  ]
+  ],
+  "sdkworkRole": "transport"
 }

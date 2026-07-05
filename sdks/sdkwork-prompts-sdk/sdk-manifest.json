@@ -4,5 +4,60 @@
   "sdkFamily": "sdkwork-prompts-sdk",
   "sdkName": "sdkwork-prompts-sdk",
   "generationInputSpec": "openapi/sdkwork-prompts-open-api.sdkgen.yaml",
-  "sdkDependencies": []
+  "sdkDependencies": [],
+  "packageName": "@sdkwork/prompts-sdk",
+  "transportPackageName": "sdkwork-prompts-sdk-generated-typescript",
+  "typescript": {
+    "composedRoot": "sdkwork-prompts-sdk-typescript",
+    "composedEntry": "sdkwork-prompts-sdk-typescript/src/index.ts",
+    "transportRoot": "generated/server-openapi",
+    "transportEntry": "generated/server-openapi/src/index.ts"
+  },
+  "workspace": "sdkwork-prompts-sdk",
+  "title": "SDKWork Prompts Open API SDK",
+  "apiVersion": "0.1.0",
+  "openapiVersion": "3.1.2",
+  "authoritySpec": "openapi/sdkwork-prompts-open-api.openapi.yaml",
+  "derivedSpecs": {
+    "default": "openapi/sdkwork-prompts-open-api.sdkgen.yaml"
+  },
+  "discoverySurface": {
+    "sdkTarget": "open",
+    "apiPrefix": "/prompts/v3/api",
+    "schemaUrl": "/prompts/v3/openapi.json",
+    "generatedProtocols": [
+      "http-openapi"
+    ],
+    "manualTransports": []
+  },
+  "metadata": {
+    "managedBy": "tools/generators/materialize_prompts_openapi.mjs",
+    "standardVersion": "2026-06-12"
+  },
+  "languages": [
+    {
+      "language": "typescript",
+      "workspace": "sdkwork-prompts-sdk-typescript",
+      "generationState": "declared",
+      "releaseState": "not_published",
+      "packagePath": "generated/server-openapi",
+      "manifestPath": "generated/server-openapi/package.json",
+      "version": "0.1.0",
+      "generatedPath": "generated/server-openapi",
+      "consumerPackageName": "@sdkwork/prompts-sdk",
+      "transportPackageName": "sdkwork-prompts-sdk-generated-typescript"
+    },
+    {
+      "language": "rust",
+      "workspace": "sdkwork-prompts-sdk-rust",
+      "generationState": "declared",
+      "releaseState": "not_published",
+      "packagePath": "generated/server-openapi",
+      "manifestPath": "generated/server-openapi/Cargo.toml",
+      "name": "sdkwork-prompts-sdk",
+      "version": "0.1.0",
+      "generatedPath": "generated/server-openapi"
+    }
+  ],
+  "schemaVersion": 1
 }
