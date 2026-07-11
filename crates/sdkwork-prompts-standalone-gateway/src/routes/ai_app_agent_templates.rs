@@ -22,7 +22,7 @@ const MAX_LIMIT: u32 = 200;
 
 #[derive(Debug, Default, Deserialize)]
 struct AgentTemplateListQuery {
-    limit: Option<u32>,
+    page_size: Option<u32>,
 }
 
 pub fn router() -> Router<AppState> {
@@ -42,7 +42,7 @@ async fn list_agent_templates(
     PromptsCtx(ctx): PromptsCtx,
     Query(query): Query<AgentTemplateListQuery>,
 ) -> Response {
-    let limit = query.limit.unwrap_or(DEFAULT_LIMIT).clamp(1, MAX_LIMIT);
+    let limit = query.page_size.unwrap_or(DEFAULT_LIMIT).clamp(1, MAX_LIMIT);
     let list_query = AgentPromptTemplateListQuery {
         tenant_id: ctx.tenant_id_value(),
         organization_id: ctx.organization_id_value(),

@@ -28,7 +28,7 @@ const MAX_LIMIT: i64 = 100;
 #[derive(Debug, Default, Deserialize)]
 struct TemplateListQuery {
     cursor: Option<String>,
-    limit: Option<i64>,
+    page_size: Option<i64>,
     status: Option<String>,
 }
 
@@ -88,7 +88,7 @@ async fn list_templates(
     PromptsCtx(ctx): PromptsCtx,
     Query(query): Query<TemplateListQuery>,
 ) -> Response {
-    let limit = query.limit.unwrap_or(DEFAULT_LIMIT).clamp(1, MAX_LIMIT);
+    let limit = query.page_size.unwrap_or(DEFAULT_LIMIT).clamp(1, MAX_LIMIT);
     let offset = query
         .cursor
         .as_deref()

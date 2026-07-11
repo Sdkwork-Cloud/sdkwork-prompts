@@ -37,10 +37,11 @@ paths:
         in: query
         schema:
           type: string
-      - name: limit
+      - name: page_size
         in: query
         schema:
           type: integer
+          maximum: 200
           minimum: 1
           maximum: 100
           default: 20
@@ -322,7 +323,7 @@ paths:
       x-sdkwork-tenant-scope: tenant
       x-sdkwork-auth-mode: dual-token
       parameters:
-      - name: limit
+      - name: page_size
         in: query
         schema:
           type: integer

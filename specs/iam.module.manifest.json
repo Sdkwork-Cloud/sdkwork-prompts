@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.iam.module",
+  "moduleId": "prompts",
+  "domain": "prompts",
+  "permissions": {
+    "catalog": []
+  }
+}

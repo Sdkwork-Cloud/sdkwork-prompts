@@ -19,7 +19,7 @@ export class PromptsAgentTemplatesApi {
 /** List agent prompt templates. */
   async list(params?: PromptsAgentTemplatesListParams): Promise<Record<string, unknown>> {
     const query = buildQueryString([
-      { name: 'limit', value: params?.limit, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.limit, style: 'form', explode: true, allowReserved: false },
     ]);
     return this.client.get<Record<string, unknown>>(appendQueryString(appApiPath(`/prompts/agent_templates`), query));
   }
@@ -67,7 +67,7 @@ export class PromptsTemplatesApi {
   async list(params?: PromptsTemplatesListParams): Promise<Record<string, unknown>> {
     const query = buildQueryString([
       { name: 'cursor', value: params?.cursor, style: 'form', explode: true, allowReserved: false },
-      { name: 'limit', value: params?.limit, style: 'form', explode: true, allowReserved: false },
+      { name: 'page_size', value: params?.limit, style: 'form', explode: true, allowReserved: false },
       { name: 'status', value: params?.status, style: 'form', explode: true, allowReserved: false },
     ]);
     return this.client.get<Record<string, unknown>>(appendQueryString(appApiPath(`/prompts/templates`), query));
