@@ -1,7 +1,7 @@
 import { backendApiPath } from './paths';
 import type { HttpClient } from '../http/client';
 
-import type { AdminPromptBindingCreateRequest, AdminPromptBindingItem, AdminPromptBindingUpdateRequest, AdminPromptCreateRequest, AdminPromptItem, AdminPromptRenderRequest, AdminPromptVersionCreateRequest, AdminPromptVersionItem, SdkWorkPageData } from '../types';
+import type { AdminPromptBindingCreateRequest, AdminPromptBindingItem, AdminPromptBindingUpdateRequest, AdminPromptCreateRequest, AdminPromptItem, AdminPromptRenderRequest, AdminPromptVersionCreateRequest, AdminPromptVersionItem, PageInfo } from '../types';
 
 
 export class PromptsAdminPromptsAdminBindingsApi {
@@ -12,8 +12,8 @@ export class PromptsAdminPromptsAdminBindingsApi {
   }
 
 
-async list(promptId: string): Promise<SdkWorkPageData> {
-    return this.client.get<SdkWorkPageData>(backendApiPath(`/prompts/${serializePathParameter(promptId, { name: 'promptId', style: 'simple', explode: false })}/bindings`));
+async list(promptId: string): Promise<Record<string, unknown>> {
+    return this.client.get<Record<string, unknown>>(backendApiPath(`/prompts/${serializePathParameter(promptId, { name: 'promptId', style: 'simple', explode: false })}/bindings`));
   }
 
 async create(promptId: string, body: AdminPromptBindingCreateRequest): Promise<AdminPromptBindingItem> {
@@ -33,8 +33,8 @@ export class PromptsAdminPromptsAdminVersionsApi {
   }
 
 
-async list(promptId: string): Promise<SdkWorkPageData> {
-    return this.client.get<SdkWorkPageData>(backendApiPath(`/prompts/${serializePathParameter(promptId, { name: 'promptId', style: 'simple', explode: false })}/versions`));
+async list(promptId: string): Promise<Record<string, unknown>> {
+    return this.client.get<Record<string, unknown>>(backendApiPath(`/prompts/${serializePathParameter(promptId, { name: 'promptId', style: 'simple', explode: false })}/versions`));
   }
 
 async create(promptId: string, body: AdminPromptVersionCreateRequest): Promise<AdminPromptVersionItem> {
@@ -68,7 +68,7 @@ export class PromptsAdminPromptsAdminDefinitionsApi {
   }
 
 
-async list(params?: PromptsAdminPromptsAdminDefinitionsListParams): Promise<SdkWorkPageData> {
+async list(params?: PromptsAdminPromptsAdminDefinitionsListParams): Promise<Record<string, unknown>> {
     const query = buildQueryString([
       { name: 'page', value: params?.page, style: 'form', explode: true, allowReserved: false },
       { name: 'page_size', value: params?.pageSize, style: 'form', explode: true, allowReserved: false },
@@ -78,7 +78,7 @@ async list(params?: PromptsAdminPromptsAdminDefinitionsListParams): Promise<SdkW
       { name: 'status', value: params?.status, style: 'form', explode: true, allowReserved: false },
       { name: 'category_id', value: params?.categoryId, style: 'form', explode: true, allowReserved: false },
     ]);
-    return this.client.get<SdkWorkPageData>(appendQueryString(backendApiPath(`/prompts`), query));
+    return this.client.get<Record<string, unknown>>(appendQueryString(backendApiPath(`/prompts`), query));
   }
 
 async create(body: AdminPromptCreateRequest): Promise<AdminPromptItem> {

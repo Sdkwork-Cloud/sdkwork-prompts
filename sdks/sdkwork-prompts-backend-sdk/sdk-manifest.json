@@ -61,8 +61,8 @@
   "typescript": {
     "composedRoot": "sdkwork-prompts-backend-sdk-typescript",
     "composedEntry": "sdkwork-prompts-backend-sdk-typescript/src/index.ts",
-    "transportRoot": "generated/server-openapi",
-    "transportEntry": "generated/server-openapi/src/index.ts"
+    "transportRoot": "sdkwork-prompts-backend-sdk-typescript/generated/server-openapi",
+    "transportEntry": "sdkwork-prompts-backend-sdk-typescript/generated/server-openapi/src/index.ts"
   },
   "workspace": "sdkwork-prompts-backend-sdk",
   "title": "SDKWork Prompts Backend API SDK",
@@ -91,10 +91,10 @@
       "workspace": "sdkwork-prompts-backend-sdk-typescript",
       "generationState": "declared",
       "releaseState": "not_published",
-      "packagePath": "generated/server-openapi",
-      "manifestPath": "generated/server-openapi/package.json",
+      "packagePath": "sdkwork-prompts-backend-sdk-typescript/generated/server-openapi",
+      "manifestPath": "sdkwork-prompts-backend-sdk-typescript/generated/server-openapi/package.json",
       "version": "0.1.0",
-      "generatedPath": "generated/server-openapi",
+      "generatedPath": "sdkwork-prompts-backend-sdk-typescript/generated/server-openapi",
       "consumerPackageName": "@sdkwork/prompts-backend-sdk",
       "transportPackageName": "sdkwork-prompts-backend-sdk-generated-typescript"
     },
@@ -103,11 +103,11 @@
       "workspace": "sdkwork-prompts-backend-sdk-rust",
       "generationState": "declared",
       "releaseState": "not_published",
-      "packagePath": "generated/server-openapi",
-      "manifestPath": "generated/server-openapi/Cargo.toml",
+      "packagePath": "sdkwork-prompts-backend-sdk-typescript/generated/server-openapi",
+      "manifestPath": "sdkwork-prompts-backend-sdk-typescript/generated/server-openapi/Cargo.toml",
       "name": "sdkwork-prompts-backend-sdk",
       "version": "0.1.0",
-      "generatedPath": "generated/server-openapi"
+      "generatedPath": "sdkwork-prompts-backend-sdk-typescript/generated/server-openapi"
     }
   ],
   "schemaVersion": 1

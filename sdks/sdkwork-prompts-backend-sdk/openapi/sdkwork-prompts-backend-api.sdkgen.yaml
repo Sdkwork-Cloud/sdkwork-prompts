@@ -1,7 +1,7 @@
 schemaVersion: 1
 kind: sdkwork.sdkgen.config
 input: sdkwork-prompts-backend-api.openapi.yaml
-output: ../generated/server-openapi
+output: ../sdkwork-prompts-backend-sdk-typescript/generated/server-openapi
 sdkOwner: sdkwork-prompts
 apiAuthority: sdkwork-prompts-backend-api
 sdkFamily: sdkwork-prompts-backend-sdk
