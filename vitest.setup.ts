@@ -27,9 +27,9 @@ globalThis.promptsTestFixtures = {
     openApi: loadJson("sdks/_route-manifests/open-api/sdkwork-routes-prompts-open-api.route-manifest.json"),
   },
   assemblies: {
-    appSdk: loadJson("sdks/sdkwork-prompts-app-sdk/.sdkwork-assembly.json"),
-    backendSdk: loadJson("sdks/sdkwork-prompts-backend-sdk/.sdkwork-assembly.json"),
-    openSdk: loadJson("sdks/sdkwork-prompts-sdk/.sdkwork-assembly.json"),
+    appSdk: loadJson("sdks/sdkwork-prompts-app-sdk/sdk-manifest.json"),
+    backendSdk: loadJson("sdks/sdkwork-prompts-backend-sdk/sdk-manifest.json"),
+    openSdk: loadJson("sdks/sdkwork-prompts-sdk/sdk-manifest.json"),
   },
   sdkgenConfigs: {
     appApi: loadYaml("sdks/sdkwork-prompts-app-sdk/openapi/sdkwork-prompts-app-api.sdkgen.yaml"),

@@ -6,7 +6,7 @@ use axum::{
 };
 use sdkwork_intelligence_prompts_ai_contract::{
     commands::{
-        CreatePromptCommand, CreatePromptVersionCommand, ListPromptsQuery, ListPromptVersionsQuery,
+        CreatePromptCommand, CreatePromptVersionCommand, ListPromptVersionsQuery, ListPromptsQuery,
         PromptAiItem, PromptAiSubject, PromptAiVersionItem, UpdatePromptCommand,
     },
     PromptAiRepository,
@@ -107,7 +107,12 @@ async fn list_templates(
         page_size: limit,
         offset,
     };
-    match state.service_host.ai_repository().list_prompts(list_query).await {
+    match state
+        .service_host
+        .ai_repository()
+        .list_prompts(list_query)
+        .await
+    {
         Ok(items) => {
             let mapped: Vec<Value> = items.iter().map(template_json).collect();
             let has_more = mapped.len() as i64 == limit;
@@ -140,7 +145,12 @@ async fn create_template(
         visibility: "tenant".to_string(),
         tags: request.tags.unwrap_or_default(),
     };
-    match state.service_host.ai_repository().create_prompt(command).await {
+    match state
+        .service_host
+        .ai_repository()
+        .create_prompt(command)
+        .await
+    {
         Ok(item) => created_json(&ctx, resource_data(template_json(&item))),
         Err(error) => map_prompt_error(&ctx, error),
     }
@@ -161,10 +171,7 @@ async fn get_template(
         .get_prompt(subject(&PromptsCtx(ctx.clone())).tenant_id, prompt_id)
         .await
     {
-        Ok(record) => ok_json(
-            &ctx,
-            resource_data(template_json_from_record(&record)),
-        ),
+        Ok(record) => ok_json(&ctx, resource_data(template_json_from_record(&record))),
         Err(error) => map_prompt_error(&ctx, error),
     }
 }
@@ -187,7 +194,12 @@ async fn update_template(
         tags: request.tags,
         status: request.status,
     };
-    match state.service_host.ai_repository().update_prompt(command).await {
+    match state
+        .service_host
+        .ai_repository()
+        .update_prompt(command)
+        .await
+    {
         Ok(item) => ok_json(&ctx, resource_data(template_json(&item))),
         Err(error) => map_prompt_error(&ctx, error),
     }
@@ -206,13 +218,15 @@ async fn list_template_versions(
         subject: subject(&PromptsCtx(ctx.clone())),
         prompt_id,
     };
-    match state.service_host.ai_repository().list_versions(query).await {
+    match state
+        .service_host
+        .ai_repository()
+        .list_versions(query)
+        .await
+    {
         Ok(items) => {
             let mapped: Vec<Value> = items.iter().map(version_json).collect();
-            ok_json(
-                &ctx,
-                page_data(mapped, cursor_page_info(None, false)),
-            )
+            ok_json(&ctx, page_data(mapped, cursor_page_info(None, false)))
         }
         Err(error) => map_prompt_error(&ctx, error),
     }
@@ -245,7 +259,12 @@ async fn create_template_version(
         safety_policy: json!({}),
         examples_json: json!([]),
     };
-    match state.service_host.ai_repository().create_version(command).await {
+    match state
+        .service_host
+        .ai_repository()
+        .create_version(command)
+        .await
+    {
         Ok(item) => created_json(&ctx, resource_data(version_json(&item))),
         Err(error) => map_prompt_error(&ctx, error),
     }
@@ -264,7 +283,9 @@ fn template_json(item: &PromptAiItem) -> Value {
     })
 }
 
-fn template_json_from_record(record: &sdkwork_intelligence_prompts_ai_contract::PromptRecord) -> Value {
+fn template_json_from_record(
+    record: &sdkwork_intelligence_prompts_ai_contract::PromptRecord,
+) -> Value {
     let status = match record.status {
         1 => "active",
         0 => "archived",
@@ -352,6 +373,10 @@ fn schema_to_variables(schema: &Value) -> Vec<Value> {
 
 fn parse_id(raw: &str, ctx: &crate::context::PromptsRequestContext) -> Result<i64, Response> {
     raw.parse::<i64>().map_err(|_| {
-        status_problem(ctx, WebFrameworkErrorKind::BadRequest, "invalid resource id")
+        status_problem(
+            ctx,
+            WebFrameworkErrorKind::BadRequest,
+            "invalid resource id",
+        )
     })
 }

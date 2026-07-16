@@ -43,7 +43,6 @@ paths:
           type: integer
           maximum: 200
           minimum: 1
-          maximum: 100
           default: 20
       - name: status
         in: query
@@ -129,7 +128,7 @@ paths:
       tags:
       - prompts
       summary: Get prompt template.
-      operationId: prompts.templates.get
+      operationId: prompts.templates.retrieve
       security:
       - AuthToken: []
         AccessToken: []
@@ -362,7 +361,7 @@ paths:
       tags:
       - prompts
       summary: Get agent prompt template.
-      operationId: prompts.agentTemplates.get
+      operationId: prompts.agentTemplates.retrieve
       security:
       - AuthToken: []
         AccessToken: []
@@ -736,7 +735,7 @@ components:
       format: int32
       minimum: 40001
       maximum: 79999
-      description: Platform or domain error code per API_SPEC.md 搂15.3.
+      description: "Platform or domain error code per API_SPEC.md 鎼\uDC8215.3."
     ProblemDetail:
       type: object
       additionalProperties: true

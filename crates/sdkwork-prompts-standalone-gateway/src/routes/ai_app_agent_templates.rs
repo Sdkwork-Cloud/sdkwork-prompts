@@ -13,7 +13,7 @@ use serde_json::{json, Value};
 
 use crate::context::PromptsCtx;
 use crate::response::{
-    map_prompt_error, ok_json, page_data, cursor_page_info, resource_data, status_problem,
+    cursor_page_info, map_prompt_error, ok_json, page_data, resource_data, status_problem,
 };
 use crate::AppState;
 
@@ -56,10 +56,7 @@ async fn list_agent_templates(
     {
         Ok(items) => {
             let mapped: Vec<Value> = items.iter().map(agent_template_json).collect();
-            ok_json(
-                &ctx,
-                page_data(mapped, cursor_page_info(None, false)),
-            )
+            ok_json(&ctx, page_data(mapped, cursor_page_info(None, false)))
         }
         Err(error) => map_prompt_error(&ctx, error),
     }
@@ -104,6 +101,10 @@ fn agent_template_json(record: &AgentPromptTemplateRecord) -> Value {
 
 fn parse_id(raw: &str, ctx: &crate::context::PromptsRequestContext) -> Result<i64, Response> {
     raw.parse::<i64>().map_err(|_| {
-        status_problem(ctx, WebFrameworkErrorKind::BadRequest, "invalid resource id")
+        status_problem(
+            ctx,
+            WebFrameworkErrorKind::BadRequest,
+            "invalid resource id",
+        )
     })
 }

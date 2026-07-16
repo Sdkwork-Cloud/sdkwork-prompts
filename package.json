@@ -9,7 +9,7 @@
     "@sdkwork/utils": "workspace:*"
   },
   "scripts": {
-    "dev": "pnpm --filter sdkwork-prompts-pc run dev",
+    "stop": "node ../sdkwork-specs/tools/stop-sdkwork-workspace-processes.mjs --workspace .",    "dev": "pnpm --filter sdkwork-prompts-pc run dev",
     "build": "cargo build --workspace --release && pnpm --filter sdkwork-prompts-pc run build",
     "test": "node tests/static/prompts-contract-boundary.test.mjs && node tests/static/no-clawrouter-runtime-dependency.test.mjs && node tests/static/no-forum-debt.test.mjs && node tests/static/prompts-iam-path-alignment.test.mjs && node tests/sdk/prompts-sdk.test.mjs && node tests/contract/prompts-contract.test.mjs && node tests/schema/prompts-ai-schema.test.mjs && node tests/contract/database-framework.contract.test.mjs",
     "check": "pnpm run check:app-composition && node tools/ensure-workspace-deps.mjs && pnpm check:architecture-alignment && pnpm db:validate && pnpm api:materialize:check && node ../sdkwork-specs/tools/check-api-response-envelope.mjs --workspace . && pnpm topology:validate && pnpm gateway:validate:cloud && pnpm typecheck",

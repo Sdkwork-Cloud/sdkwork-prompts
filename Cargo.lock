@@ -1898,7 +1898,8 @@ name = "sdkwork-prompts-gateway-assembly"
 version = "0.1.0"
 dependencies = [
  "axum",
- "tokio",
+ "sdkwork-prompts-service-host",
+ "sdkwork-prompts-standalone-gateway",
 ]
 
 [[package]]

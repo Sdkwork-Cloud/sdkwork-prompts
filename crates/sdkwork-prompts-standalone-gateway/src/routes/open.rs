@@ -1,9 +1,4 @@
-use axum::{
-    extract::State,
-    response::Response,
-    routing::get,
-    Router,
-};
+use axum::{extract::State, response::Response, routing::get, Router};
 use sdkwork_intelligence_prompts_ai_contract::{
     commands::{ListPromptsQuery, PromptAiSubject},
     PromptAiRepository,
@@ -50,10 +45,7 @@ async fn list_prompt_catalog(State(state): State<AppState>) -> Response {
                     })
                 })
                 .collect();
-            anonymous_ok_json(page_data(
-                mapped,
-                cursor_page_info(None, false),
-            ))
+            anonymous_ok_json(page_data(mapped, cursor_page_info(None, false)))
         }
         Err(error) => anonymous_prompt_error(error),
     }

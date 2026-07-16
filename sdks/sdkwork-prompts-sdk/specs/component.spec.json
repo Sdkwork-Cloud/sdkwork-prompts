@@ -10,22 +10,49 @@
     "domain": "intelligence",
     "capability": "prompts",
     "status": "declared",
-    "languages": ["typescript", "rust"],
+    "languages": [
+      "typescript",
+      "rust"
+    ],
     "generated": true,
-    "manifests": [".sdkwork-assembly.json", "sdk-manifest.json"]
+    "manifests": [
+      "sdk-manifest.json"
+    ]
   },
   "canonicalSpecs": [
-    {"file": "SDK_SPEC.md", "path": "../../sdkwork-specs/SDK_SPEC.md", "purpose": "SDK generation and integration standard."},
-    {"file": "SDK_WORKSPACE_GENERATION_SPEC.md", "path": "../../sdkwork-specs/SDK_WORKSPACE_GENERATION_SPEC.md", "purpose": "SDK workspace layout."},
-    {"file": "API_SPEC.md", "path": "../../sdkwork-specs/API_SPEC.md", "purpose": "HTTP API contracts."},
-    {"file": "TEST_SPEC.md", "path": "../../sdkwork-specs/TEST_SPEC.md", "purpose": "Verification tests."},
-    {"file": "DOCUMENTATION_SPEC.md", "path": "../../sdkwork-specs/DOCUMENTATION_SPEC.md", "purpose": "Module documentation."}
+    {
+      "file": "SDK_SPEC.md",
+      "path": "../../sdkwork-specs/SDK_SPEC.md",
+      "purpose": "SDK generation and integration standard."
+    },
+    {
+      "file": "SDK_WORKSPACE_GENERATION_SPEC.md",
+      "path": "../../sdkwork-specs/SDK_WORKSPACE_GENERATION_SPEC.md",
+      "purpose": "SDK workspace layout."
+    },
+    {
+      "file": "API_SPEC.md",
+      "path": "../../sdkwork-specs/API_SPEC.md",
+      "purpose": "HTTP API contracts."
+    },
+    {
+      "file": "TEST_SPEC.md",
+      "path": "../../sdkwork-specs/TEST_SPEC.md",
+      "purpose": "Verification tests."
+    },
+    {
+      "file": "DOCUMENTATION_SPEC.md",
+      "path": "../../sdkwork-specs/DOCUMENTATION_SPEC.md",
+      "purpose": "Module documentation."
+    }
   ],
   "contracts": {
     "sdkDependencies": [],
     "dependencyApiExports": []
   },
   "verification": {
-    "commands": ["node tests/sdk/prompts-sdk.test.mjs"]
+    "commands": [
+      "node tests/sdk/prompts-sdk.test.mjs"
+    ]
   }
 }

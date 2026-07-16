@@ -4,37 +4,6 @@
   "applicationCode": "prompts",
   "packageName": "sdkwork-prompts-gateway-assembly",
   "crateDir": "crates/sdkwork-prompts-gateway-assembly",
-  "generatedAt": "2026-06-25T13:08:05.596Z",
-  "routeCrates": [
-    {
-      "packageName": "sdkwork-routes-prompts-app-api",
-      "memberDir": "crates/sdkwork-routes-prompts-app-api",
-      "libName": "sdkwork_routes_prompts_app_api",
-      "surface": "app-api",
-      "pathPrefix": null,
-      "mountOrder": 0,
-      "hasGatewayMount": true,
-      "hasGatewayRouteManifest": false
-    },
-    {
-      "packageName": "sdkwork-routes-prompts-backend-api",
-      "memberDir": "crates/sdkwork-routes-prompts-backend-api",
-      "libName": "sdkwork_routes_prompts_backend_api",
-      "surface": "backend-api",
-      "pathPrefix": null,
-      "mountOrder": 1,
-      "hasGatewayMount": true,
-      "hasGatewayRouteManifest": false
-    },
-    {
-      "packageName": "sdkwork-routes-prompts-open-api",
-      "memberDir": "crates/sdkwork-routes-prompts-open-api",
-      "libName": "sdkwork_routes_prompts_open_api",
-      "surface": "open-api",
-      "pathPrefix": null,
-      "mountOrder": 2,
-      "hasGatewayMount": true,
-      "hasGatewayRouteManifest": true
-    }
-  ]
+  "routeCrates": [],
+  "bootstrapOwner": "sdkwork-prompts-standalone-gateway::build_prompts_business_router"
 }

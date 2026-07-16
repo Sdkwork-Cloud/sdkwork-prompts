@@ -21,10 +21,9 @@ pub fn resolve_trace_id(ctx: &PromptsRequestContext) -> String {
 
 fn attach_trace_header(response: &mut Response, trace_id: &str) {
     if let Ok(value) = HeaderValue::from_str(trace_id) {
-        response.headers_mut().insert(
-            HeaderName::from_static(SDKWORK_TRACE_ID_HEADER),
-            value,
-        );
+        response
+            .headers_mut()
+            .insert(HeaderName::from_static(SDKWORK_TRACE_ID_HEADER), value);
     }
 }
 

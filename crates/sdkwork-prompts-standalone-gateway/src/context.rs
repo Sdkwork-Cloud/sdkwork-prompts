@@ -83,11 +83,8 @@ where
 
 pub fn build_context(headers: &HeaderMap) -> PromptsRequestContext {
     if let Some(claims) = parse_access_token_header(headers) {
-        let mut ctx = PromptsRequestContext::new(
-            claims.tenant_id,
-            claims.organization_id,
-            claims.user_id,
-        );
+        let mut ctx =
+            PromptsRequestContext::new(claims.tenant_id, claims.organization_id, claims.user_id);
         if let Some(request_id) = header_string(headers, "x-request-id") {
             ctx = ctx.with_request_id(request_id);
         }

@@ -44,8 +44,8 @@ pub async fn resolve_iam_context(
 
     let headers = request.headers().clone();
     let auth = header_value(&headers, "authorization");
-    let access = header_value(&headers, "access-token")
-        .or_else(|| header_value(&headers, "Access-Token"));
+    let access =
+        header_value(&headers, "access-token").or_else(|| header_value(&headers, "Access-Token"));
 
     match (auth, access) {
         (Some(auth), Some(access)) => {

@@ -1,9 +1,4 @@
-use axum::{
-    body::Body,
-    http::Request,
-    middleware::Next,
-    response::Response,
-};
+use axum::{body::Body, http::Request, middleware::Next, response::Response};
 use sdkwork_web_core::{
     problem_response, ProblemCorrelation, WebFrameworkError, WebFrameworkErrorKind,
 };

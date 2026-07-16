@@ -10,27 +10,100 @@
     "domain": "intelligence",
     "capability": "prompts",
     "status": "declared",
-    "languages": ["typescript", "rust"],
+    "languages": [
+      "typescript",
+      "rust"
+    ],
     "generated": true,
-    "manifests": [".sdkwork-assembly.json", "sdk-manifest.json"]
+    "manifests": [
+      "sdk-manifest.json"
+    ]
   },
   "canonicalSpecs": [
-    {"file": "SDK_SPEC.md", "path": "../../sdkwork-specs/SDK_SPEC.md", "purpose": "SDK generation and integration standard."},
-    {"file": "SDK_WORKSPACE_GENERATION_SPEC.md", "path": "../../sdkwork-specs/SDK_WORKSPACE_GENERATION_SPEC.md", "purpose": "SDK workspace layout."},
-    {"file": "API_SPEC.md", "path": "../../sdkwork-specs/API_SPEC.md", "purpose": "HTTP API contracts."},
-    {"file": "TEST_SPEC.md", "path": "../../sdkwork-specs/TEST_SPEC.md", "purpose": "Verification tests."},
-    {"file": "DOCUMENTATION_SPEC.md", "path": "../../sdkwork-specs/DOCUMENTATION_SPEC.md", "purpose": "Module documentation."}
+    {
+      "file": "SDK_SPEC.md",
+      "path": "../../sdkwork-specs/SDK_SPEC.md",
+      "purpose": "SDK generation and integration standard."
+    },
+    {
+      "file": "SDK_WORKSPACE_GENERATION_SPEC.md",
+      "path": "../../sdkwork-specs/SDK_WORKSPACE_GENERATION_SPEC.md",
+      "purpose": "SDK workspace layout."
+    },
+    {
+      "file": "API_SPEC.md",
+      "path": "../../sdkwork-specs/API_SPEC.md",
+      "purpose": "HTTP API contracts."
+    },
+    {
+      "file": "TEST_SPEC.md",
+      "path": "../../sdkwork-specs/TEST_SPEC.md",
+      "purpose": "Verification tests."
+    },
+    {
+      "file": "DOCUMENTATION_SPEC.md",
+      "path": "../../sdkwork-specs/DOCUMENTATION_SPEC.md",
+      "purpose": "Module documentation."
+    }
   ],
   "contracts": {
     "sdkDependencies": [
-      { "workspace": "sdkwork-iam-backend-sdk", "role": "appbase-backend-capability", "required": true, "dependencyMode": "consumer-sdk", "apiPrefix": "/backend/v3/api", "apiAuthority": "sdkwork-iam-backend-api", "generatedTransportImportPolicy": "forbidden", "packageByLanguage": { "typescript": "@sdkwork/iam-backend-sdk", "rust": "sdkwork-iam-backend-sdk" } },
-      { "workspace": "../sdkwork-drive/sdks/sdkwork-drive-backend-sdk", "role": "drive-backend-capability", "required": true, "dependencyMode": "consumer-sdk", "apiPrefix": "/backend/v3/api", "apiAuthority": "sdkwork-drive.backend", "generatedTransportImportPolicy": "forbidden", "packageByLanguage": { "typescript": "@sdkwork-internal/drive-backend-sdk-generated", "rust": "sdkwork-drive-backend-sdk-generated" } },
-      { "workspace": "../sdkwork-search/sdks/sdkwork-search-backend-sdk", "role": "search-backend-capability", "required": true, "dependencyMode": "consumer-sdk", "apiPrefix": "/backend/v3/api", "apiAuthority": "sdkwork-search-backend-api", "generatedTransportImportPolicy": "forbidden", "packageByLanguage": { "typescript": "@sdkwork/search-backend-sdk" } },
-      { "workspace": "../sdkwork-messaging/sdks/sdkwork-messaging-backend-sdk", "role": "messaging-backend-capability", "required": true, "dependencyMode": "consumer-sdk", "apiPrefix": "/backend/v3/api", "apiAuthority": "sdkwork-messaging-backend-api", "generatedTransportImportPolicy": "forbidden", "packageByLanguage": { "typescript": "@sdkwork/messaging-backend-sdk" } }
+      {
+        "workspace": "sdkwork-iam-backend-sdk",
+        "role": "appbase-backend-capability",
+        "required": true,
+        "dependencyMode": "consumer-sdk",
+        "apiPrefix": "/backend/v3/api",
+        "apiAuthority": "sdkwork-iam-backend-api",
+        "generatedTransportImportPolicy": "forbidden",
+        "packageByLanguage": {
+          "typescript": "@sdkwork/iam-backend-sdk",
+          "rust": "sdkwork-iam-backend-sdk"
+        }
+      },
+      {
+        "workspace": "../sdkwork-drive/sdks/sdkwork-drive-backend-sdk",
+        "role": "drive-backend-capability",
+        "required": true,
+        "dependencyMode": "consumer-sdk",
+        "apiPrefix": "/backend/v3/api",
+        "apiAuthority": "sdkwork-drive.backend",
+        "generatedTransportImportPolicy": "forbidden",
+        "packageByLanguage": {
+          "typescript": "@sdkwork-internal/drive-backend-sdk-generated",
+          "rust": "sdkwork-drive-backend-sdk-generated"
+        }
+      },
+      {
+        "workspace": "../sdkwork-search/sdks/sdkwork-search-backend-sdk",
+        "role": "search-backend-capability",
+        "required": true,
+        "dependencyMode": "consumer-sdk",
+        "apiPrefix": "/backend/v3/api",
+        "apiAuthority": "sdkwork-search-backend-api",
+        "generatedTransportImportPolicy": "forbidden",
+        "packageByLanguage": {
+          "typescript": "@sdkwork/search-backend-sdk"
+        }
+      },
+      {
+        "workspace": "../sdkwork-messaging/sdks/sdkwork-messaging-backend-sdk",
+        "role": "messaging-backend-capability",
+        "required": true,
+        "dependencyMode": "consumer-sdk",
+        "apiPrefix": "/backend/v3/api",
+        "apiAuthority": "sdkwork-messaging-backend-api",
+        "generatedTransportImportPolicy": "forbidden",
+        "packageByLanguage": {
+          "typescript": "@sdkwork/messaging-backend-sdk"
+        }
+      }
     ],
     "dependencyApiExports": []
   },
   "verification": {
-    "commands": ["node tests/sdk/prompts-sdk.test.mjs"]
+    "commands": [
+      "node tests/sdk/prompts-sdk.test.mjs"
+    ]
   }
 }

@@ -7,7 +7,7 @@ use axum::{
 use sdkwork_intelligence_prompts_ai_contract::{
     commands::{
         CreatePromptBindingCommand, CreatePromptCommand, CreatePromptVersionCommand,
-        ListPromptBindingsQuery, ListPromptsQuery, ListPromptVersionsQuery, PromptAiSubject,
+        ListPromptBindingsQuery, ListPromptVersionsQuery, ListPromptsQuery, PromptAiSubject,
         PublishPromptVersionCommand, RenderPromptVersionCommand, UpdatePromptBindingCommand,
     },
     PromptAiRepository,
@@ -18,7 +18,7 @@ use serde_json::{json, Value};
 
 use crate::context::PromptsCtx;
 use crate::response::{
-    created_json, map_prompt_error, ok_json, offset_page_info, page_data, resource_data,
+    created_json, map_prompt_error, offset_page_info, ok_json, page_data, resource_data,
     status_problem,
 };
 use crate::AppState;
@@ -153,10 +153,7 @@ async fn list_prompts(
     match state.service_host.ai_repository().list_prompts(query).await {
         Ok(items) => ok_json(
             &ctx,
-            page_data(
-                items,
-                offset_page_info(page_no as i32, page_size as i32),
-            ),
+            page_data(items, offset_page_info(page_no as i32, page_size as i32)),
         ),
         Err(error) => map_prompt_error(&ctx, error),
     }
@@ -177,7 +174,12 @@ async fn create_prompt(
         visibility: request.visibility.unwrap_or_else(|| "private".to_string()),
         tags: request.tags.unwrap_or_default(),
     };
-    match state.service_host.ai_repository().create_prompt(command).await {
+    match state
+        .service_host
+        .ai_repository()
+        .create_prompt(command)
+        .await
+    {
         Ok(item) => created_json(&ctx, resource_data(item)),
         Err(error) => map_prompt_error(&ctx, error),
     }
@@ -196,7 +198,12 @@ async fn list_versions(
         subject: subject(&PromptsCtx(ctx.clone())),
         prompt_id,
     };
-    match state.service_host.ai_repository().list_versions(query).await {
+    match state
+        .service_host
+        .ai_repository()
+        .list_versions(query)
+        .await
+    {
         Ok(items) => {
             let page_size = items.len() as i32;
             ok_json(
@@ -281,7 +288,12 @@ async fn render_version(
         version_id,
         variables: request.variables.unwrap_or_else(|| json!({})),
     };
-    match state.service_host.ai_repository().render_version(command).await {
+    match state
+        .service_host
+        .ai_repository()
+        .render_version(command)
+        .await
+    {
         Ok(Some(rendered)) => ok_json(&ctx, json!({ "rendered": rendered })),
         Ok(None) => status_problem(&ctx, WebFrameworkErrorKind::NotFound, "version not found"),
         Err(error) => map_prompt_error(&ctx, error),
@@ -301,7 +313,12 @@ async fn list_bindings(
         subject: subject(&PromptsCtx(ctx.clone())),
         prompt_id,
     };
-    match state.service_host.ai_repository().list_bindings(query).await {
+    match state
+        .service_host
+        .ai_repository()
+        .list_bindings(query)
+        .await
+    {
         Ok(items) => {
             let page_size = items.len() as i32;
             ok_json(
@@ -387,6 +404,10 @@ async fn update_binding(
 
 fn parse_id(raw: &str, ctx: &crate::context::PromptsRequestContext) -> Result<i64, Response> {
     raw.parse::<i64>().map_err(|_| {
-        status_problem(ctx, WebFrameworkErrorKind::BadRequest, "invalid resource id")
+        status_problem(
+            ctx,
+            WebFrameworkErrorKind::BadRequest,
+            "invalid resource id",
+        )
     })
 }
