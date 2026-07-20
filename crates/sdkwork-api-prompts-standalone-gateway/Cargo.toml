@@ -1,12 +1,12 @@
 [package]
-name = "sdkwork-prompts-standalone-gateway"
+name = "sdkwork-api-prompts-standalone-gateway"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 publish.workspace = true
 
 [[bin]]
-name = "sdkwork-prompts-standalone-gateway"
+name = "sdkwork-api-prompts-standalone-gateway"
 path = "src/main.rs"
 
 [dependencies]

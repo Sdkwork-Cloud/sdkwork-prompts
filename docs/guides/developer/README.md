@@ -16,7 +16,7 @@ pnpm install
 cp configs/local/.env.example .env.local
 # Set SDKWORK_PROMPTS_DATABASE_URL
 pnpm db:bootstrap
-cargo run --bin sdkwork-prompts-standalone-gateway
+cargo run --bin sdkwork-api-prompts-standalone-gateway
 ```
 
 PC app:
@@ -38,7 +38,7 @@ pnpm verify
 | Path | Purpose |
 | --- | --- |
 | `apis/` | OpenAPI authority |
-| `crates/sdkwork-prompts-standalone-gateway/` | HTTP server |
+| `crates/sdkwork-api-prompts-standalone-gateway/` | HTTP server |
 | `sdks/` | Generated SDK families + composed facades |
 | `specs/prompts-ai-database.schema.yaml` | Database contract |
 

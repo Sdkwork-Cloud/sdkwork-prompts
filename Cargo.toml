@@ -2,11 +2,11 @@
 resolver = "2"
 members = [
     "crates/sdkwork-api-prompts-assembly",
-    "crates/sdkwork-prompts-gateway-assembly",
+    "crates/sdkwork-api-prompts-assembly",
     "crates/sdkwork-intelligence-prompts-ai-contract",
     "crates/sdkwork-intelligence-prompts-ai-repository-sqlx",
     "crates/sdkwork-prompts-database-host",
-    "crates/sdkwork-prompts-standalone-gateway",
+    "crates/sdkwork-api-prompts-standalone-gateway",
     "crates/sdkwork-prompts-service-host",
 ]
 

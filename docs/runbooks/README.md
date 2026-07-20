@@ -2,7 +2,7 @@
 
 ## API unavailable
 
-1. Check process: `sdkwork-prompts-standalone-gateway` listening on configured bind (default `0.0.0.0:8080`)
+1. Check process: `sdkwork-api-prompts-standalone-gateway` listening on configured bind (default `0.0.0.0:8080`)
 2. Check database: `pnpm db:status` and `SDKWORK_PROMPTS_DATABASE_URL`
 3. Review logs: `RUST_LOG=info` (set `debug` for SQL tracing)
 

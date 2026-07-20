@@ -4,7 +4,7 @@ Local development configuration templates.
 
 ## Files
 
-- `.env.example` — environment variables for `sdkwork-prompts-standalone-gateway`
+- `.env.example` — environment variables for `sdkwork-api-prompts-standalone-gateway`
 
 ## Usage
 
@@ -12,7 +12,7 @@ Local development configuration templates.
 cp configs/local/.env.example .env.local
 # Edit SDKWORK_PROMPTS_DATABASE_URL and optional integration URLs
 pnpm db:bootstrap
-cargo run --bin sdkwork-prompts-standalone-gateway
+cargo run --bin sdkwork-api-prompts-standalone-gateway
 ```
 
 ## Services

@@ -3,7 +3,7 @@ import { join } from "node:path";
 
 const root = process.cwd();
 const iamSource = readFileSync(
-  join(root, "crates/sdkwork-prompts-standalone-gateway/src/iam.rs"),
+  join(root, "crates/sdkwork-api-prompts-standalone-gateway/src/iam.rs"),
   "utf8",
 );
 

@@ -1,6 +1,6 @@
 use sdkwork_database_ops_http::{attach_ops_routes, default_ops_auth, DatabaseOpsHttpState};
 use sdkwork_prompts_service_host::{default_seed_locale, default_seed_profile, PromptsServiceHost};
-use sdkwork_prompts_standalone_gateway::{build_prompts_business_router, iam, infra_router};
+use sdkwork_api_prompts_standalone_gateway::{build_prompts_business_router, iam, infra_router};
 use sdkwork_web_bootstrap::ServiceRouterConfig;
 use std::sync::Arc;
 

@@ -15,10 +15,10 @@ Services: `prompts-api` (8080), `postgres` (5432).
 ### Binary
 
 ```bash
-cargo build --release --bin sdkwork-prompts-standalone-gateway
+cargo build --release --bin sdkwork-api-prompts-standalone-gateway
 export SDKWORK_PROMPTS_APP_ROOT=/path/to/sdkwork-prompts
 export SDKWORK_PROMPTS_DATABASE_URL=postgresql://...
-./target/release/sdkwork-prompts-standalone-gateway
+./target/release/sdkwork-api-prompts-standalone-gateway
 ```
 
 ## Cloud topology

@@ -33,7 +33,7 @@ crates/
   sdkwork-intelligence-prompts-ai-repository-sqlx/
   sdkwork-prompts-database-host/
   sdkwork-prompts-service-host/
-  sdkwork-prompts-standalone-gateway/
+  sdkwork-api-prompts-standalone-gateway/
 sdks/                          # Materialized OpenAPI + composed facades
 ```
 

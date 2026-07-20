@@ -13,7 +13,7 @@ Updated: 2026-06-29
 1. Six `ai_` tables per `specs/prompts-ai-database.schema.yaml`
 2. Three API surfaces (app, backend, open) with OpenAPI authority under `apis/`
 3. Generated SDK families under `sdks/` with composed facades
-4. Rust gateway `sdkwork-prompts-standalone-gateway` implementing all routes
+4. Rust gateway `sdkwork-api-prompts-standalone-gateway` implementing all routes
 
 ## Non-functional requirements
 

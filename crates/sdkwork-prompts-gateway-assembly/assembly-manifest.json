@@ -1,9 +1,0 @@
-{
-  "kind": "sdkwork.gateway.assembly",
-  "schemaVersion": 1,
-  "applicationCode": "prompts",
-  "packageName": "sdkwork-prompts-gateway-assembly",
-  "crateDir": "crates/sdkwork-prompts-gateway-assembly",
-  "routeCrates": [],
-  "bootstrapOwner": "sdkwork-prompts-standalone-gateway::build_prompts_business_router"
-}

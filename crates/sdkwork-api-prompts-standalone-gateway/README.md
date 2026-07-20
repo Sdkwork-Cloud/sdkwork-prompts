@@ -10,5 +10,5 @@ HTTP server for intelligence prompts (app-api, backend-api, open-api).
 ## Run
 
 ```bash
-cargo run -p sdkwork-prompts-standalone-gateway
+cargo run -p sdkwork-api-prompts-standalone-gateway
 ```

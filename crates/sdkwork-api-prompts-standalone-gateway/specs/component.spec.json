@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "sdkwork-api-prompts-standalone-gateway",
+    "displayName": "SDKWork Prompts API Server",
+    "version": "0.1.0",
+    "type": "rust-api-standalone-gateway",
+    "root": "crates/sdkwork-api-prompts-standalone-gateway",
+    "domain": "intelligence",
+    "capability": "api-gateway",
+    "languages": [
+      "rust"
+    ],
+    "generated": false,
+    "manifests": [
+      "Cargo.toml"
+    ],
+    "surface": "gateway-api"
+  },
+  "contracts": {
+    "runtimeEntrypoints": [
+      "compose_prompts_api_routes"
+    ],
+    "sdkDependencies": [],
+    "dependencyApiExports": [],
+    "layerRole": "runtime-gateway"
+  },
+  "verification": {
+    "commands": [
+      "cargo check -p sdkwork-api-prompts-standalone-gateway"
+    ]
+  }
+}

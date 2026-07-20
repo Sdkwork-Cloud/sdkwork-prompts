@@ -18,7 +18,7 @@ docker compose up -d --build
 
 | Service | Port | Description |
 | --- | --- | --- |
-| `prompts-api` | 8080 | `sdkwork-prompts-standalone-gateway` |
+| `prompts-api` | 8080 | `sdkwork-api-prompts-standalone-gateway` |
 | `postgres` | 5432 | PostgreSQL 16 (`prompts` database) |
 
 ## Environment
