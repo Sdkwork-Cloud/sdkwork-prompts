@@ -7,7 +7,7 @@ pub mod ports;
 
 pub use commands::{
     CreatePromptBindingCommand, CreatePromptCommand, CreatePromptVersionCommand,
-    ListPromptBindingsQuery, ListPromptsQuery, ListPromptVersionsQuery, PromptAiBindingItem,
+    ListPromptBindingsQuery, ListPromptVersionsQuery, ListPromptsQuery, PromptAiBindingItem,
     PromptAiItem, PromptAiSubject, PromptAiVersionItem, PublishPromptVersionCommand,
     RenderPromptVersionCommand, UpdatePromptBindingCommand, UpdatePromptCommand,
 };

@@ -16,3 +16,4 @@ serde.workspace = true
 serde_json.workspace = true
 sdkwork-intelligence-prompts-ai-contract.workspace = true
 sdkwork-prompts-web-context.workspace = true
+sdkwork-web-core.workspace = true

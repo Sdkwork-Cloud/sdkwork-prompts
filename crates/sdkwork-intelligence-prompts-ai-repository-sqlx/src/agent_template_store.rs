@@ -9,7 +9,11 @@ use sdkwork_intelligence_prompts_ai_contract::{
     PromptAiError, PromptAiResult,
 };
 
-pub(crate) async fn get_prompt(pool: &PgPool, tenant_id: i64, id: i64) -> PromptAiResult<PromptRecord> {
+pub(crate) async fn get_prompt(
+    pool: &PgPool,
+    tenant_id: i64,
+    id: i64,
+) -> PromptAiResult<PromptRecord> {
     let row = sqlx::query(
         r#"
         SELECT id, uuid, tenant_id, organization_id, prompt_key, name, description,
@@ -144,7 +148,9 @@ pub(crate) async fn get_agent_prompt_template(
     .map_err(|e| PromptAiError::internal(e.to_string()))?;
 
     let Some(row) = row else {
-        return Err(PromptAiError::not_found("agent prompt template was not found"));
+        return Err(PromptAiError::not_found(
+            "agent prompt template was not found",
+        ));
     };
 
     let prompt_kind: String = row.get("prompt_kind");
@@ -155,7 +161,11 @@ pub(crate) async fn get_agent_prompt_template(
         "workflow" => AgentPromptTemplateKind::Workflow,
         "tool" => AgentPromptTemplateKind::Tool,
         "mcp-prompt" => AgentPromptTemplateKind::McpPrompt,
-        other => return Err(PromptAiError::internal(format!("unknown prompt_kind: {other}"))),
+        other => {
+            return Err(PromptAiError::internal(format!(
+                "unknown prompt_kind: {other}"
+            )))
+        }
     };
 
     Ok(AgentPromptTemplateRecord {

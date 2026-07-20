@@ -1642,6 +1642,35 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
 
 [[package]]
+name = "sdkwork-api-prompts-assembly"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "sdkwork-database-ops-http",
+ "sdkwork-prompts-service-host",
+ "sdkwork-prompts-web-context",
+ "sdkwork-routes-prompts-app-api",
+ "sdkwork-routes-prompts-backend-api",
+ "sdkwork-routes-prompts-open-api",
+ "sdkwork-web-bootstrap",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "sdkwork-api-prompts-standalone-gateway"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "sdkwork-api-prompts-assembly",
+ "sdkwork-utils-rust",
+ "sdkwork-web-bootstrap",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "sdkwork-database-config"
 version = "0.1.0"
 dependencies = [
@@ -1777,6 +1806,7 @@ dependencies = [
  "thiserror 2.0.18",
  "tokio",
  "tracing",
+ "url",
 ]
 
 [[package]]
@@ -1840,6 +1870,7 @@ dependencies = [
  "sdkwork-iam-context-service",
  "sdkwork-utils-rust",
  "sdkwork-web-axum",
+ "sdkwork-web-bootstrap",
  "sdkwork-web-core",
  "serde",
  "serde_json",
@@ -1894,15 +1925,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "sdkwork-prompts-gateway-assembly"
-version = "0.1.0"
-dependencies = [
- "axum",
- "sdkwork-prompts-service-host",
- "sdkwork-prompts-standalone-gateway",
-]
-
-[[package]]
 name = "sdkwork-prompts-service-host"
 version = "0.1.0"
 dependencies = [
@@ -1911,6 +1933,7 @@ dependencies = [
  "sdkwork-database-ops",
  "sdkwork-database-spi",
  "sdkwork-database-sqlx",
+ "sdkwork-intelligence-prompts-ai-contract",
  "sdkwork-intelligence-prompts-ai-repository-sqlx",
  "sdkwork-prompts-database-host",
  "sqlx",
@@ -1919,26 +1942,53 @@ dependencies = [
 ]
 
 [[package]]
-name = "sdkwork-prompts-standalone-gateway"
+name = "sdkwork-prompts-web-context"
 version = "0.1.0"
 dependencies = [
  "axum",
  "base64",
- "sdkwork-database-ops-http",
  "sdkwork-iam-context-service",
  "sdkwork-iam-web-adapter",
  "sdkwork-intelligence-prompts-ai-contract",
- "sdkwork-prompts-service-host",
  "sdkwork-utils-rust",
- "sdkwork-web-bootstrap",
  "sdkwork-web-core",
  "serde",
  "serde_json",
- "tokio",
- "tower",
- "tower-http",
- "tracing",
- "tracing-subscriber",
+ "sqlx",
+]
+
+[[package]]
+name = "sdkwork-routes-prompts-app-api"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "sdkwork-intelligence-prompts-ai-contract",
+ "sdkwork-prompts-web-context",
+ "sdkwork-web-core",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "sdkwork-routes-prompts-backend-api"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "sdkwork-intelligence-prompts-ai-contract",
+ "sdkwork-prompts-web-context",
+ "sdkwork-web-core",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "sdkwork-routes-prompts-open-api"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "sdkwork-intelligence-prompts-ai-contract",
+ "sdkwork-prompts-web-context",
+ "serde_json",
 ]
 
 [[package]]
@@ -2682,7 +2732,6 @@ dependencies = [
  "tower",
  "tower-layer",
  "tower-service",
- "tracing",
  "url",
 ]
 

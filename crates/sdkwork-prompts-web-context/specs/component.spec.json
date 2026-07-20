@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.component.spec",
+  "component": {
+    "name": "sdkwork-prompts-web-context",
+    "displayName": "SDKWork Prompts Web Context",
+    "version": "0.1.0",
+    "type": "rust-crate",
+    "root": "crates/sdkwork-prompts-web-context",
+    "domain": "intelligence",
+    "capability": "prompts-web-context",
+    "surface": "internal",
+    "languages": ["rust"],
+    "generated": false,
+    "manifests": ["Cargo.toml"]
+  },
+  "canonicalSpecs": [
+    {
+      "file": "CODE_STYLE_SPEC.md",
+      "path": "../../../sdkwork-specs/CODE_STYLE_SPEC.md",
+      "purpose": "Authored source and public export boundaries."
+    },
+    {
+      "file": "WEB_FRAMEWORK_SPEC.md",
+      "path": "../../../sdkwork-specs/WEB_FRAMEWORK_SPEC.md",
+      "purpose": "Request context, middleware, and response mapping."
+    },
+    {
+      "file": "SECURITY_SPEC.md",
+      "path": "../../../sdkwork-specs/SECURITY_SPEC.md",
+      "purpose": "IAM token and protected surface behavior."
+    }
+  ],
+  "contracts": {
+    "layerRole": "http-adapter",
+    "publicExports": ["."],
+    "providedPorts": ["PromptsRequestContext", "AppState"],
+    "requiredPorts": ["PromptAiRepository"],
+    "runtimeEntrypoints": [],
+    "routeManifest": null,
+    "sdkClients": [],
+    "sdkDependencies": [],
+    "dependencyApiExports": [],
+    "dependencyApiSurfaces": [],
+    "events": [],
+    "configKeys": [
+      "SDKWORK_PROMPTS_IAM_ENABLED",
+      "SDKWORK_PROMPTS_IAM_STRICT",
+      "SDKWORK_PROMPTS_REQUIRE_AUTH"
+    ]
+  },
+  "verification": {
+    "commands": ["cargo test -p sdkwork-prompts-web-context"]
+  }
+}

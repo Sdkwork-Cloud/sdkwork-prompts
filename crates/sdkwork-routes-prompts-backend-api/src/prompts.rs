@@ -4,13 +4,10 @@ use axum::{
     routing::{get, post, put},
     Json, Router,
 };
-use sdkwork_intelligence_prompts_ai_contract::{
-    commands::{
-        CreatePromptBindingCommand, CreatePromptCommand, CreatePromptVersionCommand,
-        ListPromptBindingsQuery, ListPromptVersionsQuery, ListPromptsQuery, PromptAiSubject,
-        PublishPromptVersionCommand, RenderPromptVersionCommand, UpdatePromptBindingCommand,
-    },
-    PromptAiRepository,
+use sdkwork_intelligence_prompts_ai_contract::commands::{
+    CreatePromptBindingCommand, CreatePromptCommand, CreatePromptVersionCommand,
+    ListPromptBindingsQuery, ListPromptVersionsQuery, ListPromptsQuery, PromptAiSubject,
+    PublishPromptVersionCommand, RenderPromptVersionCommand, UpdatePromptBindingCommand,
 };
 use sdkwork_web_core::WebFrameworkErrorKind;
 use serde::Deserialize;
@@ -172,11 +169,7 @@ async fn create_prompt(
         visibility: request.visibility.unwrap_or_else(|| "private".to_string()),
         tags: request.tags.unwrap_or_default(),
     };
-    match state
-        .ai_repository()
-        .create_prompt(command)
-        .await
-    {
+    match state.ai_repository().create_prompt(command).await {
         Ok(item) => created_json(&ctx, resource_data(item)),
         Err(error) => map_prompt_error(&ctx, error),
     }
@@ -195,11 +188,7 @@ async fn list_versions(
         subject: subject(&PromptsCtx(ctx.clone())),
         prompt_id,
     };
-    match state
-        .ai_repository()
-        .list_versions(query)
-        .await
-    {
+    match state.ai_repository().list_versions(query).await {
         Ok(items) => {
             let page_size = items.len() as i32;
             ok_json(
@@ -233,11 +222,7 @@ async fn create_version(
         safety_policy: request.safety_policy.unwrap_or_else(|| json!({})),
         examples_json: request.examples_json.unwrap_or_else(|| json!([])),
     };
-    match state
-        .ai_repository()
-        .create_version(command)
-        .await
-    {
+    match state.ai_repository().create_version(command).await {
         Ok(item) => created_json(&ctx, resource_data(item)),
         Err(error) => map_prompt_error(&ctx, error),
     }
@@ -256,11 +241,7 @@ async fn publish_version(
         subject: subject(&PromptsCtx(ctx.clone())),
         version_id,
     };
-    match state
-        .ai_repository()
-        .publish_version(command)
-        .await
-    {
+    match state.ai_repository().publish_version(command).await {
         Ok(Some(item)) => ok_json(&ctx, resource_data(item)),
         Ok(None) => status_problem(&ctx, WebFrameworkErrorKind::NotFound, "version not found"),
         Err(error) => map_prompt_error(&ctx, error),
@@ -282,11 +263,7 @@ async fn render_version(
         version_id,
         variables: request.variables.unwrap_or_else(|| json!({})),
     };
-    match state
-        .ai_repository()
-        .render_version(command)
-        .await
-    {
+    match state.ai_repository().render_version(command).await {
         Ok(Some(rendered)) => ok_json(&ctx, json!({ "rendered": rendered })),
         Ok(None) => status_problem(&ctx, WebFrameworkErrorKind::NotFound, "version not found"),
         Err(error) => map_prompt_error(&ctx, error),
@@ -306,11 +283,7 @@ async fn list_bindings(
         subject: subject(&PromptsCtx(ctx.clone())),
         prompt_id,
     };
-    match state
-        .ai_repository()
-        .list_bindings(query)
-        .await
-    {
+    match state.ai_repository().list_bindings(query).await {
         Ok(items) => {
             let page_size = items.len() as i32;
             ok_json(
@@ -343,11 +316,7 @@ async fn create_binding(
         enabled: request.enabled.unwrap_or(true),
         policy_json: request.policy_json.unwrap_or_else(|| json!({})),
     };
-    match state
-        .ai_repository()
-        .create_binding(command)
-        .await
-    {
+    match state.ai_repository().create_binding(command).await {
         Ok(item) => created_json(&ctx, resource_data(item)),
         Err(error) => map_prompt_error(&ctx, error),
     }
@@ -381,11 +350,7 @@ async fn update_binding(
         enabled: request.enabled,
         policy_json: request.policy_json,
     };
-    match state
-        .ai_repository()
-        .update_binding(command)
-        .await
-    {
+    match state.ai_repository().update_binding(command).await {
         Ok(Some(item)) => ok_json(&ctx, resource_data(item)),
         Ok(None) => status_problem(&ctx, WebFrameworkErrorKind::NotFound, "binding not found"),
         Err(error) => map_prompt_error(&ctx, error),

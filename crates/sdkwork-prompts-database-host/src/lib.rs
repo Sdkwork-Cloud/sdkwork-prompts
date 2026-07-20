@@ -30,8 +30,8 @@ pub async fn bootstrap_prompts_database(pool: DatabasePool) -> Result<PromptsDat
     let manifest = DatabaseManifest::from_file(module.manifest_path())
         .map_err(|error| format!("read prompts database manifest failed: {error}"))?;
     let options = lifecycle_options_from_env("PROMPTS", &manifest);
-    let orchestrator = LifecycleOrchestrator::new(pool.clone(), module.clone())
-        .with_applied_by("sdkwork-prompts");
+    let orchestrator =
+        LifecycleOrchestrator::new(pool.clone(), module.clone()).with_applied_by("sdkwork-prompts");
 
     orchestrator
         .init()

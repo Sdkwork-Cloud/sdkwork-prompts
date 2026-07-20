@@ -13,9 +13,8 @@ pub use context::{PromptsCtx, PromptsRequestContext, ResolvedPromptsContext};
 pub use iam::{iam_enabled, resolve_iam_context};
 pub use middleware::require_dual_token_auth;
 pub use response::{
-    anonymous_ok_json, anonymous_prompt_error, anonymous_trace_id, created_json,
-    cursor_page_info, map_prompt_error, offset_page_info, ok_json, page_data, resource_data,
-    status_problem,
+    anonymous_ok_json, anonymous_prompt_error, anonymous_trace_id, created_json, cursor_page_info,
+    map_prompt_error, offset_page_info, ok_json, page_data, resource_data, status_problem,
 };
 
 #[derive(Clone)]

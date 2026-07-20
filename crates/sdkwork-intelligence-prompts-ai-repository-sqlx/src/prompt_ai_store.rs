@@ -1,10 +1,12 @@
 use sha2::{Digest, Sha256};
 use sqlx::{PgPool, Row};
 
+use crate::stable_id::stable_uuid;
+use crate::SqlxPromptAiRepository;
 use sdkwork_intelligence_prompts_ai_contract::{
     commands::{
         CreatePromptBindingCommand, CreatePromptCommand, CreatePromptVersionCommand,
-        ListPromptBindingsQuery, ListPromptsQuery, ListPromptVersionsQuery, PromptAiBindingItem,
+        ListPromptBindingsQuery, ListPromptVersionsQuery, ListPromptsQuery, PromptAiBindingItem,
         PromptAiItem, PromptAiSubject, PromptAiVersionItem, PublishPromptVersionCommand,
         RenderPromptVersionCommand, UpdatePromptBindingCommand, UpdatePromptCommand,
     },
@@ -12,14 +14,9 @@ use sdkwork_intelligence_prompts_ai_contract::{
     ports::{AgentPromptTemplateListQuery, PromptAiRepository},
     PromptAiError, PromptAiResult,
 };
-use crate::stable_id::stable_uuid;
-use crate::SqlxPromptAiRepository;
 
 use async_trait::async_trait;
-async fn list_prompts(
-    pool: &PgPool,
-    query: ListPromptsQuery,
-) -> PromptAiResult<Vec<PromptAiItem>> {
+async fn list_prompts(pool: &PgPool, query: ListPromptsQuery) -> PromptAiResult<Vec<PromptAiItem>> {
     let status = status_code(query.status.as_deref())?;
     let (category_id, category_code) = category_filter(query.category_id.as_deref())?;
     let rows = sqlx::query(
@@ -792,7 +789,9 @@ fn category_filter(value: Option<&str>) -> PromptAiResult<(Option<i64>, Option<S
     };
     if let Ok(id) = value.parse::<i64>() {
         if id <= 0 {
-            return Err(PromptAiError::validation("prompt categoryId must be positive"));
+            return Err(PromptAiError::validation(
+                "prompt categoryId must be positive",
+            ));
         }
         return Ok((Some(id), None));
     }
@@ -875,8 +874,9 @@ fn json_cell(row: &sqlx::postgres::PgRow, column: &str) -> PromptAiResult<serde_
     if raw.trim().is_empty() {
         return Ok(serde_json::json!({}));
     }
-    serde_json::from_str(&raw)
-        .map_err(|error| PromptAiError::validation(format!("invalid prompt json {column}: {error}")))
+    serde_json::from_str(&raw).map_err(|error| {
+        PromptAiError::validation(format!("invalid prompt json {column}: {error}"))
+    })
 }
 
 fn string_cell(row: &sqlx::postgres::PgRow, column: &str) -> PromptAiResult<String> {
@@ -903,7 +903,10 @@ fn string_cell(row: &sqlx::postgres::PgRow, column: &str) -> PromptAiResult<Stri
     )))
 }
 
-fn optional_string_cell(row: &sqlx::postgres::PgRow, column: &str) -> PromptAiResult<Option<String>> {
+fn optional_string_cell(
+    row: &sqlx::postgres::PgRow,
+    column: &str,
+) -> PromptAiResult<Option<String>> {
     let value = string_cell(row, column)?;
     Ok((!value.trim().is_empty()).then_some(value))
 }
@@ -925,9 +928,9 @@ fn integer_cell(row: &sqlx::postgres::PgRow, column: &str) -> PromptAiResult<i64
     if value.trim().is_empty() {
         return Ok(0);
     }
-    value
-        .parse::<i64>()
-        .map_err(|error| PromptAiError::validation(format!("invalid prompt integer {column}: {error}")))
+    value.parse::<i64>().map_err(|error| {
+        PromptAiError::validation(format!("invalid prompt integer {column}: {error}"))
+    })
 }
 
 fn optional_integer_cell(row: &sqlx::postgres::PgRow, column: &str) -> PromptAiResult<Option<i64>> {
@@ -947,10 +950,9 @@ fn optional_integer_cell(row: &sqlx::postgres::PgRow, column: &str) -> PromptAiR
     if value.trim().is_empty() {
         return Ok(None);
     }
-    value
-        .parse::<i64>()
-        .map(Some)
-        .map_err(|error| PromptAiError::validation(format!("invalid prompt integer {column}: {error}")))
+    value.parse::<i64>().map(Some).map_err(|error| {
+        PromptAiError::validation(format!("invalid prompt integer {column}: {error}"))
+    })
 }
 
 fn bool_cell(row: &sqlx::postgres::PgRow, column: &str) -> PromptAiResult<bool> {

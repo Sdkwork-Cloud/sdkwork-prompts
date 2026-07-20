@@ -2,11 +2,13 @@ use async_trait::async_trait;
 
 use crate::commands::{
     CreatePromptBindingCommand, CreatePromptCommand, CreatePromptVersionCommand,
-    ListPromptBindingsQuery, ListPromptsQuery, ListPromptVersionsQuery, PromptAiBindingItem,
+    ListPromptBindingsQuery, ListPromptVersionsQuery, ListPromptsQuery, PromptAiBindingItem,
     PromptAiItem, PromptAiVersionItem, PublishPromptVersionCommand, RenderPromptVersionCommand,
     UpdatePromptBindingCommand, UpdatePromptCommand,
 };
-use crate::domain::{AgentPromptTemplateRecord, PromptBindingRecord, PromptRecord, PromptVersionRecord};
+use crate::domain::{
+    AgentPromptTemplateRecord, PromptBindingRecord, PromptRecord, PromptVersionRecord,
+};
 use crate::error::{PromptAiError, PromptAiResult};
 
 pub use crate::commands::PromptAiSubject;

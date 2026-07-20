@@ -5,7 +5,7 @@ use axum::{
     Router,
 };
 use sdkwork_intelligence_prompts_ai_contract::{
-    domain::AgentPromptTemplateRecord, ports::AgentPromptTemplateListQuery, PromptAiRepository,
+    domain::AgentPromptTemplateRecord, ports::AgentPromptTemplateListQuery,
 };
 use sdkwork_web_core::WebFrameworkErrorKind;
 use serde::Deserialize;

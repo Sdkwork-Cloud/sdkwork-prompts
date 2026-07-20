@@ -1,8 +1,5 @@
 use axum::{extract::State, response::Response, routing::get, Router};
-use sdkwork_intelligence_prompts_ai_contract::{
-    commands::{ListPromptsQuery, PromptAiSubject},
-    PromptAiRepository,
-};
+use sdkwork_intelligence_prompts_ai_contract::commands::{ListPromptsQuery, PromptAiSubject};
 use serde_json::{json, Value};
 
 use sdkwork_prompts_web_context::{

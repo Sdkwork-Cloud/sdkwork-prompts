@@ -10,24 +10,10 @@ name = "sdkwork-api-prompts-standalone-gateway"
 path = "src/main.rs"
 
 [dependencies]
-sdkwork-prompts-service-host = { path = "../sdkwork-prompts-service-host" }
-sdkwork-intelligence-prompts-ai-contract = { path = "../sdkwork-intelligence-prompts-ai-contract" }
-sdkwork-iam-web-adapter = { workspace = true }
-sdkwork-iam-context-service = { workspace = true }
-sdkwork-database-ops-http = { workspace = true }
+sdkwork-api-prompts-assembly.workspace = true
 axum = { workspace = true }
 tokio = { workspace = true }
-tower = { workspace = true }
-tower-http = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
-serde = { workspace = true }
-serde_json = { workspace = true }
-base64 = "0.22"
 sdkwork-web-bootstrap = { workspace = true }
-sdkwork-web-core = { workspace = true }
 sdkwork-utils-rust = { workspace = true }
-
-[lib]
-path = "src/lib.rs"
-

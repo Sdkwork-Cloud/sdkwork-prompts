@@ -12,5 +12,11 @@ path = "src/lib.rs"
 [dependencies]
 axum.workspace = true
 tokio.workspace = true
-sdkwork-prompts-service-host = { path = "../sdkwork-prompts-service-host" }
-sdkwork-api-prompts-standalone-gateway = { path = "../sdkwork-api-prompts-standalone-gateway" }
+sdkwork-prompts-service-host.workspace = true
+sdkwork-prompts-web-context.workspace = true
+sdkwork-database-ops-http.workspace = true
+sdkwork-web-bootstrap.workspace = true
+tracing.workspace = true
+sdkwork-routes-prompts-app-api.workspace = true
+sdkwork-routes-prompts-backend-api.workspace = true
+sdkwork-routes-prompts-open-api.workspace = true

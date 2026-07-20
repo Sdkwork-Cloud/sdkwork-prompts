@@ -4,12 +4,9 @@ use axum::{
     routing::get,
     Json, Router,
 };
-use sdkwork_intelligence_prompts_ai_contract::{
-    commands::{
-        CreatePromptCommand, CreatePromptVersionCommand, ListPromptVersionsQuery, ListPromptsQuery,
-        PromptAiItem, PromptAiSubject, PromptAiVersionItem, UpdatePromptCommand,
-    },
-    PromptAiRepository,
+use sdkwork_intelligence_prompts_ai_contract::commands::{
+    CreatePromptCommand, CreatePromptVersionCommand, ListPromptVersionsQuery, ListPromptsQuery,
+    PromptAiItem, PromptAiSubject, PromptAiVersionItem, UpdatePromptCommand,
 };
 use sdkwork_web_core::WebFrameworkErrorKind;
 use serde::Deserialize;
@@ -105,11 +102,7 @@ async fn list_templates(
         page_size: limit,
         offset,
     };
-    match state
-        .ai_repository()
-        .list_prompts(list_query)
-        .await
-    {
+    match state.ai_repository().list_prompts(list_query).await {
         Ok(items) => {
             let mapped: Vec<Value> = items.iter().map(template_json).collect();
             let has_more = mapped.len() as i64 == limit;
@@ -142,11 +135,7 @@ async fn create_template(
         visibility: "tenant".to_string(),
         tags: request.tags.unwrap_or_default(),
     };
-    match state
-        .ai_repository()
-        .create_prompt(command)
-        .await
-    {
+    match state.ai_repository().create_prompt(command).await {
         Ok(item) => created_json(&ctx, resource_data(template_json(&item))),
         Err(error) => map_prompt_error(&ctx, error),
     }
@@ -189,11 +178,7 @@ async fn update_template(
         tags: request.tags,
         status: request.status,
     };
-    match state
-        .ai_repository()
-        .update_prompt(command)
-        .await
-    {
+    match state.ai_repository().update_prompt(command).await {
         Ok(item) => ok_json(&ctx, resource_data(template_json(&item))),
         Err(error) => map_prompt_error(&ctx, error),
     }
@@ -212,11 +197,7 @@ async fn list_template_versions(
         subject: subject(&PromptsCtx(ctx.clone())),
         prompt_id,
     };
-    match state
-        .ai_repository()
-        .list_versions(query)
-        .await
-    {
+    match state.ai_repository().list_versions(query).await {
         Ok(items) => {
             let mapped: Vec<Value> = items.iter().map(version_json).collect();
             ok_json(&ctx, page_data(mapped, cursor_page_info(None, false)))
@@ -252,11 +233,7 @@ async fn create_template_version(
         safety_policy: json!({}),
         examples_json: json!([]),
     };
-    match state
-        .ai_repository()
-        .create_version(command)
-        .await
-    {
+    match state.ai_repository().create_version(command).await {
         Ok(item) => created_json(&ctx, resource_data(version_json(&item))),
         Err(error) => map_prompt_error(&ctx, error),
     }
