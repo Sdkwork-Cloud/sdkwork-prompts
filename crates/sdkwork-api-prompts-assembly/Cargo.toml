@@ -1,0 +1,14 @@
+[package]
+name = "sdkwork-api-prompts-assembly"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+description = "Generated API assembly for sdkwork-prompts application HTTP plane."
+
+[lib]
+name = "sdkwork_api_prompts_assembly"
+path = "src/lib.rs"
+
+[dependencies]
+axum.workspace = true
+tokio.workspace = true
