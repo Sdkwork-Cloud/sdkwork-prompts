@@ -9,12 +9,13 @@
     "@sdkwork/utils": "workspace:*"
   },
   "scripts": {
-    "stop": "node ../sdkwork-specs/tools/stop-sdkwork-workspace-processes.mjs --workspace .",    "dev": "pnpm --filter sdkwork-prompts-pc run dev",
-    "build": "cargo build --workspace --release && pnpm --filter sdkwork-prompts-pc run build",
-    "test": "node tests/static/prompts-contract-boundary.test.mjs && node tests/static/no-clawrouter-runtime-dependency.test.mjs && node tests/static/no-forum-debt.test.mjs && node tests/static/prompts-iam-path-alignment.test.mjs && node tests/sdk/prompts-sdk.test.mjs && node tests/contract/prompts-contract.test.mjs && node tests/schema/prompts-ai-schema.test.mjs && node tests/contract/database-framework.contract.test.mjs",
-    "check": "pnpm run check:app-composition && node tools/ensure-workspace-deps.mjs && pnpm check:architecture-alignment && pnpm db:validate && pnpm api:materialize:check && node ../sdkwork-specs/tools/check-api-response-envelope.mjs --workspace . && pnpm topology:validate && pnpm gateway:validate:cloud && pnpm typecheck",
-    "verify": "pnpm api:materialize && pnpm check && pnpm test && node ../sdkwork-specs/tools/check-repository-docs-standard.mjs --root . && pnpm run check:app-composition",
-    "clean": "cargo clean",
+    "stop": "pnpm exec sdkwork-app stop",
+    "dev": "pnpm dev:standalone",
+    "build": "pnpm exec sdkwork-app build",
+    "test": "pnpm exec sdkwork-app test",
+    "check": "pnpm exec sdkwork-app check",
+    "verify": "pnpm exec sdkwork-app verify",
+    "clean": "pnpm exec sdkwork-app clean",
     "typecheck": "pnpm --filter sdkwork-prompts-pc run typecheck",
     "check:architecture-alignment": "node tools/check_sdkwork_prompts_architecture_alignment.mjs",
     "check:pnpm-script-standard": "node ../sdkwork-specs/tools/check-pnpm-script-standard.mjs --root . --product-prefix prompts",
@@ -35,13 +36,18 @@
     "test:contract:database": "node ../sdkwork-specs/tools/check-database-framework-standard.mjs --root .",
     "topology:validate": "node ../sdkwork-app-topology/scripts/sdkwork-topology.mjs validate --root . --spec specs/topology.spec.json",
     "topology:plan": "node ../sdkwork-app-topology/scripts/sdkwork-topology.mjs plan --root . --spec specs/topology.spec.json",
-    "gateway:package:cloud": "node ../sdkwork-app-topology/scripts/gateway-cloud-bundle.mjs bundle --root .",
-    "gateway:validate:cloud": "node ../sdkwork-app-topology/scripts/gateway-cloud-bundle.mjs validate --root .",
-    "gateway:assembly:materialize": "node scripts/gateway/assembly-materialize.mjs",
-    "gateway:assembly:validate": "node scripts/gateway/assembly-validate.mjs",
+    "api:assembly:materialize": "node scripts/gateway/assembly-materialize.mjs",
+    "api:assembly:validate": "node scripts/gateway/assembly-validate.mjs",
     "db:postgres:init": "node ../sdkwork-specs/tools/postgres/postgres-db-cli.mjs --mode init --config .env.postgres --app-root .",
     "db:postgres:plan": "node ../sdkwork-specs/tools/postgres/postgres-db-cli.mjs --mode plan --config .env.postgres --app-root . --dry-run",
-    "check:app-composition": "node ../sdkwork-specs/tools/verify-repo.mjs --root ."
+    "check:app-composition": "node ../sdkwork-specs/tools/verify-repo.mjs --root .",
+    "_sdkwork:build": "cargo build --workspace --release && pnpm --filter sdkwork-prompts-pc run build",
+    "_sdkwork:test": "node tests/static/prompts-contract-boundary.test.mjs && node tests/static/no-clawrouter-runtime-dependency.test.mjs && node tests/static/no-forum-debt.test.mjs && node tests/static/prompts-iam-path-alignment.test.mjs && node tests/sdk/prompts-sdk.test.mjs && node tests/contract/prompts-contract.test.mjs && node tests/schema/prompts-ai-schema.test.mjs && node tests/contract/database-framework.contract.test.mjs",
+    "_sdkwork:check": "pnpm run check:app-composition && node tools/ensure-workspace-deps.mjs && pnpm check:architecture-alignment && pnpm db:validate && pnpm api:materialize:check && node ../sdkwork-specs/tools/check-api-response-envelope.mjs --workspace . && pnpm topology:validate && pnpm gateway:validate:cloud && pnpm typecheck",
+    "_sdkwork:verify": "pnpm api:materialize && pnpm check && pnpm test && node ../sdkwork-specs/tools/check-repository-docs-standard.mjs --root . && pnpm run check:app-composition",
+    "_sdkwork:clean": "cargo clean",
+    "dev:standalone": "pnpm exec sdkwork-app dev --deployment-profile standalone",
+    "dev:cloud": "pnpm exec sdkwork-app dev --deployment-profile cloud"
   },
   "exports": {
     ".": {
