@@ -5,8 +5,9 @@ use sdkwork_intelligence_prompts_ai_contract::{
 };
 use serde_json::{json, Value};
 
-use crate::response::{anonymous_ok_json, anonymous_prompt_error, cursor_page_info, page_data};
-use crate::AppState;
+use sdkwork_prompts_web_context::{
+    anonymous_ok_json, anonymous_prompt_error, cursor_page_info, page_data, AppState,
+};
 
 pub fn router() -> Router<AppState> {
     Router::new().route("/prompts/v3/api/prompts/catalog", get(list_prompt_catalog))
@@ -33,7 +34,7 @@ async fn list_prompt_catalog(State(state): State<AppState>) -> Response {
         page_size: 200,
         offset: 0,
     };
-    match state.service_host.ai_repository().list_prompts(query).await {
+    match state.ai_repository().list_prompts(query).await {
         Ok(items) => {
             let mapped: Vec<Value> = items
                 .iter()

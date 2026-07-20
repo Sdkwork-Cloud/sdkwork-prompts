@@ -16,12 +16,10 @@ use sdkwork_web_core::WebFrameworkErrorKind;
 use serde::Deserialize;
 use serde_json::{json, Value};
 
-use crate::context::PromptsCtx;
-use crate::response::{
+use sdkwork_prompts_web_context::{
     created_json, map_prompt_error, offset_page_info, ok_json, page_data, resource_data,
-    status_problem,
+    status_problem, AppState, PromptsCtx, PromptsRequestContext,
 };
-use crate::AppState;
 
 const DEFAULT_PAGE_NO: i64 = 1;
 const DEFAULT_PAGE_SIZE: i64 = 50;
@@ -150,7 +148,7 @@ async fn list_prompts(
         page_size,
         offset: (page_no - 1) * page_size,
     };
-    match state.service_host.ai_repository().list_prompts(query).await {
+    match state.ai_repository().list_prompts(query).await {
         Ok(items) => ok_json(
             &ctx,
             page_data(items, offset_page_info(page_no as i32, page_size as i32)),
@@ -175,7 +173,6 @@ async fn create_prompt(
         tags: request.tags.unwrap_or_default(),
     };
     match state
-        .service_host
         .ai_repository()
         .create_prompt(command)
         .await
@@ -199,7 +196,6 @@ async fn list_versions(
         prompt_id,
     };
     match state
-        .service_host
         .ai_repository()
         .list_versions(query)
         .await
@@ -238,7 +234,6 @@ async fn create_version(
         examples_json: request.examples_json.unwrap_or_else(|| json!([])),
     };
     match state
-        .service_host
         .ai_repository()
         .create_version(command)
         .await
@@ -262,7 +257,6 @@ async fn publish_version(
         version_id,
     };
     match state
-        .service_host
         .ai_repository()
         .publish_version(command)
         .await
@@ -289,7 +283,6 @@ async fn render_version(
         variables: request.variables.unwrap_or_else(|| json!({})),
     };
     match state
-        .service_host
         .ai_repository()
         .render_version(command)
         .await
@@ -314,7 +307,6 @@ async fn list_bindings(
         prompt_id,
     };
     match state
-        .service_host
         .ai_repository()
         .list_bindings(query)
         .await
@@ -352,7 +344,6 @@ async fn create_binding(
         policy_json: request.policy_json.unwrap_or_else(|| json!({})),
     };
     match state
-        .service_host
         .ai_repository()
         .create_binding(command)
         .await
@@ -391,7 +382,6 @@ async fn update_binding(
         policy_json: request.policy_json,
     };
     match state
-        .service_host
         .ai_repository()
         .update_binding(command)
         .await
@@ -402,7 +392,7 @@ async fn update_binding(
     }
 }
 
-fn parse_id(raw: &str, ctx: &crate::context::PromptsRequestContext) -> Result<i64, Response> {
+fn parse_id(raw: &str, ctx: &PromptsRequestContext) -> Result<i64, Response> {
     raw.parse::<i64>().map_err(|_| {
         status_problem(
             ctx,

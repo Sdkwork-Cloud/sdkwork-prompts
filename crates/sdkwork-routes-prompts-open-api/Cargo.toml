@@ -1,0 +1,17 @@
+[package]
+name = "sdkwork-routes-prompts-open-api"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "SDKWork Prompts public Open API routes."
+
+[lib]
+name = "sdkwork_routes_prompts_open_api"
+path = "src/lib.rs"
+
+[dependencies]
+axum.workspace = true
+serde_json.workspace = true
+sdkwork-intelligence-prompts-ai-contract.workspace = true
+sdkwork-prompts-web-context.workspace = true

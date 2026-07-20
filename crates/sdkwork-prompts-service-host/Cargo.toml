@@ -6,6 +6,7 @@ license.workspace = true
 publish.workspace = true
 
 [dependencies]
+sdkwork-intelligence-prompts-ai-contract.workspace = true
 sdkwork-intelligence-prompts-ai-repository-sqlx = { path = "../sdkwork-intelligence-prompts-ai-repository-sqlx" }
 sdkwork-prompts-database-host = { workspace = true }
 sdkwork-database-config = { workspace = true }

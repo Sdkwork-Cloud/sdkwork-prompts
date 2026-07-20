@@ -38,7 +38,7 @@ pub async fn resolve_iam_context(
         return next.run(request).await;
     }
 
-    let Some(pool) = state.service_host.iam_pool() else {
+    let Some(pool) = state.iam_pool() else {
         return next.run(request).await;
     };
 

@@ -11,11 +11,10 @@ use sdkwork_web_core::WebFrameworkErrorKind;
 use serde::Deserialize;
 use serde_json::{json, Value};
 
-use crate::context::PromptsCtx;
-use crate::response::{
+use sdkwork_prompts_web_context::{
     cursor_page_info, map_prompt_error, ok_json, page_data, resource_data, status_problem,
+    AppState, PromptsCtx, PromptsRequestContext,
 };
-use crate::AppState;
 
 const DEFAULT_LIMIT: u32 = 50;
 const MAX_LIMIT: u32 = 200;
@@ -49,7 +48,6 @@ async fn list_agent_templates(
         limit,
     };
     match state
-        .service_host
         .ai_repository()
         .list_agent_prompt_templates(list_query)
         .await
@@ -72,7 +70,6 @@ async fn get_agent_template(
         Err(response) => return response,
     };
     match state
-        .service_host
         .ai_repository()
         .get_agent_prompt_template(ctx.tenant_id_value(), id)
         .await
@@ -99,7 +96,7 @@ fn agent_template_json(record: &AgentPromptTemplateRecord) -> Value {
     })
 }
 
-fn parse_id(raw: &str, ctx: &crate::context::PromptsRequestContext) -> Result<i64, Response> {
+fn parse_id(raw: &str, ctx: &PromptsRequestContext) -> Result<i64, Response> {
     raw.parse::<i64>().map_err(|_| {
         status_problem(
             ctx,

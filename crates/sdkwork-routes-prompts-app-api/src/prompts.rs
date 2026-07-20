@@ -15,12 +15,10 @@ use sdkwork_web_core::WebFrameworkErrorKind;
 use serde::Deserialize;
 use serde_json::{json, Value};
 
-use crate::context::PromptsCtx;
-use crate::response::{
+use sdkwork_prompts_web_context::{
     created_json, cursor_page_info, map_prompt_error, ok_json, page_data, resource_data,
-    status_problem,
+    status_problem, AppState, PromptsCtx, PromptsRequestContext,
 };
-use crate::AppState;
 
 const DEFAULT_LIMIT: i64 = 20;
 const MAX_LIMIT: i64 = 100;
@@ -108,7 +106,6 @@ async fn list_templates(
         offset,
     };
     match state
-        .service_host
         .ai_repository()
         .list_prompts(list_query)
         .await
@@ -146,7 +143,6 @@ async fn create_template(
         tags: request.tags.unwrap_or_default(),
     };
     match state
-        .service_host
         .ai_repository()
         .create_prompt(command)
         .await
@@ -166,7 +162,6 @@ async fn get_template(
         Err(response) => return response,
     };
     match state
-        .service_host
         .ai_repository()
         .get_prompt(subject(&PromptsCtx(ctx.clone())).tenant_id, prompt_id)
         .await
@@ -195,7 +190,6 @@ async fn update_template(
         status: request.status,
     };
     match state
-        .service_host
         .ai_repository()
         .update_prompt(command)
         .await
@@ -219,7 +213,6 @@ async fn list_template_versions(
         prompt_id,
     };
     match state
-        .service_host
         .ai_repository()
         .list_versions(query)
         .await
@@ -260,7 +253,6 @@ async fn create_template_version(
         examples_json: json!([]),
     };
     match state
-        .service_host
         .ai_repository()
         .create_version(command)
         .await
@@ -371,7 +363,7 @@ fn schema_to_variables(schema: &Value) -> Vec<Value> {
         .collect()
 }
 
-fn parse_id(raw: &str, ctx: &crate::context::PromptsRequestContext) -> Result<i64, Response> {
+fn parse_id(raw: &str, ctx: &PromptsRequestContext) -> Result<i64, Response> {
     raw.parse::<i64>().map_err(|_| {
         status_problem(
             ctx,

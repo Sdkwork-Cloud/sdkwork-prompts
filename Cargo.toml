@@ -2,7 +2,10 @@
 resolver = "2"
 members = [
     "crates/sdkwork-api-prompts-assembly",
-    "crates/sdkwork-api-prompts-assembly",
+    "crates/sdkwork-prompts-web-context",
+    "crates/sdkwork-routes-prompts-app-api",
+    "crates/sdkwork-routes-prompts-backend-api",
+    "crates/sdkwork-routes-prompts-open-api",
     "crates/sdkwork-intelligence-prompts-ai-contract",
     "crates/sdkwork-intelligence-prompts-ai-repository-sqlx",
     "crates/sdkwork-prompts-database-host",
@@ -44,6 +47,12 @@ async-trait = "0.1"
 sdkwork-intelligence-prompts-ai-contract = { path = "crates/sdkwork-intelligence-prompts-ai-contract" }
 sdkwork-intelligence-prompts-ai-repository-sqlx = { path = "crates/sdkwork-intelligence-prompts-ai-repository-sqlx" }
 sdkwork-prompts-database-host = { path = "crates/sdkwork-prompts-database-host" }
+sdkwork-prompts-service-host = { path = "crates/sdkwork-prompts-service-host" }
+sdkwork-prompts-web-context = { path = "crates/sdkwork-prompts-web-context" }
+sdkwork-routes-prompts-app-api = { path = "crates/sdkwork-routes-prompts-app-api" }
+sdkwork-routes-prompts-backend-api = { path = "crates/sdkwork-routes-prompts-backend-api" }
+sdkwork-routes-prompts-open-api = { path = "crates/sdkwork-routes-prompts-open-api" }
+sdkwork-api-prompts-assembly = { path = "crates/sdkwork-api-prompts-assembly" }
 sdkwork-web-bootstrap = { path = "../sdkwork-web-framework/crates/sdkwork-web-bootstrap" }
 sdkwork-web-core = { path = "../sdkwork-web-framework/crates/sdkwork-web-core" }
 sdkwork-web-axum = { path = "../sdkwork-web-framework/crates/sdkwork-web-axum" }

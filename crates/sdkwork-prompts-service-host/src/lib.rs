@@ -4,6 +4,7 @@ use sdkwork_database_ops::DatabaseOpsService;
 use sdkwork_database_spi::{DefaultDatabaseModule, LocaleTag, SeedProfile};
 use sdkwork_database_sqlx::DatabasePool;
 use sdkwork_intelligence_prompts_ai_repository_sqlx::SqlxPromptAiRepository;
+use sdkwork_intelligence_prompts_ai_contract::PromptAiRepository;
 use sdkwork_prompts_database_host::bootstrap_prompts_database_from_env;
 use sqlx::PgPool;
 use tracing;
@@ -59,8 +60,8 @@ impl PromptsServiceHost {
         })
     }
 
-    pub fn ai_repository(&self) -> &SqlxPromptAiRepository {
-        &self.ai_repository
+    pub fn ai_repository(&self) -> Arc<dyn PromptAiRepository> {
+        Arc::new(self.ai_repository.clone())
     }
 
     pub fn database_pool(&self) -> DatabasePool {
