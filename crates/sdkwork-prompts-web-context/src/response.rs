@@ -108,6 +108,9 @@ fn problem_for(
             kind,
             message,
             retry_after_seconds: None,
+            auth_profile: None,
+            failed_stage: None,
+            reason: None,
         },
         ProblemCorrelation::new(ctx.request_id().as_deref(), Some(&trace_id)),
     )
@@ -138,6 +141,9 @@ pub fn anonymous_prompt_error(error: PromptAiError) -> Response {
             kind,
             message,
             retry_after_seconds: None,
+            auth_profile: None,
+            failed_stage: None,
+            reason: None,
         },
         ProblemCorrelation::new(None, Some(&trace_id)),
     )

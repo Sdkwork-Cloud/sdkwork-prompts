@@ -111,6 +111,9 @@ fn unauthorized(message: &str) -> Response {
             kind: WebFrameworkErrorKind::MissingCredentials,
             message: message.to_string(),
             retry_after_seconds: None,
+            auth_profile: None,
+            failed_stage: None,
+            reason: None,
         },
         ProblemCorrelation::new(None, Some(&trace_id)),
     )

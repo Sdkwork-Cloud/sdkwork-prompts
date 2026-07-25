@@ -28,6 +28,9 @@ pub async fn require_dual_token_auth(request: Request<Body>, next: Next) -> Resp
                 kind: WebFrameworkErrorKind::MissingCredentials,
                 message: "Authorization and Access-Token headers are required".to_string(),
                 retry_after_seconds: None,
+                auth_profile: None,
+                failed_stage: None,
+                reason: None,
             },
             ProblemCorrelation::new(None, Some(&trace_id)),
         )
