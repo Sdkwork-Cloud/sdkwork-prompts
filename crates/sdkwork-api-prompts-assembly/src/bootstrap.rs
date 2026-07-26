@@ -1,18 +1,49 @@
 //! API assembly bootstrap for sdkwork-prompts.
 
+use std::collections::BTreeSet;
 use std::sync::Arc;
 
 use axum::Router;
 use sdkwork_database_ops_http::{attach_ops_routes, default_ops_auth, DatabaseOpsHttpState};
+use sdkwork_database_sqlx::DatabasePool;
 use sdkwork_prompts_service_host::{default_seed_locale, default_seed_profile, PromptsServiceHost};
 use sdkwork_prompts_web_context::{AppState, PromptsRequestContext, ResolvedPromptsContext};
 use sdkwork_web_axum::{with_web_request_context, WebFrameworkLayer};
+use sdkwork_web_bootstrap::{ReadinessCheck, ReadinessFuture};
 use sdkwork_web_core::{
-    DomainContextInjector, HttpRouteManifest, WebRequestContext, WebRequestContextProfile,
+    DomainContextInjector, HttpRoute, HttpRouteManifest, WebRequestContext,
+    WebRequestContextProfile,
 };
 
 pub struct ApiAssembly {
     pub router: Router,
+}
+
+pub struct ApiAssemblyContribution {
+    pub router: Router,
+    pub route_manifest: HttpRouteManifest,
+    pub openapi: serde_json::Value,
+    pub permission_catalog: Vec<&'static str>,
+    pub domain_context_injectors: Vec<Arc<dyn DomainContextInjector>>,
+    pub readiness_check: Arc<dyn ReadinessCheck>,
+}
+
+#[derive(Clone)]
+struct PromptsReadiness {
+    pool: DatabasePool,
+}
+
+impl ReadinessCheck for PromptsReadiness {
+    fn check(&self) -> ReadinessFuture<'_> {
+        let pool = self.pool.clone();
+        Box::pin(async move {
+            match pool.test_connection().await {
+                Ok(true) => Ok(()),
+                Ok(false) => Err("prompts database readiness query returned no row".to_owned()),
+                Err(error) => Err(format!("prompts database readiness check failed: {error}")),
+            }
+        })
+    }
 }
 
 #[derive(Clone, Default)]
@@ -90,4 +121,42 @@ pub async fn assemble_api_router() -> Result<ApiAssembly, String> {
     );
 
     Ok(ApiAssembly { router })
+}
+
+/// Builds the raw Prompts App API for a gateway-owned Web Framework layer.
+pub async fn assemble_app_api_contribution() -> Result<ApiAssemblyContribution, String> {
+    let service_host = PromptsServiceHost::try_new().await?;
+    let readiness_check = Arc::new(PromptsReadiness {
+        pool: service_host.database_pool(),
+    });
+    let state = AppState::new(
+        service_host.ai_repository(),
+        service_host.iam_pool().cloned(),
+    );
+    let route_manifest = sdkwork_routes_prompts_app_api::app_route_manifest();
+    let router = sdkwork_routes_prompts_app_api::gateway_mount(state);
+    Ok(ApiAssemblyContribution {
+        router,
+        openapi: sdkwork_web_contract::build_openapi_document(
+            "SDKWork Prompts App API",
+            route_manifest.routes(),
+        ),
+        permission_catalog: permission_catalog(route_manifest.routes()),
+        route_manifest,
+        domain_context_injectors: vec![Arc::new(PromptsContextInjector)],
+        readiness_check,
+    })
+}
+
+fn permission_catalog(routes: &[HttpRoute]) -> Vec<&'static str> {
+    let mut permissions = BTreeSet::new();
+    for route in routes {
+        if let Some(permission) = route.required_permission {
+            permissions.insert(permission);
+        }
+        if let Some(alternate_permissions) = route.alternate_permissions {
+            permissions.extend(alternate_permissions.iter().copied());
+        }
+    }
+    permissions.into_iter().collect()
 }

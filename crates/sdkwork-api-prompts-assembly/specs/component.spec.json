@@ -35,7 +35,17 @@
     "publicExports": [
       "."
     ],
-    "runtimeEntrypoints": [],
+    "providedPorts": [
+      {
+        "name": "promptsAppApiContribution",
+        "export": ".",
+        "target": "sdkwork_api_prompts_assembly::assemble_app_api_contribution"
+      }
+    ],
+    "runtimeEntrypoints": [
+      "sdkwork_api_prompts_assembly::assemble_api_router",
+      "sdkwork_api_prompts_assembly::assemble_app_api_contribution"
+    ],
     "routeManifest": "assembly-manifest.json",
     "sdkClients": [],
     "sdkDependencies": [],

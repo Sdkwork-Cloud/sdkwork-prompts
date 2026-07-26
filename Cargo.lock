@@ -1647,6 +1647,7 @@ version = "0.1.0"
 dependencies = [
  "axum",
  "sdkwork-database-ops-http",
+ "sdkwork-database-sqlx",
  "sdkwork-iam-web-adapter",
  "sdkwork-prompts-service-host",
  "sdkwork-prompts-web-context",
@@ -1655,7 +1656,9 @@ dependencies = [
  "sdkwork-routes-prompts-open-api",
  "sdkwork-web-axum",
  "sdkwork-web-bootstrap",
+ "sdkwork-web-contract",
  "sdkwork-web-core",
+ "serde_json",
  "tokio",
  "tracing",
 ]
