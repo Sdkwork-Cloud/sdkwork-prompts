@@ -6,7 +6,6 @@ use axum::{
 use sdkwork_intelligence_prompts_ai_contract::PromptAiError;
 use sdkwork_utils_rust::{
     uuid, PageInfo, PageMode, SdkWorkApiResponse, SdkWorkPageData, SdkWorkResourceData,
-    SDKWORK_TRACE_ID_HEADER,
 };
 use sdkwork_web_core::{
     problem_response, ProblemCorrelation, WebFrameworkError, WebFrameworkErrorKind,
@@ -15,15 +14,18 @@ use serde::Serialize;
 
 use crate::context::PromptsRequestContext;
 
+const SDKWORK_TRACE_ID_HEADER_LOWER: &str = "x-sdkwork-trace-id";
+
 pub fn resolve_trace_id(ctx: &PromptsRequestContext) -> String {
     ctx.trace_id()
 }
 
 fn attach_trace_header(response: &mut Response, trace_id: &str) {
     if let Ok(value) = HeaderValue::from_str(trace_id) {
-        response
-            .headers_mut()
-            .insert(HeaderName::from_static(SDKWORK_TRACE_ID_HEADER), value);
+        response.headers_mut().insert(
+            HeaderName::from_static(SDKWORK_TRACE_ID_HEADER_LOWER),
+            value,
+        );
     }
 }
 
@@ -147,4 +149,39 @@ pub fn anonymous_prompt_error(error: PromptAiError) -> Response {
         },
         ProblemCorrelation::new(None, Some(&trace_id)),
     )
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+
+    #[test]
+    fn success_response_attaches_lowercase_trace_header_without_panicking() {
+        let ctx = PromptsRequestContext::new(100_001, 0, 1)
+            .with_request_id("trace-prompts-success".to_string());
+
+        let response = ok_json(&ctx, json!({ "status": "ok" }));
+
+        assert_eq!(response.status(), StatusCode::OK);
+        assert_eq!(
+            response
+                .headers()
+                .get(SDKWORK_TRACE_ID_HEADER_LOWER)
+                .and_then(|value| value.to_str().ok()),
+            Some("trace-prompts-success")
+        );
+    }
+
+    #[test]
+    fn anonymous_response_attaches_valid_trace_header_without_panicking() {
+        let response = anonymous_ok_json(json!({ "status": "ok" }));
+
+        assert_eq!(response.status(), StatusCode::OK);
+        assert!(response
+            .headers()
+            .get(SDKWORK_TRACE_ID_HEADER_LOWER)
+            .and_then(|value| value.to_str().ok())
+            .is_some_and(|value| !value.is_empty()));
+    }
 }

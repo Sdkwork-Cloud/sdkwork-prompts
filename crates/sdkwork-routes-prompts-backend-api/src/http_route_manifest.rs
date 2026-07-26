@@ -1,0 +1,62 @@
+use sdkwork_web_core::{HttpMethod, HttpRoute, HttpRouteManifest};
+
+const HTTP_ROUTES: &[HttpRoute] = &[
+    HttpRoute::dual_token(
+        HttpMethod::Get,
+        "/backend/v3/api/prompts",
+        "prompts",
+        "prompts.admin.definitions.list",
+    ),
+    HttpRoute::dual_token(
+        HttpMethod::Post,
+        "/backend/v3/api/prompts",
+        "prompts",
+        "prompts.admin.definitions.create",
+    ),
+    HttpRoute::dual_token(
+        HttpMethod::Get,
+        "/backend/v3/api/prompts/{promptId}/versions",
+        "prompts",
+        "prompts.admin.versions.list",
+    ),
+    HttpRoute::dual_token(
+        HttpMethod::Post,
+        "/backend/v3/api/prompts/{promptId}/versions",
+        "prompts",
+        "prompts.admin.versions.create",
+    ),
+    HttpRoute::dual_token(
+        HttpMethod::Post,
+        "/backend/v3/api/prompts/versions/{versionId}/publish",
+        "prompts",
+        "prompts.admin.versions.publish",
+    ),
+    HttpRoute::dual_token(
+        HttpMethod::Post,
+        "/backend/v3/api/prompts/versions/{versionId}/render",
+        "prompts",
+        "prompts.admin.versions.render",
+    ),
+    HttpRoute::dual_token(
+        HttpMethod::Get,
+        "/backend/v3/api/prompts/{promptId}/bindings",
+        "prompts",
+        "prompts.admin.bindings.list",
+    ),
+    HttpRoute::dual_token(
+        HttpMethod::Post,
+        "/backend/v3/api/prompts/{promptId}/bindings",
+        "prompts",
+        "prompts.admin.bindings.create",
+    ),
+    HttpRoute::dual_token(
+        HttpMethod::Put,
+        "/backend/v3/api/prompts/bindings/{bindingId}",
+        "prompts",
+        "prompts.admin.bindings.update",
+    ),
+];
+
+pub fn backend_route_manifest() -> HttpRouteManifest {
+    HttpRouteManifest::new(HTTP_ROUTES)
+}
