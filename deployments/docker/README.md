@@ -19,13 +19,13 @@ docker compose up -d --build
 | Service | Port | Description |
 | --- | --- | --- |
 | `prompts-api` | 8080 | `sdkwork-api-prompts-standalone-gateway` |
-| `postgres` | 5432 | PostgreSQL 16 (`prompts` database) |
+| `postgres` | 5432 | PostgreSQL 16 (`sdkwork_ai_dev` database) |
 
 ## Environment
 
 The API container sets:
 
-- `SDKWORK_DATABASE_URL=postgres://prompts:prompts@postgres:5432/prompts`
+- Structured `SDKWORK_DATABASE_*` values come from `docker-compose.yml`.
 - `SDKWORK_PROMPTS_APP_ROOT=/app`
 
 Database migrations run on boot via `sdkwork-database` lifecycle (`autoMigrate`).
