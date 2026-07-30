@@ -125,7 +125,7 @@
       "prompts.binding.updated"
     ],
     "configKeys": [
-      "SDKWORK_PROMPTS_DATABASE_URL",
+      "SDKWORK_DATABASE_URL",
       "SDKWORK_PROMPTS_SEARCH_INDEX",
       "SDKWORK_PROMPTS_ATTACHMENT_DRIVE_SPACE"
     ],

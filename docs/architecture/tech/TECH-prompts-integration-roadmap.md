@@ -43,7 +43,7 @@ They MUST NOT depend on `sdkwork-intelligence-prompts-ai-repository-sqlx` or own
 
 | Key | Purpose |
 | --- | --- |
-| `SDKWORK_PROMPTS_DATABASE_URL` | PostgreSQL connection |
+| `SDKWORK_DATABASE_URL` | PostgreSQL connection |
 | `SDKWORK_PROMPTS_IAM_ENABLED` | Enable IAM session resolution |
 | `SDKWORK_PROMPTS_IAM_STRICT` | Fail closed on bad sessions |
 | `SDKWORK_PROMPTS_DEFAULT_TENANT_ID` | Open catalog default tenant |

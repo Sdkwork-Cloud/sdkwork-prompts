@@ -17,7 +17,7 @@ Services: `prompts-api` (8080), `postgres` (5432).
 ```bash
 cargo build --release --bin sdkwork-api-prompts-standalone-gateway
 export SDKWORK_PROMPTS_APP_ROOT=/path/to/sdkwork-prompts
-export SDKWORK_PROMPTS_DATABASE_URL=postgresql://...
+export SDKWORK_DATABASE_URL=postgresql://...
 ./target/release/sdkwork-api-prompts-standalone-gateway
 ```
 

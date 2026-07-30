@@ -25,7 +25,7 @@ docker compose up -d --build
 
 The API container sets:
 
-- `SDKWORK_PROMPTS_DATABASE_URL=postgres://prompts:prompts@postgres:5432/prompts`
+- `SDKWORK_DATABASE_URL=postgres://prompts:prompts@postgres:5432/prompts`
 - `SDKWORK_PROMPTS_APP_ROOT=/app`
 
 Database migrations run on boot via `sdkwork-database` lifecycle (`autoMigrate`).

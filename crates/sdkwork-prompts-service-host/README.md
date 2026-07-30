@@ -12,9 +12,9 @@ In-process composition root for the prompts HTTP gateway.
 
 | Variable | Purpose |
 | --- | --- |
-| `SDKWORK_PROMPTS_DATABASE_URL` | PostgreSQL connection string |
+| `SDKWORK_DATABASE_URL` | PostgreSQL connection string |
 | `SDKWORK_PROMPTS_IAM_ENABLED` | Enable IAM session pool |
-| `SDKWORK_PROMPTS_IAM_DATABASE_URL` | Optional IAM database override |
+| `SDKWORK_DATABASE_URL` | Optional IAM database override |
 
 ## Verification
 

@@ -1,3 +1,14 @@
+x-database-environment: &database-environment
+  SDKWORK_DATABASE_ENGINE: postgresql
+  SDKWORK_DATABASE_HOST: postgres
+  SDKWORK_DATABASE_PORT: "5432"
+  SDKWORK_DATABASE_NAME: sdkwork_ai_dev
+  SDKWORK_DATABASE_SCHEMA: sdkwork_ai_dev
+  SDKWORK_DATABASE_USERNAME: sdkwork_ai_dev
+  SDKWORK_DATABASE_PASSWORD: sdkworkdev123
+  SDKWORK_DATABASE_SSL_MODE: disable
+  SDKWORK_DATABASE_MAX_CONNECTIONS: "10"
+
 services:
   prompts-api:
     build:
@@ -6,21 +17,22 @@ services:
     ports:
       - "8080:8080"
     environment:
+      <<: *database-environment
       RUST_LOG: info
-      SDKWORK_PROMPTS_DATABASE_URL: postgres://prompts:prompts@postgres:5432/prompts
     depends_on:
       - postgres
 
   postgres:
     image: postgres:16
     environment:
-      POSTGRES_DB: prompts
-      POSTGRES_USER: prompts
-      POSTGRES_PASSWORD: prompts
+      POSTGRES_DB: sdkwork_ai_dev
+      POSTGRES_USER: sdkwork_ai_dev
+      POSTGRES_PASSWORD: sdkworkdev123
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init/001-workspace-schema.sql:/docker-entrypoint-initdb.d/001-workspace-schema.sql:ro
 
 volumes:
   postgres_data:

@@ -5,7 +5,9 @@ use sdkwork_database_spi::{DefaultDatabaseModule, LocaleTag, SeedProfile};
 use sdkwork_database_sqlx::DatabasePool;
 use sdkwork_intelligence_prompts_ai_contract::PromptAiRepository;
 use sdkwork_intelligence_prompts_ai_repository_sqlx::SqlxPromptAiRepository;
-use sdkwork_prompts_database_host::bootstrap_prompts_database_from_env;
+use sdkwork_prompts_database_host::{
+    bootstrap_prompts_database, bootstrap_prompts_database_from_env, PromptsDatabaseHost,
+};
 use sqlx::PgPool;
 use tracing;
 
@@ -30,7 +32,15 @@ impl PromptsServiceHost {
         tracing::info!("Connecting to database...");
 
         let database_host = bootstrap_prompts_database_from_env().await?;
+        Self::from_database_host(database_host)
+    }
 
+    pub async fn from_pool(pool: DatabasePool) -> Result<Self, String> {
+        let database_host = bootstrap_prompts_database(pool).await?;
+        Self::from_database_host(database_host)
+    }
+
+    fn from_database_host(database_host: PromptsDatabaseHost) -> Result<Self, String> {
         let pool = database_host.pool().clone();
         let database_module = database_host.module();
 
@@ -40,7 +50,7 @@ impl PromptsServiceHost {
             .clone();
 
         let iam_pool = if iam_enabled_from_env() {
-            Some(load_iam_pool(&pg_pool).await?)
+            Some(load_iam_pool(&pg_pool))
         } else {
             None
         };
@@ -92,27 +102,16 @@ fn iam_enabled_from_env() -> bool {
     )
 }
 
-async fn load_iam_pool(prompts_pool: &PgPool) -> Result<PgPool, String> {
-    if let Ok(url) = std::env::var("SDKWORK_PROMPTS_IAM_DATABASE_URL") {
-        if !url.trim().is_empty() {
-            return PgPool::connect(&url).await.map_err(|error| {
-                format!("connect SDKWORK_PROMPTS_IAM_DATABASE_URL failed: {error}")
-            });
-        }
-    }
-    Ok(prompts_pool.clone())
+fn load_iam_pool(prompts_pool: &PgPool) -> PgPool {
+    prompts_pool.clone()
 }
 
 pub fn default_seed_locale() -> LocaleTag {
-    LocaleTag(
-        std::env::var("SDKWORK_PROMPTS_DATABASE_SEED_LOCALE")
-            .unwrap_or_else(|_| "zh-CN".to_string()),
-    )
+    LocaleTag(std::env::var("SDKWORK_DATABASE_SEED_LOCALE").unwrap_or_else(|_| "zh-CN".to_string()))
 }
 
 pub fn default_seed_profile() -> SeedProfile {
     SeedProfile(
-        std::env::var("SDKWORK_PROMPTS_DATABASE_SEED_PROFILE")
-            .unwrap_or_else(|_| "standard".to_string()),
+        std::env::var("SDKWORK_DATABASE_SEED_PROFILE").unwrap_or_else(|_| "standard".to_string()),
     )
 }

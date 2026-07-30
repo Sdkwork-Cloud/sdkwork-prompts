@@ -14,7 +14,7 @@
 ```bash
 pnpm install
 cp configs/local/.env.example .env.local
-# Set SDKWORK_PROMPTS_DATABASE_URL
+# Set SDKWORK_DATABASE_URL
 pnpm db:bootstrap
 cargo run --bin sdkwork-api-prompts-standalone-gateway
 ```
