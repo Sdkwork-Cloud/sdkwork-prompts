@@ -31,6 +31,6 @@ EXPOSE 8080
 
 ENV RUST_LOG=info
 ENV SDKWORK_PROMPTS_APP_ROOT=/app
-ENV SDKWORK_PROMPTS_DATABASE_URL=postgres://prompts:prompts@postgres:5432/prompts
+ENV SDKWORK_DATABASE_URL=postgres://prompts:prompts@postgres:5432/prompts
 
 CMD ["/app/sdkwork-prompts-standalone-gateway"]
