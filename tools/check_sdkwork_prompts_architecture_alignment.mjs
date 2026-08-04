@@ -73,7 +73,7 @@ function dependencyValues(pkg) {
   return values;
 }
 
-const forbiddenRuntimeRefs = ["clawrouter", "claw-router", "sdkwork-clawrouter"];
+const forbiddenRuntimeRefs = ["cloudrouter", "cloud-router", "sdkwork-cloudrouter"];
 for (const value of dependencyValues(packageJson)) {
   for (const token of forbiddenRuntimeRefs) {
     assert(
@@ -115,7 +115,7 @@ for (const docPath of [
   "crates/sdkwork-prompts-service-host/README.md",
 ]) {
   const text = readText(docPath);
-  assert(!/\bprm_|\bbuild_prm|SDKWORK_CLAW_|forum-api/.test(text), `${docPath} must not reference legacy forum/prm surfaces`);
+  assert(!/\bprm_|\bbuild_prm|SDKWORK_CLOUDROUTER_|forum-api/.test(text), `${docPath} must not reference legacy forum/prm surfaces`);
 }
 
 const componentSpec = readJson("specs/component.spec.json");

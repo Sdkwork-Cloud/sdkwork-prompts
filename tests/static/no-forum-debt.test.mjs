@@ -16,7 +16,7 @@ const forbiddenPatterns = [
   /\/backend\/v3\/api\/forum\b/,
   /\bforum-api\b/,
   /\bforum-worker\b/,
-  /SDKWORK_CLAW_/,
+  /SDKWORK_CLOUDROUTER_/,
 ];
 
 const scanRoots = [

@@ -117,8 +117,8 @@ if (existsSync(generatedSdkTypesDir)) {
   for (const entry of readdirSync(generatedSdkTypesDir)) {
     if (!entry.endsWith(".ts")) continue;
     const text = read(join("sdks/sdkwork-prompts-backend-sdk/generated/server-openapi/src/types", entry));
-    if (/claw\s*router/i.test(text)) {
-      fail(`generated backend SDK type ${entry} must not reference Claw Router`);
+    if (/cloud\s*router/i.test(text)) {
+      fail(`generated backend SDK type ${entry} must not reference Cloud Router`);
     }
   }
 }

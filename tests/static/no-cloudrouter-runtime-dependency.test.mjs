@@ -2,7 +2,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
-const forbidden = ["clawrouter", "claw-router", "sdkwork-clawrouter"];
+const forbidden = ["cloudrouter", "cloud-router", "sdkwork-cloudrouter"];
 
 function fail(message) {
   console.error(message);
@@ -64,4 +64,4 @@ if (existsSync(generatorDir)) {
   }
 }
 
-console.log("no clawrouter runtime dependency checks passed");
+console.log("no cloudrouter runtime dependency checks passed");
