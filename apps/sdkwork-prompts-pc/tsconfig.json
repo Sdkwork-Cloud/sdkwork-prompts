@@ -1,34 +1,23 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
     "strict": true,
     "skipLibCheck": true,
     "noEmit": true,
-    "types": ["vite/client"],
-    "paths": {
-      "@sdkwork/prompts-backend-sdk": [
-        "../../sdks/sdkwork-prompts-backend-sdk/sdkwork-prompts-backend-sdk-typescript/src/index.ts"
-      ],
-      "@sdkwork/utils": [
-        "../../../sdkwork-utils/packages/sdkwork-utils-typescript/src/index.ts"
-      ],
-      "@sdkwork/utils/*": [
-        "../../../sdkwork-utils/packages/sdkwork-utils-typescript/src/*"
-      ],
-      "@sdkwork/prompts-pc-commons/runtime": [
-        "./packages/sdkwork-prompts-pc-commons/src/runtime.ts"
-      ],
-      "@sdkwork/prompts-pc-admin-prompts": [
-        "./packages/sdkwork-prompts-pc-admin-prompts/src/promptService.ts"
-      ],
-      "@sdkwork/prompts-pc-workspace": [
-        "./packages/sdkwork-prompts-pc-workspace/src/PromptWorkspacePage.tsx"
-      ]
-    }
+    "types": [
+      "vite/client"
+    ]
   },
-  "include": ["src", "packages"]
+  "include": [
+    "src",
+    "packages"
+  ]
 }
